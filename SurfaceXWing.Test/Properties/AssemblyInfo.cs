@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("SurfaceXWing.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Manuel Naujoks")]
 [assembly: AssemblyProduct("SurfaceXWing.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

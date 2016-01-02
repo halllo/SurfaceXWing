@@ -6,35 +6,35 @@
     xmlns:local="clr-namespace:SurfaceXWing"
     Title="SurfaceXWing">
 
-    <Grid Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+	<Grid Background="Transparent">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <TextBlock Text="SurfaceXWing V1" TextWrapping="NoWrap" Foreground="Magenta" Margin="10,20,0,0">
-                <TextBlock.LayoutTransform >
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBlock.LayoutTransform>
-            </TextBlock>
-        </Grid>
+		<Grid Grid.Column="0">
+			<TextBlock Text="SurfaceXWing V1" TextWrapping="NoWrap" Foreground="Magenta" Margin="10,20,0,0">
+				<TextBlock.LayoutTransform >
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform Angle="90"/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</TextBlock.LayoutTransform>
+			</TextBlock>
+		</Grid>
 
-        <Grid Grid.Column="1">
-            <s:TagVisualizer Name="Visualizer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                <s:TagVisualizer.Definitions>
+		<Grid Grid.Column="0" Grid.ColumnSpan="2">
+			<s:TagVisualizer Name="Visualizer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+				<s:TagVisualizer.Definitions>
 					<local:AllTagsVisualizationDefinition TagRemovedBehavior="Fade" Source="TagVisual.xaml"/>
 				</s:TagVisualizer.Definitions>
 
-                <local:ExampleFieldsView/>
+				<local:Spielfeld/>
 
-            </s:TagVisualizer>
-        </Grid>
+			</s:TagVisualizer>
+		</Grid>
 
-    </Grid>
+	</Grid>
 </s:SurfaceWindow>

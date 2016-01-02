@@ -12,7 +12,7 @@ namespace SurfaceXWing.Test
 
 			Loaded += (s, e) =>
 			{
-				var scatterView = exampleFieldsView.Children.OfType<ScatterView>().Single();
+				var scatterView = spielfeld.Children.OfType<ScatterView>().Single();
 
 				scatterView.Items.Add(NewTestTag(tag: 10));
 				scatterView.Items.Add(NewTestTag(tag: 11));

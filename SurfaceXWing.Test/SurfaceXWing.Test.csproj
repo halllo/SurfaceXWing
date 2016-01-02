@@ -73,14 +73,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\SurfaceXWing\Game.cs">
+      <Link>Game.cs</Link>
+    </Compile>
+    <Compile Include="..\SurfaceXWing\Schiffsposition.xaml.cs">
+      <Link>Schiffsposition.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\SurfaceXWing\Spielfeld.xaml.cs">
+      <Link>Spielfeld.xaml.cs</Link>
+    </Compile>
     <Compile Include="TestTagVisual.cs" />
-    <Page Include="..\SurfaceXWing\ExampleField.xaml">
-      <Link>ExampleField.xaml</Link>
+    <Page Include="..\SurfaceXWing\Schiffsposition.xaml">
+      <Link>Schiffsposition.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\SurfaceXWing\ExampleFieldsView.xaml">
-      <Link>ExampleFieldsView.xaml</Link>
+    <Page Include="..\SurfaceXWing\Spielfeld.xaml">
+      <Link>Spielfeld.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -93,12 +102,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\SurfaceXWing\ExampleField.xaml.cs">
-      <Link>ExampleField.xaml.cs</Link>
-    </Compile>
-    <Compile Include="..\SurfaceXWing\ExampleFieldsView.xaml.cs">
-      <Link>ExampleFieldsView.xaml.cs</Link>
-    </Compile>
     <Compile Include="..\SurfaceXWing\FieldsView.cs">
       <Link>FieldsView.cs</Link>
     </Compile>

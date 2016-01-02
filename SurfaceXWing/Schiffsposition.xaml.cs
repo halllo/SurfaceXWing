@@ -8,11 +8,11 @@ using System.Windows.Media;
 
 namespace SurfaceXWing
 {
-	public partial class ExampleField : UserControl, IField
+	public partial class Schiffsposition : IField
 	{
 		ConcurrentDictionary<IFieldOccupant, byte> _fieldOccupants = new ConcurrentDictionary<IFieldOccupant, byte>();
 
-		public ExampleField()
+		public Schiffsposition()
 		{
 			InitializeComponent();
 
@@ -39,6 +39,12 @@ namespace SurfaceXWing
 			set { FieldStateText.Text = value; }
 		}
 
+		public Brush Color
+		{
+			get { return Border.BorderBrush; }
+			set { Border.BorderBrush = value; }
+		}
+
 
 
 
@@ -49,7 +55,7 @@ namespace SurfaceXWing
 		}
 		public Point Position { get { return new Point((double)GetValue(Canvas.LeftProperty), (double)GetValue(Canvas.TopProperty)); } }
 		public double OrientationAngle { get { return RenderTransform is RotateTransform ? ((RotateTransform)RenderTransform).Angle : 0; } }
-		public Vector Size { get { return new Vector(ActualWidth, ActualHeight); } }
+		public Vector Size { get { return new Vector(Width, Height); } }
 		public ReadOnlyCollection<IFieldOccupant> Occupants { get { return _fieldOccupants.Keys.ToList().AsReadOnly(); } }
 
 
@@ -87,7 +93,7 @@ namespace SurfaceXWing
 
 			if (_fieldOccupants.Any())
 			{
-				Border.BorderBrush = Brushes.Green;
+				Border.BorderThickness = new Thickness(5);
 
 				foreach (var occupant in _fieldOccupants.Keys)
 				{
@@ -99,7 +105,7 @@ namespace SurfaceXWing
 			}
 			else
 			{
-				Border.BorderBrush = Brushes.Red;
+				Border.BorderThickness = new Thickness(2);
 			}
 
 			StateText = _fieldOccupants.Count + " occupants";

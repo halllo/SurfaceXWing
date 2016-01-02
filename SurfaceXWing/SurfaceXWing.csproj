@@ -77,11 +77,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ExampleField.xaml">
+    <Page Include="Schiffsposition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExampleFieldsView.xaml">
+    <Page Include="Spielfeld.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -98,11 +98,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ExampleField.xaml.cs">
-      <DependentUpon>ExampleField.xaml</DependentUpon>
+    <Compile Include="Game.cs" />
+    <Compile Include="Schiffsposition.xaml.cs">
+      <DependentUpon>Schiffsposition.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExampleFieldsView.xaml.cs">
-      <DependentUpon>ExampleFieldsView.xaml</DependentUpon>
+    <Compile Include="Spielfeld.xaml.cs">
+      <DependentUpon>Spielfeld.xaml</DependentUpon>
     </Compile>
     <Compile Include="FieldsView.cs" />
     <Compile Include="ScatterViewItemFieldObject.cs" />
