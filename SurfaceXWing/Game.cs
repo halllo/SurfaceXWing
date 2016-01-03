@@ -37,6 +37,41 @@ namespace SurfaceXWing
 
 			_FieldsContainer.Children.Add(schiffsposition2);
 			_Spielfeld.Register((IField)schiffsposition2);
+
+
+
+
+
+
+
+
+
+
+
+			schiffsposition1.Yielded += o =>
+			{
+				var schiffsposition1Neu = new Schiffsposition { ViewModel = { Text = "links", Color = Brushes.Green } };
+				var schiffsposition1NeuHeightHalbe = schiffsposition1Neu.Height / 2;
+				schiffsposition1Neu.RenderTransform = new RotateTransform { CenterX = schiffsposition1NeuHeightHalbe, CenterY = schiffsposition1NeuHeightHalbe, Angle = 90 };
+
+				var schiffsposition1Position = schiffsposition1.Position.AsVector();
+
+				schiffsposition1Neu.SetValue(Canvas.LeftProperty, schiffsposition1Position.X + 100);
+				schiffsposition1Neu.SetValue(Canvas.TopProperty, schiffsposition1Position.Y);
+
+				_FieldsContainer.Children.Add(schiffsposition1Neu);
+				_Spielfeld.Register((IField)schiffsposition1Neu);
+
+
+				schiffsposition1Neu.Occupied += o2 =>
+				{
+					_FieldsContainer.Children.Remove(schiffsposition1);
+					_Spielfeld.Unregister(schiffsposition1);
+				};
+			};
+
+
+
 		}
 
 		internal void TagIntroduce(TagVisual visual)
