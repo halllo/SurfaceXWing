@@ -19,7 +19,7 @@ namespace SurfaceXWing
 			_Spielfeld.Register(_FieldsContainer);
 
 
-			var schiffsposition1 = new Schiffsposition { Text = "links", Color = Brushes.Green };
+			var schiffsposition1 = new Schiffsposition { ViewModel = { Text = "links", Color = Brushes.Green } };
 			var schiffsposition1HeightHalbe = schiffsposition1.Height / 2;
 			schiffsposition1.RenderTransform = new RotateTransform { CenterX = schiffsposition1HeightHalbe, CenterY = schiffsposition1HeightHalbe, Angle = 90 };
 			schiffsposition1.SetValue(Canvas.LeftProperty, 0.0);
@@ -29,7 +29,7 @@ namespace SurfaceXWing
 			_Spielfeld.Register((IField)schiffsposition1);
 
 
-			var schiffsposition2 = new Schiffsposition { Text = "rechts", Color = Brushes.Red };
+			var schiffsposition2 = new Schiffsposition { ViewModel = { Text = "rechts", Color = Brushes.Red } };
 			var schiffsposition2HeightHalbe = schiffsposition2.Height / 2;
 			schiffsposition2.RenderTransform = new RotateTransform { CenterX = schiffsposition2HeightHalbe, CenterY = schiffsposition2HeightHalbe, Angle = 270 };
 			schiffsposition2.SetValue(Canvas.LeftProperty, _FieldsContainer.ActualWidth - schiffsposition2.Height);

@@ -82,7 +82,15 @@
     <Compile Include="..\SurfaceXWing\Spielfeld.xaml.cs">
       <Link>Spielfeld.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\SurfaceXWing\TrueVisibleFalseCollapsed.cs">
+      <Link>TrueVisibleFalseCollapsed.cs</Link>
+    </Compile>
     <Compile Include="TestTagVisual.cs" />
+    <Page Include="..\SurfaceXWing\Resources.xaml">
+      <Link>Resources.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\SurfaceXWing\Schiffsposition.xaml">
       <Link>Schiffsposition.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

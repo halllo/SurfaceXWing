@@ -183,6 +183,7 @@ namespace SurfaceXWing
 		Point Position { get; }
 		double OrientationAngle { get; }
 		Vector Size { get; }
+
 		bool IsOccupiedBy(IFieldOccupant occupant);
 
 		void Occupy(IFieldOccupant occupant);
