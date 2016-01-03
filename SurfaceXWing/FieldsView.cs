@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -79,11 +78,21 @@ namespace SurfaceXWing
 					{
 						if (field.Value.Contains(occupant.Position.AsVector()))
 						{
-							field.Key.Occupy(occupant);
+							if (!field.Key.IsOccupiedBy(occupant))
+							{
+								field.Key.Occupy(occupant);
+							}
+							else
+							{
+								field.Key.Stays(occupant);
+							}
 						}
 						else
 						{
-							field.Key.Yield(occupant);
+							if (field.Key.IsOccupiedBy(occupant))
+							{
+								field.Key.Yield(occupant);
+							}
 						}
 					}
 				}
@@ -91,7 +100,10 @@ namespace SurfaceXWing
 				{
 					foreach (var field in _fields.Keys)
 					{
-						field.Yield(untrackedOccupant);
+						if (field.IsOccupiedBy(untrackedOccupant))
+						{
+							field.Yield(untrackedOccupant);
+						}
 						byte value;
 						_untrackedOccupants.TryRemove(untrackedOccupant, out value);
 					}
@@ -171,10 +183,11 @@ namespace SurfaceXWing
 		Point Position { get; }
 		double OrientationAngle { get; }
 		Vector Size { get; }
-		ReadOnlyCollection<IFieldOccupant> Occupants { get; }
+		bool IsOccupiedBy(IFieldOccupant occupant);
 
 		void Occupy(IFieldOccupant occupant);
 		event Action<IFieldOccupant> Occupied;
+		void Stays(IFieldOccupant occupant);
 
 		void Yield(IFieldOccupant occupant);
 		event Action<IFieldOccupant> Yielded;

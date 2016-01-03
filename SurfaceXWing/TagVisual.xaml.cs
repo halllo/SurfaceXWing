@@ -1,6 +1,7 @@
 ﻿using Microsoft.Surface.Presentation.Input;
 using System;
 using System.Windows;
+using System.Windows.Media;
 
 namespace SurfaceXWing
 {
@@ -13,6 +14,12 @@ namespace SurfaceXWing
 		{
 			get { return ViewModel.Id.ToString(); }
 			set { throw new NotSupportedException(); }
+		}
+
+		public Brush Color
+		{
+			get { return container.Background; }
+			set { container.Background = value; }
 		}
 
 		public TagVisualModel ViewModel { get; private set; }

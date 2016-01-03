@@ -1,32 +1,13 @@
 ﻿<s:TagVisualization x:Class="SurfaceXWing.TagVisual"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="http://schemas.microsoft.com/surface/2008"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/surface/2008"
 	xmlns:local="clr-namespace:SurfaceXWing"
 	>
 
-    <Grid Width="100" Height="100">
+	<Grid Width="80" Height="80" Background="Blue" x:Name="container">
 
-        <Ellipse Fill="DarkOrange" Opacity="0.4" />
-        <Ellipse Fill="Orange" Margin="2" />
-
-		<local:TextOnAPath Text="{Binding Id,Mode=OneWay,StringFormat=Tag {0}}" FontSize="15" Foreground="Orange" Margin="-15" DrawPath="False">
-			<local:TextOnAPath.RenderTransform>
-				<RotateTransform CenterX="65" CenterY="65" Angle="90"/>
-			</local:TextOnAPath.RenderTransform>
-			<local:TextOnAPath.TextPath>
-				<EllipseGeometry RadiusX="50" RadiusY="50"/>
-			</local:TextOnAPath.TextPath>
-		</local:TextOnAPath>
-
-		<local:TextOnAPath Text="Token" Inverted="True" FontSize="15" Foreground="White" Margin="-15" DrawPath="False">
-			<local:TextOnAPath.RenderTransform>
-				<RotateTransform CenterX="65" CenterY="65" Angle="-90"/>
-			</local:TextOnAPath.RenderTransform>
-			<local:TextOnAPath.TextPath>
-				<EllipseGeometry RadiusX="50" RadiusY="50"/>
-			</local:TextOnAPath.TextPath>
-		</local:TextOnAPath>
+		<TextBlock Text="{Binding Id,Mode=OneWay,StringFormat=Tag {0}}" FontSize="15" Foreground="White"/>
 
 	</Grid>
 	
