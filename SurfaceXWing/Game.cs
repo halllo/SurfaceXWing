@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -18,6 +16,16 @@ namespace SurfaceXWing
 			_FieldsContainer = fieldsContainer;
 		}
 
+		public void TagIntroduce(TagVisual visual)
+		{
+			_Spielfeld.Track(visual);
+		}
+
+		public void TagDismiss(TagVisual visual)
+		{
+			_Spielfeld.Untrack(visual);
+		}
+
 		public void Start()
 		{
 			_Spielfeld.Register(_FieldsContainer);
@@ -28,12 +36,11 @@ namespace SurfaceXWing
 			schiffsposition1.RenderTransform = new RotateTransform { CenterX = schiffsposition1HeightHalbe, CenterY = schiffsposition1HeightHalbe, Angle = 90 };
 			schiffsposition1.SetValue(Canvas.LeftProperty, 0.0);
 			schiffsposition1.SetValue(Canvas.TopProperty, _FieldsContainer.ActualHeight / 2.0 - schiffsposition1HeightHalbe);
-
-			schiffsposition1.Tag = new Move(_Spielfeld, _FieldsContainer, schiffsposition1);
+			schiffsposition1.Yielded += YieldedToMove;
+			schiffsposition1.Occupied += OccupiedToCancelMove;
 
 			_FieldsContainer.Children.Add(schiffsposition1);
 			_Spielfeld.Register((IField)schiffsposition1);
-
 
 
 			var schiffsposition2 = new Schiffsposition { ViewModel = { Text = "rechts", Color = Brushes.Red } };
@@ -41,31 +48,36 @@ namespace SurfaceXWing
 			schiffsposition2.RenderTransform = new RotateTransform { CenterX = schiffsposition2HeightHalbe, CenterY = schiffsposition2HeightHalbe, Angle = 270 };
 			schiffsposition2.SetValue(Canvas.LeftProperty, _FieldsContainer.ActualWidth - schiffsposition2.Height);
 			schiffsposition2.SetValue(Canvas.TopProperty, _FieldsContainer.ActualHeight / 2.0 - schiffsposition2HeightHalbe);
+			schiffsposition2.Yielded += YieldedToMove;
+			schiffsposition2.Occupied += OccupiedToCancelMove;
 
 			_FieldsContainer.Children.Add(schiffsposition2);
 			_Spielfeld.Register((IField)schiffsposition2);
-
-
-
-
-
-
-
-
-
-
-
-
 		}
 
-		internal void TagIntroduce(TagVisual visual)
+		private void YieldedToMove(IField field, IFieldOccupant occupant)
 		{
-			_Spielfeld.Track(visual);
+			var schiffsposition = (Schiffsposition)field;
+			var move = new Move(_Spielfeld, _FieldsContainer, schiffsposition, moved: (von, nach) =>
+			{
+				von.Move = null;
+				von.Yielded -= YieldedToMove;
+				von.Occupied -= OccupiedToCancelMove;
+				nach.Yielded += YieldedToMove;
+				nach.Occupied += OccupiedToCancelMove;
+			});
+			move.CreatePotenzielleZiele();
+			schiffsposition.Move = move;
 		}
 
-		internal void TagDismiss(TagVisual visual)
+		private void OccupiedToCancelMove(IField field, IFieldOccupant occupant)
 		{
-			_Spielfeld.Untrack(visual);
+			var schiffsposition = (Schiffsposition)field;
+			if (schiffsposition.Move != null)
+			{
+				schiffsposition.Move.Dispose();
+				schiffsposition.Move = null;
+			}
 		}
 	}
 
@@ -76,21 +88,22 @@ namespace SurfaceXWing
 		Schiffsposition _Von;
 
 		List<Schiffsposition> _Ziele;
+		Action<Schiffsposition, Schiffsposition> _Moved;
 
-		public Move(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von)
+		public Move(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, Action<Schiffsposition, Schiffsposition> moved)
 		{
 			_Spielfeld = spielfeld;
 			_FieldsContainer = fieldsContainer;
 			_Von = von;
 
 			_Ziele = new List<Schiffsposition>();
-			_Von.Yielded += CreatePotenzielleZiele;
+			_Moved = moved;
 		}
 
-		private void CreatePotenzielleZiele(IField field, IFieldOccupant occupant)
+		public void CreatePotenzielleZiele()
 		{
 			{
-				var ziel1 = new Schiffsposition { ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
+				var ziel1 = new Schiffsposition { Opacity = 0.3, ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
 
 				var ziel1HeightHalbe = ziel1.Height / 2;
 				ziel1.RenderTransform = new RotateTransform { CenterX = ziel1HeightHalbe, CenterY = ziel1HeightHalbe, Angle = 90 };
@@ -104,7 +117,7 @@ namespace SurfaceXWing
 			}
 
 			{
-				var ziel2 = new Schiffsposition { ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
+				var ziel2 = new Schiffsposition { Opacity = 0.3, ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
 
 				var ziel2HeightHalbe = ziel2.Height / 2;
 				ziel2.RenderTransform = new RotateTransform { CenterX = ziel2HeightHalbe, CenterY = ziel2HeightHalbe, Angle = 90 };
@@ -118,7 +131,7 @@ namespace SurfaceXWing
 			}
 
 			{
-				var ziel3 = new Schiffsposition { ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
+				var ziel3 = new Schiffsposition { Opacity = 0.3, ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
 
 				var ziel3HeightHalbe = ziel3.Height / 2;
 				ziel3.RenderTransform = new RotateTransform { CenterX = ziel3HeightHalbe, CenterY = ziel3HeightHalbe, Angle = 90 };
@@ -146,21 +159,24 @@ namespace SurfaceXWing
 			_FieldsContainer.Children.Remove(_Von);
 			_Spielfeld.Unregister(_Von);
 
-			var andereZiele = _Ziele.Except(new[] { field });
-			foreach (var anderesZiel in andereZiele)
-			{
-				_FieldsContainer.Children.Remove((UIElement)anderesZiel);
-				_Spielfeld.Unregister(anderesZiel);
-			}
-
 			var neueSchiffsposition = (Schiffsposition)field;
-			neueSchiffsposition.Tag = new Move(_Spielfeld, _FieldsContainer, neueSchiffsposition);
+			neueSchiffsposition.Opacity = 1.0;
 
-			Dispose();
+			var von = _Von;
+			var moved = _Moved;
+
+			Dispose(except: neueSchiffsposition);
+
+			moved(von, neueSchiffsposition);
+		}
+
+		public void Dispose()
+		{
+			Dispose(null);
 		}
 
 		bool disposed;
-		public void Dispose()
+		private void Dispose(Schiffsposition except)
 		{
 			if (disposed) throw new ObjectDisposedException("Move");
 			disposed = true;
@@ -168,12 +184,19 @@ namespace SurfaceXWing
 			foreach (var ziel in _Ziele)
 			{
 				ziel.Occupied -= ZielOccupied;
+				if (ziel != except)
+				{
+					_FieldsContainer.Children.Remove(ziel);
+					_Spielfeld.Unregister(ziel);
+				}
 			}
+			_Ziele.Clear();
 
 			_Spielfeld = null;
 			_FieldsContainer = null;
 			_Von = null;
 			_Ziele = null;
+			_Moved = null;
 		}
 	}
 }

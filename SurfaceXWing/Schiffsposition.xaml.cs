@@ -20,6 +20,8 @@ namespace SurfaceXWing
 			ViewModel.HideArrows();
 		}
 
+		public Move Move { get; set; }
+
 		string id;
 		string IField.Id
 		{
