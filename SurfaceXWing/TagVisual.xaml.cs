@@ -10,7 +10,7 @@ namespace SurfaceXWing
 		public virtual Point Position { get { return Center; } }
 		public virtual double OrientationAngle { get { return Orientation; } }
 
-		string IFieldOccupant.Tag
+		string IFieldOccupant.Id
 		{
 			get { return ViewModel.Id.ToString(); }
 			set { throw new NotSupportedException(); }
@@ -23,7 +23,6 @@ namespace SurfaceXWing
 		}
 
 		public TagVisualModel ViewModel { get; private set; }
-
 
 		public TagVisual()
 		{

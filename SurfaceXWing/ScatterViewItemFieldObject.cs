@@ -8,7 +8,7 @@ namespace SurfaceXWing
 		public Point Position { get { return Center; } }
 		public double OrientationAngle { get { return Orientation; } }
 
-		string IFieldOccupant.Tag
+		string IFieldOccupant.Id
 		{
 			get { return Tag.ToString(); }
 			set { Tag = value; }

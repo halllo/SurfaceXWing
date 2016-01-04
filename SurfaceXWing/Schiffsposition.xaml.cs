@@ -20,10 +20,11 @@ namespace SurfaceXWing
 			ViewModel.HideArrows();
 		}
 
-		string IField.Tag
+		string id;
+		string IField.Id
 		{
-			get { return Tag.ToString(); }
-			set { Tag = value; }
+			get { return id; }
+			set { id = value; }
 		}
 		public Point Position { get { return new Point((double)GetValue(Canvas.LeftProperty), (double)GetValue(Canvas.TopProperty)); } }
 		public double OrientationAngle { get { return RenderTransform is RotateTransform ? ((RotateTransform)RenderTransform).Angle : 0; } }
@@ -40,9 +41,9 @@ namespace SurfaceXWing
 			ViewModel.UpdateState(this);
 
 			var h = Occupied;
-			if (h != null) h(occupant);
+			if (h != null) h(this, occupant);
 		}
-		public event Action<IFieldOccupant> Occupied;
+		public event Action<IField, IFieldOccupant> Occupied;
 		public void Stays(IFieldOccupant occupant)
 		{
 			ViewModel.UpdateState(this);
@@ -55,9 +56,9 @@ namespace SurfaceXWing
 			ViewModel.UpdateState(this);
 
 			var h = Yielded;
-			if (h != null) h(occupant);
+			if (h != null) h(this, occupant);
 		}
-		public event Action<IFieldOccupant> Yielded;
+		public event Action<IField, IFieldOccupant> Yielded;
 	}
 
 	public class SchiffspositionModel : ViewModel

@@ -179,7 +179,7 @@ namespace SurfaceXWing
 
 	public interface IField
 	{
-		string Tag { get; set; }
+		string Id { get; set; }
 		Point Position { get; }
 		double OrientationAngle { get; }
 		Vector Size { get; }
@@ -187,16 +187,16 @@ namespace SurfaceXWing
 		bool IsOccupiedBy(IFieldOccupant occupant);
 
 		void Occupy(IFieldOccupant occupant);
-		event Action<IFieldOccupant> Occupied;
+		event Action<IField, IFieldOccupant> Occupied;
 		void Stays(IFieldOccupant occupant);
 
 		void Yield(IFieldOccupant occupant);
-		event Action<IFieldOccupant> Yielded;
+		event Action<IField, IFieldOccupant> Yielded;
 	}
 
 	public interface IFieldOccupant
 	{
-		string Tag { get; set; }
+		string Id { get; set; }
 		Point Position { get; }
 		double OrientationAngle { get; }
 	}
