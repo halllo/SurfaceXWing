@@ -58,22 +58,25 @@ namespace SurfaceXWing
 		private void YieldedToMove(IField field, IFieldOccupant occupant)
 		{
 			var schiffsposition = (Schiffsposition)field;
-			var move = new Move(_Spielfeld, _FieldsContainer, schiffsposition, moved: (von, nach) =>
+			if (schiffsposition.Move == null)
 			{
-				von.Move = null;
-				von.Yielded -= YieldedToMove;
-				von.Occupied -= OccupiedToCancelMove;
-				nach.Yielded += YieldedToMove;
-				nach.Occupied += OccupiedToCancelMove;
-			});
-			move.CreatePotenzielleZiele();
-			schiffsposition.Move = move;
+				var move = new Move(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
+				{
+					von.Move = null;
+					von.Yielded -= YieldedToMove;
+					von.Occupied -= OccupiedToCancelMove;
+					nach.Yielded += YieldedToMove;
+					nach.Occupied += OccupiedToCancelMove;
+				});
+				move.CreatePotenzielleZiele();
+				schiffsposition.Move = move;
+			}
 		}
 
 		private void OccupiedToCancelMove(IField field, IFieldOccupant occupant)
 		{
 			var schiffsposition = (Schiffsposition)field;
-			if (schiffsposition.Move != null)
+			if (schiffsposition.Move != null && schiffsposition.Move.Mover.Id == occupant.Id)
 			{
 				schiffsposition.Move.Dispose();
 				schiffsposition.Move = null;
@@ -86,19 +89,23 @@ namespace SurfaceXWing
 		FieldsView _Spielfeld;
 		Canvas _FieldsContainer;
 		Schiffsposition _Von;
+		IFieldOccupant _Mover;
 
 		List<Schiffsposition> _Ziele;
 		Action<Schiffsposition, Schiffsposition> _Moved;
 
-		public Move(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, Action<Schiffsposition, Schiffsposition> moved)
+		public Move(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
 		{
 			_Spielfeld = spielfeld;
 			_FieldsContainer = fieldsContainer;
 			_Von = von;
+			_Mover = mover;
 
 			_Ziele = new List<Schiffsposition>();
 			_Moved = moved;
 		}
+
+		public IFieldOccupant Mover { get { return _Mover; } }
 
 		public void CreatePotenzielleZiele()
 		{
@@ -156,18 +163,21 @@ namespace SurfaceXWing
 
 		private void ZielOccupied(IField field, IFieldOccupant occupant)
 		{
-			_FieldsContainer.Children.Remove(_Von);
-			_Spielfeld.Unregister(_Von);
+			if (_Mover.Id == occupant.Id)
+			{
+				_FieldsContainer.Children.Remove(_Von);
+				_Spielfeld.Unregister(_Von);
 
-			var neueSchiffsposition = (Schiffsposition)field;
-			neueSchiffsposition.Opacity = 1.0;
+				var neueSchiffsposition = (Schiffsposition)field;
+				neueSchiffsposition.Opacity = 1.0;
 
-			var von = _Von;
-			var moved = _Moved;
+				var von = _Von;
+				var moved = _Moved;
 
-			Dispose(except: neueSchiffsposition);
+				Dispose(except: neueSchiffsposition);
 
-			moved(von, neueSchiffsposition);
+				moved(von, neueSchiffsposition);
+			}
 		}
 
 		public void Dispose()
@@ -195,6 +205,7 @@ namespace SurfaceXWing
 			_Spielfeld = null;
 			_FieldsContainer = null;
 			_Von = null;
+			_Mover = null;
 			_Ziele = null;
 			_Moved = null;
 		}
