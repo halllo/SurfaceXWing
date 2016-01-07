@@ -16,12 +16,6 @@ namespace SurfaceXWing
 			set { throw new NotSupportedException(); }
 		}
 
-		public Brush Color
-		{
-			get { return container.Background; }
-			set { container.Background = value; }
-		}
-
 		public TagVisualModel ViewModel { get; private set; }
 
 		public TagVisual()
@@ -41,6 +35,7 @@ namespace SurfaceXWing
 		{
 			Id = tag.Value;
 			NotifyChanged("Id");
+			NotifyChanged("TacticleColor");
 
 			TagManagement.Instance.Value.Register(Id, this);
 		}
@@ -53,5 +48,22 @@ namespace SurfaceXWing
 
 		public long Id { get; private set; }
 		public TagVisual Visual { get; set; }
+
+		Command _NewPosition;
+		public Command NewPosition
+		{
+			get { return _NewPosition; }
+			set { _NewPosition = value; NotifyChanged("NewPosition"); }
+		}
+
+		public Brush TacticleColor
+		{
+			get
+			{
+				if (Id.Between(50, 100)) return Brushes.Green;
+				if (Id.Between(100, 150)) return Brushes.Red;
+				return Brushes.Blue;
+			}
+		}
 	}
 }

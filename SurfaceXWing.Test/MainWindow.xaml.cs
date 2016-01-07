@@ -14,12 +14,12 @@ namespace SurfaceXWing.Test
 			{
 				var scatterView = spielfeld.Children.OfType<ScatterView>().Single();
 
-				scatterView.Items.Add(NewTestTag(tag: 10, color: Brushes.Red));
-				scatterView.Items.Add(NewTestTag(tag: 11, color: Brushes.Green));
+				scatterView.Items.Add(NewTestTag(tag: 50));
+				scatterView.Items.Add(NewTestTag(tag: 100));
 			};
 		}
 
-		private static ScatterViewItem NewTestTag(long tag, Brush color)
+		private static ScatterViewItem NewTestTag(long tag)
 		{
 			var testTag = new ScatterViewItem
 			{
@@ -27,13 +27,13 @@ namespace SurfaceXWing.Test
 				Height = 100,
 				Background = Brushes.Transparent,
 				Tag = tag,
-				Content = new TestTagVisual { Color = color },
+				Content = new TestTagVisual(),
 			};
 
 			var tagVisual = testTag.Content as TestTagVisual;
 			tagVisual.Loaded += (s2, e2) =>
 			{
-				tagVisual.ViewModel.TagAvailable(new Microsoft.Surface.Presentation.Input.TagData(0, 0, 0, long.Parse(testTag.Tag.ToString())));
+				tagVisual.ViewModel.TagAvailable(new Microsoft.Surface.Presentation.Input.TagData(0, 0, 0, (long)testTag.Tag));
 				tagVisual.ViewModel.TagUnavailable();
 			};
 

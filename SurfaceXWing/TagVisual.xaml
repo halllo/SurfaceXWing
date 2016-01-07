@@ -5,9 +5,19 @@
 	xmlns:local="clr-namespace:SurfaceXWing"
 	>
 
-	<Grid Width="80" Height="80" Background="Blue" x:Name="container">
+	<Grid Width="100" Height="100">
 
-		<TextBlock Text="{Binding Id,Mode=OneWay,StringFormat=Tag {0}}" FontSize="15" Foreground="White"/>
+		<Rectangle Width="80" Height="80" Fill="{Binding TacticleColor}"/>
+
+		<TextBlock Text="{Binding Id,Mode=OneWay,StringFormat=Tag {0}}" FontSize="15" Margin="15,10,0,0" Foreground="White"/>
+
+		<s:ElementMenu x:Name="elMenu" x:FieldModifier="protected"
+                  ActivationMode="AlwaysActive"
+                  HorizontalAlignment="Right" 
+                  VerticalAlignment="Center"
+				  Orientation="90">
+			<s:ElementMenuItem Header="new position here" Command="{Binding NewPosition}" />
+		</s:ElementMenu>
 
 	</Grid>
 	

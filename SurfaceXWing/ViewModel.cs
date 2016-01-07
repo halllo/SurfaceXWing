@@ -31,6 +31,10 @@ namespace SurfaceXWing
 		{
 			_action = action;
 		}
+		public Command(Action action)
+		{
+			_action = o => action();
+		}
 
 		public event EventHandler CanExecuteChanged;
 

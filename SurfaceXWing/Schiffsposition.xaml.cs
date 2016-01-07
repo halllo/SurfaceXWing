@@ -61,6 +61,13 @@ namespace SurfaceXWing
 			if (h != null) h(this, occupant);
 		}
 		public event Action<IField, IFieldOccupant> Yielded;
+
+		public void Activate(Action<Schiffsposition> onForget)
+		{
+			Opacity = 1.0;
+			menu.Visibility = Visibility.Visible;
+			ViewModel.Forget = new Command(() => onForget(this));
+		}
 	}
 
 	public class SchiffspositionModel : ViewModel
@@ -68,25 +75,43 @@ namespace SurfaceXWing
 		ConcurrentDictionary<IFieldOccupant, byte> _FieldOccupants = new ConcurrentDictionary<IFieldOccupant, byte>();
 		public ConcurrentDictionary<IFieldOccupant, byte> FieldOccupants { get { return _FieldOccupants; } }
 
-		string _Text = "##";
-		public string Text
-		{
-			get { return _Text; }
-			set { _Text = value; NotifyChanged("Text"); }
-		}
-
-		string _StateText = "0 occupants";
-		public string StateText
-		{
-			get { return _StateText; }
-			set { _StateText = value; NotifyChanged("StateText"); }
-		}
-
 		Brush _Color;
 		public Brush Color
 		{
 			get { return _Color; }
 			set { _Color = value; NotifyChanged("Color"); }
+		}
+
+		Command _Cancel;
+		public Command Cancel
+		{
+			get { return _Cancel; }
+			set { _Cancel = value; NotifyChanged("Cancel"); }
+		}
+
+		bool _Cancelable;
+		public bool Cancelable
+		{
+			get { return _Cancelable; }
+			private set { _Cancelable = value; NotifyChanged("Cancelable"); }
+		}
+
+		public void AllowCancel(Action cancel)
+		{
+			Cancelable = true;
+			Cancel = new Command(cancel);
+		}
+		public void CancelCancel()
+		{
+			Cancelable = false;
+			Cancel = null;
+		}
+
+		Command _Forget;
+		public Command Forget
+		{
+			get { return _Forget; }
+			set { _Forget = value; NotifyChanged("Forget"); }
 		}
 
 		Visibility _TopArrowVisibility;
@@ -138,8 +163,6 @@ namespace SurfaceXWing
 					if (occupant.OrientatesLeft(field)) LeftArrowVisibility = Visibility.Visible;
 				}
 			}
-
-			StateText = FieldOccupants.Count + " occupants";
 		}
 
 		public void HideArrows()

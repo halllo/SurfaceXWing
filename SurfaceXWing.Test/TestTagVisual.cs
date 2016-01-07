@@ -1,4 +1,5 @@
-﻿using Microsoft.Surface.Presentation.Input;
+﻿using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Surface.Presentation.Input;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,14 +9,24 @@ namespace SurfaceXWing.Test
 	{
 		public TestTagVisual()
 		{
-			PlacedCheckBox = new CheckBox
+			PlacedCheckBox = new SurfaceCheckBox
 			{
 				Content = "place",
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center
 			};
-			PlacedCheckBox.Checked += (s, e) => ViewModel.TagAvailable(new TagData(0, 0, 0, ViewModel.Id));
-			PlacedCheckBox.Unchecked += (s, e) => ViewModel.TagUnavailable();
+			PlacedCheckBox.Checked += (s, e) =>
+			{
+				ViewModel.TagAvailable(new TagData(0, 0, 0, ViewModel.Id));
+				elMenu.Visibility = Visibility.Visible;
+			};
+			PlacedCheckBox.Unchecked += (s, e) =>
+			{
+				ViewModel.TagUnavailable();
+				elMenu.Visibility = Visibility.Collapsed;
+			};
+
+			elMenu.Visibility = Visibility.Collapsed;
 
 			var grid = Content as Grid;
 			grid.Children.Add(PlacedCheckBox);
@@ -23,8 +34,8 @@ namespace SurfaceXWing.Test
 
 		public CheckBox PlacedCheckBox { get; private set; }
 
-		public override Point Position { get { return ((Microsoft.Surface.Presentation.Controls.ScatterViewItem)Parent).Center; } }
-		public override double OrientationAngle { get { return ((Microsoft.Surface.Presentation.Controls.ScatterViewItem)Parent).Orientation; } }
+		public override Point Position { get { return ((ScatterViewItem)Parent).Center; } }
+		public override double OrientationAngle { get { return ((ScatterViewItem)Parent).Orientation; } }
 
 	}
 }

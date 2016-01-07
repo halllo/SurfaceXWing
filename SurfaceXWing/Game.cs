@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -19,43 +21,41 @@ namespace SurfaceXWing
 		public void TagIntroduce(TagVisual visual)
 		{
 			_Spielfeld.Track(visual);
+			visual.ViewModel.NewPosition = new Command(() => NewField(
+				position: TopRight(visual),
+				orientation: visual.OrientationAngle,
+				color: visual.ViewModel.TacticleColor
+			));
 		}
 
 		public void TagDismiss(TagVisual visual)
 		{
 			_Spielfeld.Untrack(visual);
+			visual.ViewModel.NewPosition = null;
 		}
 
 		public void Start()
 		{
+			var alteFelder = _FieldsContainer.Children.OfType<Schiffsposition>().ToList();
+			foreach (var altesFeld in alteFelder)
+			{
+				_FieldsContainer.Children.Remove(altesFeld);
+				_Spielfeld.Unregister(altesFeld);
+			}
+
 			_Spielfeld.Register(_FieldsContainer);
 
-
-			var schiffsposition1 = new Schiffsposition { ViewModel = { Text = "links", Color = Brushes.Green } };
-			var schiffsposition1HeightHalbe = schiffsposition1.Height / 2;
-			schiffsposition1.RenderTransform = new RotateTransform { CenterX = schiffsposition1HeightHalbe, CenterY = schiffsposition1HeightHalbe, Angle = 90 };
-			schiffsposition1.SetValue(Canvas.LeftProperty, 0.0);
-			schiffsposition1.SetValue(Canvas.TopProperty, _FieldsContainer.ActualHeight / 2.0 - schiffsposition1HeightHalbe);
-			schiffsposition1.Yielded += YieldedToMove;
-			schiffsposition1.Occupied += OccupiedToCancelMove;
-
-			_FieldsContainer.Children.Add(schiffsposition1);
-			_Spielfeld.Register((IField)schiffsposition1);
-
-
-			var schiffsposition2 = new Schiffsposition { ViewModel = { Text = "rechts", Color = Brushes.Red } };
-			var schiffsposition2HeightHalbe = schiffsposition2.Height / 2;
-			schiffsposition2.RenderTransform = new RotateTransform { CenterX = schiffsposition2HeightHalbe, CenterY = schiffsposition2HeightHalbe, Angle = 270 };
-			schiffsposition2.SetValue(Canvas.LeftProperty, _FieldsContainer.ActualWidth - schiffsposition2.Height);
-			schiffsposition2.SetValue(Canvas.TopProperty, _FieldsContainer.ActualHeight / 2.0 - schiffsposition2HeightHalbe);
-			schiffsposition2.Yielded += YieldedToMove;
-			schiffsposition2.Occupied += OccupiedToCancelMove;
-
-			_FieldsContainer.Children.Add(schiffsposition2);
-			_Spielfeld.Register((IField)schiffsposition2);
+			NewField(
+				position: new Vector(0.0, _FieldsContainer.ActualHeight / 2.0 - 45),
+				orientation: 90.0,
+				color: Brushes.Green);
+			NewField(
+				position: new Vector(_FieldsContainer.ActualWidth - 90, _FieldsContainer.ActualHeight / 2.0 - 45),
+				orientation: 270.0,
+				color: Brushes.Red);
 		}
 
-		private void YieldedToMove(IField field, IFieldOccupant occupant)
+		private void PrepareToMove(IField field, IFieldOccupant occupant)
 		{
 			var schiffsposition = (Schiffsposition)field;
 			if (schiffsposition.Move == null)
@@ -63,24 +63,61 @@ namespace SurfaceXWing
 				var move = new Move(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
 				{
 					von.Move = null;
-					von.Yielded -= YieldedToMove;
-					von.Occupied -= OccupiedToCancelMove;
-					nach.Yielded += YieldedToMove;
-					nach.Occupied += OccupiedToCancelMove;
+					von.Yielded -= PrepareToMove;
+					von.Occupied -= CancelMove;
+					nach.Yielded += PrepareToMove;
+					nach.Occupied += CancelMove;
+					nach.Activate(onForget: RemoveField);
 				});
 				move.CreatePotenzielleZiele();
 				schiffsposition.Move = move;
+				schiffsposition.ViewModel.AllowCancel(() => CancelMove(schiffsposition, occupant));
 			}
 		}
 
-		private void OccupiedToCancelMove(IField field, IFieldOccupant occupant)
+		private void CancelMove(IField field, IFieldOccupant occupant = null)
 		{
 			var schiffsposition = (Schiffsposition)field;
-			if (schiffsposition.Move != null && schiffsposition.Move.Mover.Id == occupant.Id)
+			if (schiffsposition.Move != null)
 			{
-				schiffsposition.Move.Dispose();
-				schiffsposition.Move = null;
+				if (occupant == null || schiffsposition.Move.Mover.Id == occupant.Id)
+				{
+					schiffsposition.Move.Dispose();
+					schiffsposition.Move = null;
+					schiffsposition.ViewModel.CancelCancel();
+				}
 			}
+		}
+
+		private void NewField(Vector position, double orientation, Brush color)
+		{
+			var schiffsposition = new Schiffsposition { ViewModel = { Color = color } };
+			var schiffspositionHeightHalbe = schiffsposition.Height / 2;
+			schiffsposition.RenderTransform = new RotateTransform { CenterX = schiffspositionHeightHalbe, CenterY = schiffspositionHeightHalbe, Angle = orientation };
+			schiffsposition.SetValue(Canvas.LeftProperty, position.X);
+			schiffsposition.SetValue(Canvas.TopProperty, position.Y);
+			schiffsposition.Yielded += PrepareToMove;
+			schiffsposition.Occupied += CancelMove;
+
+			_FieldsContainer.Children.Add(schiffsposition);
+			_Spielfeld.Register((IField)schiffsposition);
+
+			schiffsposition.Activate(onForget: RemoveField);
+		}
+
+		private Vector TopRight(IFieldOccupant occupant)
+		{
+			return occupant.Position.AsVector() - new Vector(45.5, 45);
+		}
+
+		private void RemoveField(Schiffsposition field)
+		{
+			CancelMove(field);
+
+			field.Yielded -= PrepareToMove;
+			field.Occupied -= CancelMove;
+			_FieldsContainer.Children.Remove(field);
+			_Spielfeld.Unregister(field);
 		}
 	}
 
@@ -110,7 +147,7 @@ namespace SurfaceXWing
 		public void CreatePotenzielleZiele()
 		{
 			{
-				var ziel1 = new Schiffsposition { Opacity = 0.3, ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
+				var ziel1 = new Schiffsposition { Opacity = 0.5, ViewModel = { Color = _Von.ViewModel.Color } };
 
 				var ziel1HeightHalbe = ziel1.Height / 2;
 				ziel1.RenderTransform = new RotateTransform { CenterX = ziel1HeightHalbe, CenterY = ziel1HeightHalbe, Angle = 90 };
@@ -124,7 +161,7 @@ namespace SurfaceXWing
 			}
 
 			{
-				var ziel2 = new Schiffsposition { Opacity = 0.3, ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
+				var ziel2 = new Schiffsposition { Opacity = 0.5, ViewModel = { Color = _Von.ViewModel.Color } };
 
 				var ziel2HeightHalbe = ziel2.Height / 2;
 				ziel2.RenderTransform = new RotateTransform { CenterX = ziel2HeightHalbe, CenterY = ziel2HeightHalbe, Angle = 90 };
@@ -138,7 +175,7 @@ namespace SurfaceXWing
 			}
 
 			{
-				var ziel3 = new Schiffsposition { Opacity = 0.3, ViewModel = { Text = _Von.ViewModel.Text, Color = _Von.ViewModel.Color } };
+				var ziel3 = new Schiffsposition { Opacity = 0.5, ViewModel = { Color = _Von.ViewModel.Color } };
 
 				var ziel3HeightHalbe = ziel3.Height / 2;
 				ziel3.RenderTransform = new RotateTransform { CenterX = ziel3HeightHalbe, CenterY = ziel3HeightHalbe, Angle = 90 };
@@ -169,7 +206,6 @@ namespace SurfaceXWing
 				_Spielfeld.Unregister(_Von);
 
 				var neueSchiffsposition = (Schiffsposition)field;
-				neueSchiffsposition.Opacity = 1.0;
 
 				var von = _Von;
 				var moved = _Moved;
