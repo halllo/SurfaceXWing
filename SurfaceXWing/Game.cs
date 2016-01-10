@@ -91,11 +91,7 @@ namespace SurfaceXWing
 
 		private void NewField(Vector position, double orientation, Brush color)
 		{
-			var schiffsposition = new Schiffsposition { ViewModel = { Color = color } };
-			var schiffspositionHeightHalbe = schiffsposition.Height / 2;
-			schiffsposition.RenderTransform = new RotateTransform { CenterX = schiffspositionHeightHalbe, CenterY = schiffspositionHeightHalbe, Angle = orientation };
-			schiffsposition.SetValue(Canvas.LeftProperty, position.X);
-			schiffsposition.SetValue(Canvas.TopProperty, position.Y);
+			var schiffsposition = SchiffspositionFabrik.Neu(position, orientation, color);
 			schiffsposition.Yielded += PrepareToMove;
 			schiffsposition.Occupied += CancelMove;
 
@@ -146,47 +142,44 @@ namespace SurfaceXWing
 
 		public void CreatePotenzielleZiele()
 		{
-			{
-				var ziel1 = new Schiffsposition { Opacity = 0.5, ViewModel = { Color = _Von.ViewModel.Color } };
+			var angle = _Von.OrientationAngle;
+			var position = _Von.Position.AsVector();
 
-				var ziel1HeightHalbe = ziel1.Height / 2;
-				ziel1.RenderTransform = new RotateTransform { CenterX = ziel1HeightHalbe, CenterY = ziel1HeightHalbe, Angle = 90 };
+			var gradeaus = angle.AsVector();
+			var links = (angle - 90).AsVector();
+			var rechts = (angle + 90).AsVector();
 
-				var ziel1Position = _Von.Position.AsVector();
 
-				ziel1.SetValue(Canvas.LeftProperty, ziel1Position.X + 150);
-				ziel1.SetValue(Canvas.TopProperty, ziel1Position.Y);
 
-				Enable(ziel1);
-			}
+			Enable(SchiffspositionFabrik.Neu(//scharflink
+				position: position + (gradeaus * 150) + (links * 150),
+				orientation: angle - 90,
+				color: _Von.ViewModel.Color, opacity: 0.5));
 
-			{
-				var ziel2 = new Schiffsposition { Opacity = 0.5, ViewModel = { Color = _Von.ViewModel.Color } };
+			Enable(SchiffspositionFabrik.Neu(//leichtlinks
+				position: position + (gradeaus * 255) + (links * 105),
+				orientation: angle - 45,
+				color: _Von.ViewModel.Color, opacity: 0.5));
 
-				var ziel2HeightHalbe = ziel2.Height / 2;
-				ziel2.RenderTransform = new RotateTransform { CenterX = ziel2HeightHalbe, CenterY = ziel2HeightHalbe, Angle = 90 };
+			Enable(SchiffspositionFabrik.Neu(//1gradeaus
+				position: position + (gradeaus * 300),
+				orientation: angle,
+				color: _Von.ViewModel.Color, opacity: 0.5));
 
-				var ziel2Position = _Von.Position.AsVector();
+			Enable(SchiffspositionFabrik.Neu(//2gradeaus
+				 position: position + (gradeaus * 450),
+				 orientation: angle,
+				 color: _Von.ViewModel.Color, opacity: 0.5));
 
-				ziel2.SetValue(Canvas.LeftProperty, ziel2Position.X + 150);
-				ziel2.SetValue(Canvas.TopProperty, ziel2Position.Y + 100);
+			Enable(SchiffspositionFabrik.Neu(//leichtrechts
+				position: position + (gradeaus * 255) + (rechts * 105),
+				orientation: angle + 45,
+				color: _Von.ViewModel.Color, opacity: 0.5));
 
-				Enable(ziel2);
-			}
-
-			{
-				var ziel3 = new Schiffsposition { Opacity = 0.5, ViewModel = { Color = _Von.ViewModel.Color } };
-
-				var ziel3HeightHalbe = ziel3.Height / 2;
-				ziel3.RenderTransform = new RotateTransform { CenterX = ziel3HeightHalbe, CenterY = ziel3HeightHalbe, Angle = 90 };
-
-				var ziel3Position = _Von.Position.AsVector();
-
-				ziel3.SetValue(Canvas.LeftProperty, ziel3Position.X + 150);
-				ziel3.SetValue(Canvas.TopProperty, ziel3Position.Y - 100);
-
-				Enable(ziel3);
-			}
+			Enable(SchiffspositionFabrik.Neu(//scharfrechts
+				position: position + (gradeaus * 150) + (rechts * 150),
+				orientation: angle + 90,
+				color: _Von.ViewModel.Color, opacity: 0.5));
 		}
 
 		private void Enable(Schiffsposition potenziellesZiel)
@@ -244,6 +237,20 @@ namespace SurfaceXWing
 			_Mover = null;
 			_Ziele = null;
 			_Moved = null;
+		}
+	}
+
+	public static class SchiffspositionFabrik
+	{
+		public static Schiffsposition Neu(Vector position, double orientation, Brush color, double opacity = 1.0)
+		{
+			var schiffsposition = new Schiffsposition { ViewModel = { Color = color }, Opacity = opacity };
+			var schiffspositionHeightHalbe = schiffsposition.Height / 2;
+			schiffsposition.RenderTransform = new RotateTransform { CenterX = schiffspositionHeightHalbe, CenterY = schiffspositionHeightHalbe, Angle = orientation };
+			schiffsposition.SetValue(Canvas.LeftProperty, position.X);
+			schiffsposition.SetValue(Canvas.TopProperty, position.Y);
+
+			return schiffsposition;
 		}
 	}
 }

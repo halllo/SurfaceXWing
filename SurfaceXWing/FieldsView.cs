@@ -132,6 +132,13 @@ namespace SurfaceXWing
 		{
 			return new Vector(point.X, point.Y);
 		}
+
+		public static Vector AsVector(this double angle)
+		{
+			var degrees = (angle + 360 - 90) % 360;
+			var radians = degrees * Math.PI / 180.0;
+			return new Vector(Math.Cos(radians), Math.Sin(radians));
+		}
 	}
 
 	public static class AngleCalculator
