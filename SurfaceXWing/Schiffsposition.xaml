@@ -6,6 +6,20 @@
 			 Background="{Binding Color}"
 			 Height="90" Width="90">
 	<Grid>
+		<Canvas>
+			<!-- Fluglinien -->
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 105,105 0 0 0 -60,-105"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 105,105 0 0 1 150,-105"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 250,250 0 0 0 -30,-180"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 250,250 0 0 1 120,-180"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,100 L 45,-360"/>
+
+			<!--<Rectangle Width="90" Height="90" Fill="Blue" Canvas.Left="-105" Canvas.Top="-255">
+				<Rectangle.RenderTransform>
+					<RotateTransform CenterX="45" CenterY="45" Angle="45"/>
+				</Rectangle.RenderTransform>
+			</Rectangle>-->
+		</Canvas>
 		<Canvas Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
 			<Ellipse Width="400" Height="400" Canvas.Left="-155" Canvas.Top="-155" Stroke="{Binding Color}" Opacity="1.0"/>
 			<Border Width="200" Height="200" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0">
