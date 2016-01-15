@@ -44,15 +44,6 @@ namespace SurfaceXWing
 			}
 
 			_Spielfeld.Register(_FieldsContainer);
-
-			NewField(
-				position: new Vector(0.0, _FieldsContainer.ActualHeight / 2.0 - 45),
-				orientation: 90.0,
-				color: Brushes.Green);
-			NewField(
-				position: new Vector(_FieldsContainer.ActualWidth - 90, _FieldsContainer.ActualHeight / 2.0 - 45),
-				orientation: 270.0,
-				color: Brushes.Red);
 		}
 
 		private void PrepareToMove(IField field, IFieldOccupant occupant)
