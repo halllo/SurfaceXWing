@@ -119,9 +119,9 @@ namespace SurfaceXWing
 						{
 							field.Yield(untrackedOccupant);
 						}
-						byte value;
-						_untrackedOccupants.TryRemove(untrackedOccupant, out value);
 					}
+					byte value;
+					_untrackedOccupants.TryRemove(untrackedOccupant, out value);
 				}
 				timer.Start();
 			};
