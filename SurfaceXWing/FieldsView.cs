@@ -27,14 +27,14 @@ namespace SurfaceXWing
 		{
 			foreach (var field in fields)
 			{
-				var globalPosition = GetCenter(field);
-				var globalPositionDifferenceTolerance = field.Size.X / 2.0;
+				if (!_fields.ContainsKey(field))
+				{
+					field.PositionChanged += FieldPositionChanged;
+				}
 
 				_fields.TryAdd(field, new FieldPosition());
 
-				var fieldPositioning = _fields[field];
-				fieldPositioning.GlobalPosition = globalPosition;
-				fieldPositioning.GlobalPositionDifferenceToleranceSquared = globalPositionDifferenceTolerance * globalPositionDifferenceTolerance;
+				FieldPositionChanged(field);
 			}
 		}
 
@@ -42,9 +42,24 @@ namespace SurfaceXWing
 		{
 			foreach (var field in fields)
 			{
+				if (!_fields.ContainsKey(field))
+				{
+					field.PositionChanged -= FieldPositionChanged;
+				}
+
 				FieldPosition value;
 				_fields.TryRemove(field, out value);
 			}
+		}
+
+		private void FieldPositionChanged(IField field)
+		{
+			var globalPosition = GetCenter(field);
+			var globalPositionDifferenceTolerance = field.Size.X / 2.0;
+
+			var fieldPositioning = _fields[field];
+			fieldPositioning.GlobalPosition = globalPosition;
+			fieldPositioning.GlobalPositionDifferenceToleranceSquared = globalPositionDifferenceTolerance * globalPositionDifferenceTolerance;
 		}
 
 		public void Track(params IFieldOccupant[] occupants)
@@ -203,6 +218,8 @@ namespace SurfaceXWing
 		Point Position { get; }
 		double OrientationAngle { get; }
 		Vector Size { get; }
+
+		event Action<IField> PositionChanged;
 
 		bool IsOccupiedBy(IFieldOccupant occupant);
 

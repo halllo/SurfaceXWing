@@ -214,6 +214,8 @@ namespace SurfaceXWing
 				if (occupant.OrientatesRight(neueSchiffsposition))
 					neueSchiffsposition.OrientationAngle = (neueSchiffsposition.OrientationAngle + 90) % 360;
 
+				neueSchiffsposition.ViewModel.LetztePosition = new SchiffspositionModel.Position(von.Position, von.OrientationAngle);
+
 				moved(von, neueSchiffsposition);
 			}
 		}

@@ -28,7 +28,12 @@ namespace SurfaceXWing
 			get { return id; }
 			set { id = value; }
 		}
-		public Point Position { get { return new Point((double)GetValue(Canvas.LeftProperty), (double)GetValue(Canvas.TopProperty)); } }
+		public Point Position
+		{
+			get { return new Point((double)GetValue(Canvas.LeftProperty), (double)GetValue(Canvas.TopProperty)); }
+			set { SetValue(Canvas.LeftProperty, value.X); SetValue(Canvas.TopProperty, value.Y); }
+		}
+		public event Action<IField> PositionChanged;
 		public double OrientationAngle
 		{
 			get { return RenderTransform is RotateTransform ? ((RotateTransform)RenderTransform).Angle : 0; }
@@ -71,19 +76,66 @@ namespace SurfaceXWing
 			Opacity = 1.0;
 			menu.Visibility = Visibility.Visible;
 			ViewModel.Forget = new Command(() => onForget(this));
+			ViewModel.GoBack = new Command(GoBackMethod);
+		}
+
+		private void GoBackMethod()
+		{
+			var letztePosition = ViewModel.LetztePosition;
+			if (letztePosition != null)
+			{
+				ViewModel.LetztePosition = null;
+
+				if (ViewModel.Cancel != null)
+					ViewModel.Cancel.Execute(null);
+
+				Position = letztePosition.Point;
+				OrientationAngle = letztePosition.Orientation;
+
+				var h = PositionChanged;
+				if (h != null) h(this);
+			}
 		}
 	}
 
 	public class SchiffspositionModel : ViewModel
 	{
+		public class Position
+		{
+			public Position(Point point, double orientation)
+			{
+				Point = point;
+				Orientation = orientation;
+			}
+
+			public Point Point { get; set; }
+			public double Orientation { get; set; }
+		}
+
 		ConcurrentDictionary<IFieldOccupant, byte> _FieldOccupants = new ConcurrentDictionary<IFieldOccupant, byte>();
 		public ConcurrentDictionary<IFieldOccupant, byte> FieldOccupants { get { return _FieldOccupants; } }
+
+		public Position LetztePosition { get; set; }
 
 		Brush _Color;
 		public Brush Color
 		{
 			get { return _Color; }
 			set { _Color = value; NotifyChanged("Color"); }
+		}
+
+		Command _Forget;
+		public Command Forget
+		{
+			get { return _Forget; }
+			set { _Forget = value; NotifyChanged("Forget"); }
+		}
+
+		Command _GoBack;
+		public Command GoBack
+		{
+			get { return _GoBack; }
+			set { _GoBack = value; NotifyChanged("GoBack"); }
 		}
 
 		Command _Cancel;
@@ -109,13 +161,6 @@ namespace SurfaceXWing
 		{
 			Cancelable = false;
 			Cancel = null;
-		}
-
-		Command _Forget;
-		public Command Forget
-		{
-			get { return _Forget; }
-			set { _Forget = value; NotifyChanged("Forget"); }
 		}
 
 		Visibility _TopArrowVisibility;

@@ -56,14 +56,17 @@
 		</Rectangle>
 
 		<s:SurfaceCheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="range" IsChecked="{Binding RangeIndicatorVisible}"/>
-		
+
 		<s:ElementMenu x:Name="menu"
 				  Visibility="Collapsed"
                   ActivationMode="AlwaysActive"
                   HorizontalAlignment="Center" 
                   VerticalAlignment="Center"
 				  Orientation="180">
-			<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
+			<s:ElementMenuItem Header="position">
+				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
+				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
+			</s:ElementMenuItem>
 			<s:ElementMenuItem Header="cancel" Command="{Binding Cancel}" Visibility="{Binding Cancelable,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 		</s:ElementMenu>
 
