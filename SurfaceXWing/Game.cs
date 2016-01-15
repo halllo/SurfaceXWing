@@ -205,6 +205,15 @@ namespace SurfaceXWing
 
 				Dispose(except: neueSchiffsposition);
 
+				if (occupant.OrientatesBottom(neueSchiffsposition))
+					neueSchiffsposition.OrientationAngle = (neueSchiffsposition.OrientationAngle + 180) % 360;
+
+				if (occupant.OrientatesLeft(neueSchiffsposition))
+					neueSchiffsposition.OrientationAngle = (neueSchiffsposition.OrientationAngle + 270) % 360;
+
+				if (occupant.OrientatesRight(neueSchiffsposition))
+					neueSchiffsposition.OrientationAngle = (neueSchiffsposition.OrientationAngle + 90) % 360;
+
 				moved(von, neueSchiffsposition);
 			}
 		}

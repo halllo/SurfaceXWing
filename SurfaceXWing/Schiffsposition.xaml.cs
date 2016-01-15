@@ -29,7 +29,11 @@ namespace SurfaceXWing
 			set { id = value; }
 		}
 		public Point Position { get { return new Point((double)GetValue(Canvas.LeftProperty), (double)GetValue(Canvas.TopProperty)); } }
-		public double OrientationAngle { get { return RenderTransform is RotateTransform ? ((RotateTransform)RenderTransform).Angle : 0; } }
+		public double OrientationAngle
+		{
+			get { return RenderTransform is RotateTransform ? ((RotateTransform)RenderTransform).Angle : 0; }
+			set { if (RenderTransform is RotateTransform) ((RotateTransform)RenderTransform).Angle = value; }
+		}
 		public Vector Size { get { return new Vector(Width, Height); } }
 
 		public bool IsOccupiedBy(IFieldOccupant occupant)
