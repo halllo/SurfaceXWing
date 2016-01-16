@@ -145,32 +145,34 @@ namespace SurfaceXWing
 			Enable(SchiffspositionFabrik.Neu(//scharflink
 				position: position + (gradeaus * 150) + (links * 150),
 				orientation: angle - 90,
-				color: _Von.ViewModel.Color, opacity: 0.5));
+				color: _Von.ViewModel.Color, opacity: 0.5, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//leichtlinks
 				position: position + (gradeaus * 255) + (links * 105),
 				orientation: angle - 45,
-				color: _Von.ViewModel.Color, opacity: 0.5));
+				color: _Von.ViewModel.Color, opacity: 0.5, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//1gradeaus
 				position: position + (gradeaus * 300),
 				orientation: angle,
-				color: _Von.ViewModel.Color, opacity: 0.5));
+				color: _Von.ViewModel.Color, opacity: 0.5, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//2gradeaus
 				 position: position + (gradeaus * 450),
 				 orientation: angle,
-				 color: _Von.ViewModel.Color, opacity: 0.5));
+				 color: _Von.ViewModel.Color, opacity: 0.5, label: "2"));
 
 			Enable(SchiffspositionFabrik.Neu(//leichtrechts
 				position: position + (gradeaus * 255) + (rechts * 105),
 				orientation: angle + 45,
-				color: _Von.ViewModel.Color, opacity: 0.5));
+				color: _Von.ViewModel.Color, opacity: 0.5, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//scharfrechts
 				position: position + (gradeaus * 150) + (rechts * 150),
 				orientation: angle + 90,
-				color: _Von.ViewModel.Color, opacity: 0.5));
+				color: _Von.ViewModel.Color, opacity: 0.5, label: "1"));
+
+			_Von.ViewModel.FluglinienVisible = true;
 		}
 
 		private void Enable(Schiffsposition potenziellesZiel)
@@ -206,6 +208,7 @@ namespace SurfaceXWing
 					neueSchiffsposition.OrientationAngle = (neueSchiffsposition.OrientationAngle + 90) % 360;
 
 				neueSchiffsposition.ViewModel.LetztePosition = new SchiffspositionModel.Position(von.Position, von.OrientationAngle);
+				neueSchiffsposition.ViewModel.Label = null;
 
 				moved(von, neueSchiffsposition);
 			}
@@ -233,6 +236,8 @@ namespace SurfaceXWing
 			}
 			_Ziele.Clear();
 
+			_Von.ViewModel.FluglinienVisible = false;
+
 			_Spielfeld = null;
 			_FieldsContainer = null;
 			_Von = null;
@@ -244,9 +249,9 @@ namespace SurfaceXWing
 
 	public static class SchiffspositionFabrik
 	{
-		public static Schiffsposition Neu(Vector position, double orientation, Brush color, double opacity = 1.0)
+		public static Schiffsposition Neu(Vector position, double orientation, Brush color, double opacity = 1.0, string label = null)
 		{
-			var schiffsposition = new Schiffsposition { ViewModel = { Color = color }, Opacity = opacity };
+			var schiffsposition = new Schiffsposition { ViewModel = { Color = color, Label = label }, Opacity = opacity };
 			var schiffspositionHeightHalbe = schiffsposition.Height / 2;
 			schiffsposition.RenderTransform = new RotateTransform { CenterX = schiffspositionHeightHalbe, CenterY = schiffspositionHeightHalbe, Angle = orientation };
 			schiffsposition.SetValue(Canvas.LeftProperty, position.X);

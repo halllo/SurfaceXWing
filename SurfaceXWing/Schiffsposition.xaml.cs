@@ -198,6 +198,20 @@ namespace SurfaceXWing
 			set { _RangeIndicatorVisible = value; NotifyChanged("RangeIndicatorVisible"); }
 		}
 
+		bool _FluglinienVisible;
+		public bool FluglinienVisible
+		{
+			get { return _FluglinienVisible; }
+			set { _FluglinienVisible = value; NotifyChanged("FluglinienVisible"); }
+		}
+
+		string _Label;
+		public string Label
+		{
+			get { return _Label; }
+			set { _Label = value; NotifyChanged("Label"); }
+		}
+
 		public void UpdateState(IField field)
 		{
 			HideArrows();
