@@ -20,20 +20,20 @@
 			</Rectangle>-->
 		</Canvas>
 		<Canvas Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-			<Ellipse Width="400" Height="400" Canvas.Left="-155" Canvas.Top="-155" Stroke="{Binding Color}" Opacity="1.0"/>
-			<Border Width="200" Height="200" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0">
+			<Ellipse Width="540" Height="540" Canvas.Left="-225" Canvas.Top="-225" Stroke="{Binding Color}" Opacity="1.0"/>
+			<Border Width="270" Height="270" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0">
 				<Border.RenderTransform>
 					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
 				</Border.RenderTransform>
 			</Border>
-			<Ellipse Width="600" Height="600" Canvas.Left="-255" Canvas.Top="-255" Stroke="{Binding Color}" Opacity="0.7"/>
-			<Border Width="300" Height="300" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="0.7" BorderThickness="1,1,0,0">
+			<Ellipse Width="990" Height="990" Canvas.Left="-450" Canvas.Top="-450" Stroke="{Binding Color}" Opacity="0.7"/>
+			<Border Width="495" Height="495" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="0.7" BorderThickness="1,1,0,0">
 				<Border.RenderTransform>
 					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
 				</Border.RenderTransform>
 			</Border>
-			<Ellipse Width="800" Height="800" Canvas.Left="-355" Canvas.Top="-355" Stroke="{Binding Color}" Opacity="0.5"/>
-			<Border Width="400" Height="400" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="0.5" BorderThickness="1,1,0,0">
+			<Ellipse Width="1440" Height="1440" Canvas.Left="-675" Canvas.Top="-675" Stroke="{Binding Color}" Opacity="0.5"/>
+			<Border Width="720" Height="720" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="0.5" BorderThickness="1,1,0,0">
 				<Border.RenderTransform>
 					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
 				</Border.RenderTransform>
