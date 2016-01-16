@@ -16,8 +16,6 @@ namespace SurfaceXWing
 			InitializeComponent();
 
 			DataContext = ViewModel = new SchiffspositionModel();
-
-			ViewModel.HideArrows();
 		}
 
 		public Move Move { get; set; }
@@ -163,34 +161,6 @@ namespace SurfaceXWing
 			Cancel = null;
 		}
 
-		Visibility _TopArrowVisibility;
-		public Visibility TopArrowVisibility
-		{
-			get { return _TopArrowVisibility; }
-			set { _TopArrowVisibility = value; NotifyChanged("TopArrowVisibility"); }
-		}
-
-		Visibility _BottomArrowVisibility;
-		public Visibility BottomArrowVisibility
-		{
-			get { return _BottomArrowVisibility; }
-			set { _BottomArrowVisibility = value; NotifyChanged("BottomArrowVisibility"); }
-		}
-
-		Visibility _LeftArrowVisibility;
-		public Visibility LeftArrowVisibility
-		{
-			get { return _LeftArrowVisibility; }
-			set { _LeftArrowVisibility = value; NotifyChanged("LeftArrowVisibility"); }
-		}
-
-		Visibility _RightArrowVisibility;
-		public Visibility RightArrowVisibility
-		{
-			get { return _RightArrowVisibility; }
-			set { _RightArrowVisibility = value; NotifyChanged("RightArrowVisibility"); }
-		}
-
 		bool _RangeIndicatorVisible;
 		public bool RangeIndicatorVisible
 		{
@@ -205,6 +175,13 @@ namespace SurfaceXWing
 			set { _FluglinienVisible = value; NotifyChanged("FluglinienVisible"); }
 		}
 
+		double _BackgroundOpacity = 0.1;
+		public double BackgroundOpacity
+		{
+			get { return _BackgroundOpacity; }
+			set { _BackgroundOpacity = value; NotifyChanged("BackgroundOpacity"); }
+		}
+
 		string _Label;
 		public string Label
 		{
@@ -214,26 +191,14 @@ namespace SurfaceXWing
 
 		public void UpdateState(IField field)
 		{
-			HideArrows();
-
 			if (FieldOccupants.Any())
 			{
-				foreach (var occupant in FieldOccupants.Keys)
-				{
-					if (occupant.OrientatesTop(field)) TopArrowVisibility = Visibility.Visible;
-					if (occupant.OrientatesBottom(field)) BottomArrowVisibility = Visibility.Visible;
-					if (occupant.OrientatesRight(field)) RightArrowVisibility = Visibility.Visible;
-					if (occupant.OrientatesLeft(field)) LeftArrowVisibility = Visibility.Visible;
-				}
+				BackgroundOpacity = 1;
 			}
-		}
-
-		public void HideArrows()
-		{
-			TopArrowVisibility = Visibility.Collapsed;
-			BottomArrowVisibility = Visibility.Collapsed;
-			LeftArrowVisibility = Visibility.Collapsed;
-			RightArrowVisibility = Visibility.Collapsed;
+			else
+			{
+				BackgroundOpacity = 0.1;
+			}
 		}
 	}
 }

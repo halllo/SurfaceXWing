@@ -7,17 +7,19 @@
 			 Height="90" Width="90">
 	<Grid>
 		<Canvas Visibility="{Binding FluglinienVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 105,105 0 0 0 -60,-105"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 105,105 0 0 1 150,-105"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 250,250 0 0 0 -30,-180"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 250,250 0 0 1 120,-180"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,100 L 45,-360"/>
-
-			<!--<Rectangle Width="90" Height="90" Fill="Blue" Canvas.Left="-105" Canvas.Top="-255">
-				<Rectangle.RenderTransform>
-					<RotateTransform CenterX="45" CenterY="45" Angle="45"/>
-				</Rectangle.RenderTransform>
-			</Rectangle>-->
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 90,90 0 0 0 -45,-90"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 90,90 0 0 1 135,-90"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 150,150 0 0 0 -1,-126"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 150,150 0 0 1 91,-126"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 155,155 0 0 0 -110,-155"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 155,155 0 0 1 200,-155"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 270,270 0 0 0 -42,-215"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 270,270 0 0 1 132,-215"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 220,220 0 0 0 -175,-220"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 220,220 0 0 1 265,-220"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 390,390 0 0 0 -72,-290"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 390,390 0 0 1 162,-290"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 L 45,-540"/>
 		</Canvas>
 		<Canvas Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
 			<Ellipse Width="540" Height="540" Canvas.Left="-225" Canvas.Top="-225" Stroke="{Binding Color}" Opacity="1.0"/>
@@ -40,33 +42,7 @@
 			</Border>
 		</Canvas>
 
-		<Rectangle Fill="Black" Margin="2"/>
-
-		<Rectangle Width="10" Height="10" Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="4,-3,0,0">
-			<Rectangle.RenderTransform>
-				<RotateTransform CenterX="5" CenterY="5" Angle="45"/>
-			</Rectangle.RenderTransform>
-		</Rectangle>
-		<Rectangle Width="10" Height="10" Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-3,0,0" Visibility="{Binding TopArrowVisibility}">
-			<Rectangle.RenderTransform>
-				<RotateTransform CenterX="5" CenterY="5" Angle="45"/>
-			</Rectangle.RenderTransform>
-		</Rectangle>
-		<Rectangle Width="10" Height="10" Fill="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-3"  Visibility="{Binding BottomArrowVisibility}">
-			<Rectangle.RenderTransform>
-				<RotateTransform CenterX="5" CenterY="5" Angle="45"/>
-			</Rectangle.RenderTransform>
-		</Rectangle>
-		<Rectangle Width="10" Height="10" Fill="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-3,0,0,0"  Visibility="{Binding LeftArrowVisibility}">
-			<Rectangle.RenderTransform>
-				<RotateTransform CenterX="5" CenterY="5" Angle="45"/>
-			</Rectangle.RenderTransform>
-		</Rectangle>
-		<Rectangle Width="10" Height="10" Fill="Black" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,-3,0"  Visibility="{Binding RightArrowVisibility}">
-			<Rectangle.RenderTransform>
-				<RotateTransform CenterX="5" CenterY="5" Angle="45"/>
-			</Rectangle.RenderTransform>
-		</Rectangle>
+		<Rectangle Fill="Black" Margin="2" Opacity="{Binding BackgroundOpacity}"/>
 
 		<s:SurfaceCheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="range" IsChecked="{Binding RangeIndicatorVisible}"/>
 
