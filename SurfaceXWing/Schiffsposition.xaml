@@ -4,7 +4,7 @@
 			 xmlns:s="http://schemas.microsoft.com/surface/2008"
 			 xmlns:local="clr-namespace:SurfaceXWing"
 			 Background="{Binding Color}"
-			 Height="90" Width="90">
+			 Height="86" Width="86">
 	<Grid>
 		<Canvas Visibility="{Binding FluglinienVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
 			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 90,90 0 0 0 -45,-90"/>
@@ -22,20 +22,20 @@
 			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 L 45,-540"/>
 		</Canvas>
 		<Canvas Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-			<Ellipse Width="540" Height="540" Canvas.Left="-225" Canvas.Top="-225" Stroke="{Binding Color}" Opacity="1.0"/>
-			<Border Width="270" Height="270" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0">
+			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218" Stroke="{Binding Color}" Opacity="1.0"/>
+			<Border Width="261" Height="261" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0">
 				<Border.RenderTransform>
 					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
 				</Border.RenderTransform>
 			</Border>
-			<Ellipse Width="990" Height="990" Canvas.Left="-450" Canvas.Top="-450" Stroke="{Binding Color}" Opacity="0.7"/>
-			<Border Width="495" Height="495" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="0.7" BorderThickness="1,1,0,0">
+			<Ellipse Width="956" Height="956" Canvas.Left="-435" Canvas.Top="-435" Stroke="{Binding Color}" Opacity="0.7"/>
+			<Border Width="478" Height="478" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="0.7" BorderThickness="1,1,0,0">
 				<Border.RenderTransform>
 					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
 				</Border.RenderTransform>
 			</Border>
-			<Ellipse Width="1440" Height="1440" Canvas.Left="-675" Canvas.Top="-675" Stroke="{Binding Color}" Opacity="0.5"/>
-			<Border Width="720" Height="720" Canvas.Left="45" Canvas.Top="45" BorderBrush="{Binding Color}" Opacity="0.5" BorderThickness="1,1,0,0">
+			<Ellipse Width="1390" Height="1390" Canvas.Left="-652" Canvas.Top="-652" Stroke="{Binding Color}" Opacity="0.5"/>
+			<Border Width="695" Height="695" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="0.5" BorderThickness="1,1,0,0">
 				<Border.RenderTransform>
 					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
 				</Border.RenderTransform>

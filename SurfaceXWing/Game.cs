@@ -94,7 +94,7 @@ namespace SurfaceXWing
 
 		private Vector TopRight(IFieldOccupant occupant)
 		{
-			return occupant.Position.AsVector() - new Vector(45.5, 45);
+			return occupant.Position.AsVector() - new Vector(43, 43);
 		}
 
 		private void RemoveField(Schiffsposition field)
@@ -142,90 +142,90 @@ namespace SurfaceXWing
 
 
 			Enable(SchiffspositionFabrik.Neu(//1gradeaus
-				position: position + (gradeaus * 180),
+				position: position + (gradeaus * 172),
 				orientation: angle,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//1scharflinks
-				position: position + (gradeaus * 135) + (links * 135),
+				position: position + (gradeaus * 120) + (links * 120),
 				orientation: angle - 90,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//1leichtlinks
-				position: position + (gradeaus * 200) + (links * 80),
+				position: position + (gradeaus * 202) + (links * 82),
 				orientation: angle - 45,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//1scharfrechts
-				position: position + (gradeaus * 135) + (rechts * 135),
+				position: position + (gradeaus * 120) + (rechts * 120),
 				orientation: angle + 90,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 			Enable(SchiffspositionFabrik.Neu(//1leichtrechts
-				position: position + (gradeaus * 200) + (rechts * 80),
+				position: position + (gradeaus * 202) + (rechts * 82),
 				orientation: angle + 45,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 
 			Enable(SchiffspositionFabrik.Neu(//2gradeaus
-				position: position + (gradeaus * 270),
+				position: position + (gradeaus * 259),
 				orientation: angle,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			Enable(SchiffspositionFabrik.Neu(//2scharflinks
-				position: position + (gradeaus * 200) + (links * 200),
+				position: position + (gradeaus * 180) + (links * 180),
 				orientation: angle - 90,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			Enable(SchiffspositionFabrik.Neu(//2leichtlinks
-				position: position + (gradeaus * 290) + (links * 120),
+				position: position + (gradeaus * 275) + (links * 119),
 				orientation: angle - 45,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			Enable(SchiffspositionFabrik.Neu(//2scharfrechts
-				position: position + (gradeaus * 200) + (rechts * 200),
+				position: position + (gradeaus * 180) + (rechts * 180),
 				orientation: angle + 90,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			Enable(SchiffspositionFabrik.Neu(//2leichtrechts
-				position: position + (gradeaus * 290) + (rechts * 120),
+				position: position + (gradeaus * 275) + (rechts * 119),
 				orientation: angle + 45,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 
 			Enable(SchiffspositionFabrik.Neu(//3gradeaus
-				position: position + (gradeaus * 360),
+				position: position + (gradeaus * 346),
 				orientation: angle,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 			Enable(SchiffspositionFabrik.Neu(//3scharflinks
-				position: position + (gradeaus * 265) + (links * 265),
+				position: position + (gradeaus * 240) + (links * 240),
 				orientation: angle - 90,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 			Enable(SchiffspositionFabrik.Neu(//3leichtlinks
-				position: position + (gradeaus * 365) + (links * 150),
+				position: position + (gradeaus * 355) + (links * 145),
 				orientation: angle - 45,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 			Enable(SchiffspositionFabrik.Neu(//3scharfrechts
-				position: position + (gradeaus * 265) + (rechts * 265),
+				position: position + (gradeaus * 240) + (rechts * 240),
 				orientation: angle + 90,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 			Enable(SchiffspositionFabrik.Neu(//3lechtrechts
-				position: position + (gradeaus * 365) + (rechts * 150),
+				position: position + (gradeaus * 355) + (rechts * 145),
 				orientation: angle + 45,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 
 			Enable(SchiffspositionFabrik.Neu(//4gradeaus
-				position: position + (gradeaus * 450),
+				position: position + (gradeaus * 433),
 				orientation: angle,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "4"));
 
 			Enable(SchiffspositionFabrik.Neu(//5gradeaus
-				position: position + (gradeaus * 540),
+				position: position + (gradeaus * 520),
 				orientation: angle,
 				color: _Von.ViewModel.Color, opacity: 0.4, label: "5"));
 
