@@ -80,7 +80,7 @@ namespace SurfaceXWing
 			}
 		}
 
-		private void NewField(Vector position, double orientation, Brush color)
+		internal Schiffsposition NewField(Vector position, double orientation, Brush color)
 		{
 			var schiffsposition = SchiffspositionFabrik.Neu(position, orientation, color);
 			schiffsposition.Yielded += PrepareToMove;
@@ -90,6 +90,8 @@ namespace SurfaceXWing
 			_Spielfeld.Register((IField)schiffsposition);
 
 			schiffsposition.Activate(onForget: RemoveField);
+
+			return schiffsposition;
 		}
 
 		private Vector TopRight(IFieldOccupant occupant)

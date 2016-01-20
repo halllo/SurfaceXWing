@@ -7,19 +7,19 @@
 			 Height="86" Width="86">
 	<Grid>
 		<Canvas Visibility="{Binding FluglinienVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 90,90 0 0 0 -45,-90"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 90,90 0 0 1 135,-90"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 150,150 0 0 0 -1,-126"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 150,150 0 0 1 91,-126"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 155,155 0 0 0 -110,-155"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 155,155 0 0 1 200,-155"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 270,270 0 0 0 -42,-215"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 270,270 0 0 1 132,-215"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 220,220 0 0 0 -175,-220"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 220,220 0 0 1 265,-220"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 390,390 0 0 0 -72,-290"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 A 390,390 0 0 1 162,-290"/>
-			<Path Stroke="White" Opacity="0.2" StrokeThickness="25" Data="M 45,0 L 45,-540"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 77,77 0 0 0 -34,-77"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 77,77 0 0 1 120,-77"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 168,168 0 0 0 -6,-131"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 168,168 0 0 1 92,-131"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 137,137 0 0 0 -94,-137"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 137,137 0 0 1 180,-137"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 300,300 0 0 0 -46,-201"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 300,300 0 0 1 132,-201"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 196,196 0 0 0 -154,-197"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 196,196 0 0 1 240,-197"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 390,390 0 0 0 -72,-281"/>
+			<Path Stroke="White" Opacity="0.2" StrokeThickness="43" Data="M 43,0 A 390,390 0 0 1 158,-281"/>
+			<Path Stroke="White" Opacity="0.1" StrokeThickness="43" Data="M 43,0 L 43,-434"/>
 		</Canvas>
 		<Canvas Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
 			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218" Stroke="{Binding Color}" Opacity="1.0"/>

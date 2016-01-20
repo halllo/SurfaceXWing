@@ -1,4 +1,6 @@
-﻿namespace SurfaceXWing
+﻿using System;
+
+namespace SurfaceXWing
 {
 	public partial class Spielfeld
 	{
@@ -21,6 +23,11 @@
 
 			TagManagement.Instance.Value.TagRegistered += tag => _Spiel.TagIntroduce(tag.Visual);
 			TagManagement.Instance.Value.TagUnregistered += tag => _Spiel.TagDismiss(tag.Visual);
+
+			var h = GameStarted;
+			if (h != null) h(_Spiel);
 		}
+
+		public event Action<Game> GameStarted;
 	}
 }

@@ -9,7 +9,7 @@
 		
 	</Canvas>
 
-	<TextBlock FontSize="20" Foreground="Blue" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="centerText"/>
+	<TextBlock FontSize="20" Foreground="Blue" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="centerText"/>
 
 	<s:ScatterView HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<!--<local:ScatterViewItemFieldObject Width="50" Height="50" Orientation="0.0" Background="Lime" x:Name="scatterViewItem1">

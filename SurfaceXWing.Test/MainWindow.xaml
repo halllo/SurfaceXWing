@@ -25,7 +25,11 @@
 		</Grid>
 
 		<local:Spielfeld Grid.Column="0" Grid.ColumnSpan="2" x:Name="spielfeld"
-						 Width="1500" Height="800" Background="Black"/>
+						 Width="1894.04" Height="1080" Background="Black">
+			<local:Spielfeld.LayoutTransform>
+				<ScaleTransform ScaleX="0.7" ScaleY="0.7" />
+			</local:Spielfeld.LayoutTransform>
+		</local:Spielfeld>
 
 	</Grid>
 </Window>
