@@ -81,6 +81,22 @@ namespace SurfaceXWing
 			ViewModel.BarrelRoll = new Command(() => onBarrelRoll(this));
 		}
 
+		public void PositionAt(Vector position)
+		{
+			Position = position.AsPoint();
+
+			var h = PositionChanged;
+			if (h != null) h(this);
+		}
+
+		public void PositionAt(Point position)
+		{
+			Position = position;
+
+			var h = PositionChanged;
+			if (h != null) h(this);
+		}
+
 		private void GoBackMethod()
 		{
 			var letztePosition = ViewModel.LetztePosition;
@@ -91,11 +107,8 @@ namespace SurfaceXWing
 				if (ViewModel.Cancel != null)
 					ViewModel.Cancel.Execute(null);
 
-				Position = letztePosition.Point;
 				OrientationAngle = letztePosition.Orientation;
-
-				var h = PositionChanged;
-				if (h != null) h(this);
+				PositionAt(letztePosition.Point);
 			}
 		}
 	}
@@ -184,6 +197,20 @@ namespace SurfaceXWing
 		{
 			get { return _FluglinienVisible; }
 			set { _FluglinienVisible = value; NotifyChanged("FluglinienVisible"); }
+		}
+
+		bool _BarrelRollLinieLinksVisible;
+		public bool BarrelRollLinieLinksVisible
+		{
+			get { return _BarrelRollLinieLinksVisible; }
+			set { _BarrelRollLinieLinksVisible = value; NotifyChanged("BarrelRollLinieLinksVisible"); }
+		}
+
+		bool _BarrelRollLinieRechtsVisible;
+		public bool BarrelRollLinieRechtsVisible
+		{
+			get { return _BarrelRollLinieRechtsVisible; }
+			set { _BarrelRollLinieRechtsVisible = value; NotifyChanged("BarrelRollLinieRechtsVisible"); }
 		}
 
 		bool _SliderVisible;

@@ -357,6 +357,9 @@ namespace SurfaceXWing
 		{
 		}
 
+		Schiffsposition _Links1;
+		Schiffsposition _Rechts1;
+
 		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
 		{
 			var angle = von.OrientationAngle;
@@ -367,23 +370,42 @@ namespace SurfaceXWing
 			var rechts = (angle + 90).AsVector();
 
 
-			enable(SchiffspositionFabrik.Neu(//1links
+			enable(_Links1 = SchiffspositionFabrik.Neu(//1links
 				position: position + (links * 172),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			enable(SchiffspositionFabrik.Neu(//1rechts
+			enable(_Rechts1 = SchiffspositionFabrik.Neu(//1rechts
 				position: position + (rechts * 172),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
+
+			_Links1.ViewModel.BarrelRollLinieRechtsVisible = true;
+			_Rechts1.ViewModel.BarrelRollLinieLinksVisible = true;
+
 			von.ViewModel.SliderVisible = true;
+			von.Slider.Value = 0;
+			von.Slider.ValueChanged += sliderValueChanged = new RoutedPropertyChangedEventHandler<double>((object o, RoutedPropertyChangedEventArgs<double> e) =>
+			{
+				_Links1.PositionAt(position + (gradeaus * e.NewValue * 4.3) + (links * 172));
+				_Rechts1.PositionAt(position + (gradeaus * e.NewValue * -4.3) + (rechts * 172));
+			});
 		}
 
 		protected override void MovedOrCanceled(Schiffsposition von)
 		{
+			_Links1.ViewModel.BarrelRollLinieRechtsVisible = false;
+			_Rechts1.ViewModel.BarrelRollLinieLinksVisible = false;
+
 			von.ViewModel.SliderVisible = false;
+			von.Slider.ValueChanged -= sliderValueChanged;
+
+			_Links1 = null;
+			_Rechts1 = null;
 		}
+
+		RoutedPropertyChangedEventHandler<double> sliderValueChanged;
 	}
 
 	public static class SchiffspositionFabrik
@@ -393,8 +415,7 @@ namespace SurfaceXWing
 			var schiffsposition = new Schiffsposition { ViewModel = { Color = color, Label = label }, Opacity = opacity };
 			var schiffspositionHeightHalbe = schiffsposition.Height / 2;
 			schiffsposition.RenderTransform = new RotateTransform { CenterX = schiffspositionHeightHalbe, CenterY = schiffspositionHeightHalbe, Angle = orientation };
-			schiffsposition.SetValue(Canvas.LeftProperty, position.X);
-			schiffsposition.SetValue(Canvas.TopProperty, position.Y);
+			schiffsposition.PositionAt(position);
 
 			return schiffsposition;
 		}

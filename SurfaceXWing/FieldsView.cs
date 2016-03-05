@@ -148,6 +148,11 @@ namespace SurfaceXWing
 			return new Vector(point.X, point.Y);
 		}
 
+		public static Point AsPoint(this Vector vector)
+		{
+			return new Point(vector.X, vector.Y);
+		}
+
 		public static Vector AsVector(this double angle)
 		{
 			var degrees = (angle + 360 - 90) % 360;
