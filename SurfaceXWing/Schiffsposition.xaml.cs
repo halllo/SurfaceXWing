@@ -48,6 +48,7 @@ namespace SurfaceXWing
 		{
 			ViewModel.FieldOccupants.TryAdd(occupant, byte.MinValue);
 			ViewModel.UpdateState(this);
+			LastOccupant = occupant;
 
 			var h = Occupied;
 			if (h != null) h(this, occupant);
@@ -69,12 +70,15 @@ namespace SurfaceXWing
 		}
 		public event Action<IField, IFieldOccupant> Yielded;
 
-		public void Activate(Action<Schiffsposition> onForget)
+		public IFieldOccupant LastOccupant { get; private set; }
+
+		public void Activate(Action<Schiffsposition> onForget, Action<Schiffsposition> onBarrelRoll)
 		{
 			Opacity = 1.0;
 			menu.Visibility = Visibility.Visible;
 			ViewModel.Forget = new Command(() => onForget(this));
 			ViewModel.GoBack = new Command(GoBackMethod);
+			ViewModel.BarrelRoll = new Command(() => onBarrelRoll(this));
 		}
 
 		private void GoBackMethod()
@@ -136,6 +140,13 @@ namespace SurfaceXWing
 			set { _GoBack = value; NotifyChanged("GoBack"); }
 		}
 
+		Command _BarrelRoll;
+		public Command BarrelRoll
+		{
+			get { return _BarrelRoll; }
+			set { _BarrelRoll = value; NotifyChanged("BarrelRoll"); }
+		}
+
 		Command _Cancel;
 		public Command Cancel
 		{
@@ -173,6 +184,13 @@ namespace SurfaceXWing
 		{
 			get { return _FluglinienVisible; }
 			set { _FluglinienVisible = value; NotifyChanged("FluglinienVisible"); }
+		}
+
+		bool _SliderVisible;
+		public bool SliderVisible
+		{
+			get { return _SliderVisible; }
+			set { _SliderVisible = value; NotifyChanged("SliderVisible"); }
 		}
 
 		double _BackgroundOpacity = 0.1;

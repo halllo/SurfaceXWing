@@ -48,15 +48,21 @@
 
 		<TextBlock Text="{Binding Label}" FontSize="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
+		<s:SurfaceSlider VerticalAlignment="Bottom" Margin="0,0,0,-18"
+						 Visibility="{Binding SliderVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+
 		<s:ElementMenu x:Name="menu"
-				  Visibility="Collapsed"
-                  ActivationMode="AlwaysActive"
-                  HorizontalAlignment="Center" 
-                  VerticalAlignment="Center"
-				  Orientation="180">
+					   Visibility="Collapsed"
+					   ActivationMode="AlwaysActive"
+					   HorizontalAlignment="Center" 
+					   VerticalAlignment="Center"
+					   Orientation="180">
 			<s:ElementMenuItem Header="position">
 				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
 				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
+			</s:ElementMenuItem>
+			<s:ElementMenuItem Header="action">
+				<s:ElementMenuItem Header="barrel roll" Command="{Binding BarrelRoll}"/>
 			</s:ElementMenuItem>
 			<s:ElementMenuItem Header="cancel" Command="{Binding Cancel}" Visibility="{Binding Cancelable,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 		</s:ElementMenu>

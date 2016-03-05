@@ -51,14 +51,14 @@ namespace SurfaceXWing
 			var schiffsposition = (Schiffsposition)field;
 			if (schiffsposition.Move == null)
 			{
-				var move = new Move(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
+				var move = new FlugMove(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
 				{
 					von.Move = null;
 					von.Yielded -= PrepareToMove;
 					von.Occupied -= CancelMove;
 					nach.Yielded += PrepareToMove;
 					nach.Occupied += CancelMove;
-					nach.Activate(onForget: RemoveField);
+					nach.Activate(onForget: RemoveField, onBarrelRoll: BarrelRoll);
 				});
 				move.CreatePotenzielleZiele();
 				schiffsposition.Move = move;
@@ -89,7 +89,7 @@ namespace SurfaceXWing
 			_FieldsContainer.Children.Add(schiffsposition);
 			_Spielfeld.Register((IField)schiffsposition);
 
-			schiffsposition.Activate(onForget: RemoveField);
+			schiffsposition.Activate(onForget: RemoveField, onBarrelRoll: BarrelRoll);
 
 			return schiffsposition;
 		}
@@ -99,18 +99,39 @@ namespace SurfaceXWing
 			return occupant.Position.AsVector() - new Vector(43, 43);
 		}
 
-		private void RemoveField(Schiffsposition field)
+		private void RemoveField(Schiffsposition schiffsposition)
 		{
-			CancelMove(field);
+			CancelMove(schiffsposition);
 
-			field.Yielded -= PrepareToMove;
-			field.Occupied -= CancelMove;
-			_FieldsContainer.Children.Remove(field);
-			_Spielfeld.Unregister(field);
+			schiffsposition.Yielded -= PrepareToMove;
+			schiffsposition.Occupied -= CancelMove;
+			_FieldsContainer.Children.Remove(schiffsposition);
+			_Spielfeld.Unregister(schiffsposition);
+		}
+
+		private void BarrelRoll(Schiffsposition schiffsposition)
+		{
+			var occupant = schiffsposition.LastOccupant;
+			if (schiffsposition.Move != null)
+			{
+				CancelMove(schiffsposition, occupant);
+			}
+			var move = new BarrelRollMove(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
+			{
+				von.Move = null;
+				von.Yielded -= PrepareToMove;
+				von.Occupied -= CancelMove;
+				nach.Yielded += PrepareToMove;
+				nach.Occupied += CancelMove;
+				nach.Activate(onForget: RemoveField, onBarrelRoll: BarrelRoll);
+			});
+			move.CreatePotenzielleZiele();
+			schiffsposition.Move = move;
+			schiffsposition.ViewModel.AllowCancel(() => CancelMove(schiffsposition, occupant));
 		}
 	}
 
-	public class Move : IDisposable
+	public abstract class Move : IDisposable
 	{
 		FieldsView _Spielfeld;
 		Canvas _FieldsContainer;
@@ -135,105 +156,12 @@ namespace SurfaceXWing
 
 		public void CreatePotenzielleZiele()
 		{
-			var angle = _Von.OrientationAngle;
-			var position = _Von.Position.AsVector();
-
-			var gradeaus = angle.AsVector();
-			var links = (angle - 90).AsVector();
-			var rechts = (angle + 90).AsVector();
-
-
-			Enable(SchiffspositionFabrik.Neu(//1gradeaus
-				position: position + (gradeaus * 172),
-				orientation: angle,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			Enable(SchiffspositionFabrik.Neu(//1scharflinks
-				position: position + (gradeaus * 120) + (links * 120),
-				orientation: angle - 90,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			Enable(SchiffspositionFabrik.Neu(//1leichtlinks
-				position: position + (gradeaus * 202) + (links * 82),
-				orientation: angle - 45,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			Enable(SchiffspositionFabrik.Neu(//1scharfrechts
-				position: position + (gradeaus * 120) + (rechts * 120),
-				orientation: angle + 90,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			Enable(SchiffspositionFabrik.Neu(//1leichtrechts
-				position: position + (gradeaus * 202) + (rechts * 82),
-				orientation: angle + 45,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-
-			Enable(SchiffspositionFabrik.Neu(//2gradeaus
-				position: position + (gradeaus * 259),
-				orientation: angle,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
-
-			Enable(SchiffspositionFabrik.Neu(//2scharflinks
-				position: position + (gradeaus * 180) + (links * 180),
-				orientation: angle - 90,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
-
-			Enable(SchiffspositionFabrik.Neu(//2leichtlinks
-				position: position + (gradeaus * 275) + (links * 119),
-				orientation: angle - 45,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
-
-			Enable(SchiffspositionFabrik.Neu(//2scharfrechts
-				position: position + (gradeaus * 180) + (rechts * 180),
-				orientation: angle + 90,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
-
-			Enable(SchiffspositionFabrik.Neu(//2leichtrechts
-				position: position + (gradeaus * 275) + (rechts * 119),
-				orientation: angle + 45,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "2"));
-
-
-			Enable(SchiffspositionFabrik.Neu(//3gradeaus
-				position: position + (gradeaus * 346),
-				orientation: angle,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
-
-			Enable(SchiffspositionFabrik.Neu(//3scharflinks
-				position: position + (gradeaus * 240) + (links * 240),
-				orientation: angle - 90,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
-
-			Enable(SchiffspositionFabrik.Neu(//3leichtlinks
-				position: position + (gradeaus * 355) + (links * 145),
-				orientation: angle - 45,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
-
-			Enable(SchiffspositionFabrik.Neu(//3scharfrechts
-				position: position + (gradeaus * 240) + (rechts * 240),
-				orientation: angle + 90,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
-
-			Enable(SchiffspositionFabrik.Neu(//3lechtrechts
-				position: position + (gradeaus * 355) + (rechts * 145),
-				orientation: angle + 45,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "3"));
-
-
-			Enable(SchiffspositionFabrik.Neu(//4gradeaus
-				position: position + (gradeaus * 433),
-				orientation: angle,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "4"));
-
-			Enable(SchiffspositionFabrik.Neu(//5gradeaus
-				position: position + (gradeaus * 520),
-				orientation: angle,
-				color: _Von.ViewModel.Color, opacity: 0.4, label: "5"));
-
-
-			_Von.ViewModel.FluglinienVisible = true;
+			CreatePotenzielleZiele(_Von, Enable);
 		}
+
+		protected abstract void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable);
+
+		protected abstract void MovedOrCanceled(Schiffsposition von);
 
 		private void Enable(Schiffsposition potenziellesZiel)
 		{
@@ -296,7 +224,7 @@ namespace SurfaceXWing
 			}
 			_Ziele.Clear();
 
-			_Von.ViewModel.FluglinienVisible = false;
+			MovedOrCanceled(_Von);
 
 			_Spielfeld = null;
 			_FieldsContainer = null;
@@ -304,6 +232,157 @@ namespace SurfaceXWing
 			_Mover = null;
 			_Ziele = null;
 			_Moved = null;
+		}
+	}
+
+	public class FlugMove : Move
+	{
+		public FlugMove(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
+			: base(spielfeld, fieldsContainer, von, mover, moved)
+		{
+		}
+
+		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
+		{
+			var angle = von.OrientationAngle;
+			var position = von.Position.AsVector();
+
+			var gradeaus = angle.AsVector();
+			var links = (angle - 90).AsVector();
+			var rechts = (angle + 90).AsVector();
+
+
+			enable(SchiffspositionFabrik.Neu(//1gradeaus
+				position: position + (gradeaus * 172),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(SchiffspositionFabrik.Neu(//1scharflinks
+				position: position + (gradeaus * 120) + (links * 120),
+				orientation: angle - 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(SchiffspositionFabrik.Neu(//1leichtlinks
+				position: position + (gradeaus * 202) + (links * 82),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(SchiffspositionFabrik.Neu(//1scharfrechts
+				position: position + (gradeaus * 120) + (rechts * 120),
+				orientation: angle + 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(SchiffspositionFabrik.Neu(//1leichtrechts
+				position: position + (gradeaus * 202) + (rechts * 82),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+
+			enable(SchiffspositionFabrik.Neu(//2gradeaus
+				position: position + (gradeaus * 259),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(SchiffspositionFabrik.Neu(//2scharflinks
+				position: position + (gradeaus * 180) + (links * 180),
+				orientation: angle - 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(SchiffspositionFabrik.Neu(//2leichtlinks
+				position: position + (gradeaus * 275) + (links * 119),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(SchiffspositionFabrik.Neu(//2scharfrechts
+				position: position + (gradeaus * 180) + (rechts * 180),
+				orientation: angle + 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(SchiffspositionFabrik.Neu(//2leichtrechts
+				position: position + (gradeaus * 275) + (rechts * 119),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+
+			enable(SchiffspositionFabrik.Neu(//3gradeaus
+				position: position + (gradeaus * 346),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+			enable(SchiffspositionFabrik.Neu(//3scharflinks
+				position: position + (gradeaus * 240) + (links * 240),
+				orientation: angle - 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+			enable(SchiffspositionFabrik.Neu(//3leichtlinks
+				position: position + (gradeaus * 355) + (links * 145),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+			enable(SchiffspositionFabrik.Neu(//3scharfrechts
+				position: position + (gradeaus * 240) + (rechts * 240),
+				orientation: angle + 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+			enable(SchiffspositionFabrik.Neu(//3lechtrechts
+				position: position + (gradeaus * 355) + (rechts * 145),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+
+			enable(SchiffspositionFabrik.Neu(//4gradeaus
+				position: position + (gradeaus * 433),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "4"));
+
+			enable(SchiffspositionFabrik.Neu(//5gradeaus
+				position: position + (gradeaus * 520),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "5"));
+
+
+			von.ViewModel.FluglinienVisible = true;
+		}
+
+		protected override void MovedOrCanceled(Schiffsposition von)
+		{
+			von.ViewModel.FluglinienVisible = false;
+		}
+	}
+
+	public class BarrelRollMove : Move
+	{
+		public BarrelRollMove(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
+			: base(spielfeld, fieldsContainer, von, mover, moved)
+		{
+		}
+
+		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
+		{
+			var angle = von.OrientationAngle;
+			var position = von.Position.AsVector();
+
+			var gradeaus = angle.AsVector();
+			var links = (angle - 90).AsVector();
+			var rechts = (angle + 90).AsVector();
+
+
+			enable(SchiffspositionFabrik.Neu(//1links
+				position: position + (links * 172),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(SchiffspositionFabrik.Neu(//1rechts
+				position: position + (rechts * 172),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			von.ViewModel.SliderVisible = true;
+		}
+
+		protected override void MovedOrCanceled(Schiffsposition von)
+		{
+			von.ViewModel.SliderVisible = false;
 		}
 	}
 

@@ -229,6 +229,8 @@ namespace SurfaceXWing
 
 		void Yield(IFieldOccupant occupant);
 		event Action<IField, IFieldOccupant> Yielded;
+
+		IFieldOccupant LastOccupant { get; }
 	}
 
 	public interface IFieldOccupant
