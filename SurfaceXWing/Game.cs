@@ -18,6 +18,18 @@ namespace SurfaceXWing
 			_FieldsContainer = fieldsContainer;
 		}
 
+		public void Start()
+		{
+			var alteFelder = _FieldsContainer.Children.OfType<Schiffsposition>().ToList();
+			foreach (var altesFeld in alteFelder)
+			{
+				_FieldsContainer.Children.Remove(altesFeld);
+				_Spielfeld.Unregister(altesFeld);
+			}
+
+			_Spielfeld.Register(_FieldsContainer);
+		}
+
 		public void TagIntroduce(TagVisual visual)
 		{
 			_Spielfeld.Track(visual);
@@ -34,36 +46,31 @@ namespace SurfaceXWing
 			visual.ViewModel.NewPosition = null;
 		}
 
-		public void Start()
+		private Vector TopRight(IFieldOccupant occupant)
 		{
-			var alteFelder = _FieldsContainer.Children.OfType<Schiffsposition>().ToList();
-			foreach (var altesFeld in alteFelder)
-			{
-				_FieldsContainer.Children.Remove(altesFeld);
-				_Spielfeld.Unregister(altesFeld);
-			}
+			return occupant.Position.AsVector() - new Vector(43, 43);
+		}
 
-			_Spielfeld.Register(_FieldsContainer);
+		internal Schiffsposition NewField(Vector position, double orientation, Brush color)
+		{
+			var schiffsposition = SchiffspositionFabrik.Neu(position, orientation, color);
+			schiffsposition.Yielded += PrepareToMove;
+			schiffsposition.Occupied += CancelMove;
+
+			_FieldsContainer.Children.Add(schiffsposition);
+			_Spielfeld.Register((IField)schiffsposition);
+
+			schiffsposition.Activate(
+				onForget: RemoveField,
+				onForward: Forward,
+				onBarrelRoll: BarrelRoll);
+
+			return schiffsposition;
 		}
 
 		private void PrepareToMove(IField field, IFieldOccupant occupant)
 		{
-			var schiffsposition = (Schiffsposition)field;
-			if (schiffsposition.Move == null)
-			{
-				var move = new FlugMove(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
-				{
-					von.Move = null;
-					von.Yielded -= PrepareToMove;
-					von.Occupied -= CancelMove;
-					nach.Yielded += PrepareToMove;
-					nach.Occupied += CancelMove;
-					nach.Activate(onForget: RemoveField, onBarrelRoll: BarrelRoll);
-				});
-				move.CreatePotenzielleZiele();
-				schiffsposition.Move = move;
-				schiffsposition.ViewModel.AllowCancel(() => CancelMove(schiffsposition, occupant));
-			}
+			Move<ForwardMove>((Schiffsposition)field, occupant);
 		}
 
 		private void CancelMove(IField field, IFieldOccupant occupant = null)
@@ -80,25 +87,6 @@ namespace SurfaceXWing
 			}
 		}
 
-		internal Schiffsposition NewField(Vector position, double orientation, Brush color)
-		{
-			var schiffsposition = SchiffspositionFabrik.Neu(position, orientation, color);
-			schiffsposition.Yielded += PrepareToMove;
-			schiffsposition.Occupied += CancelMove;
-
-			_FieldsContainer.Children.Add(schiffsposition);
-			_Spielfeld.Register((IField)schiffsposition);
-
-			schiffsposition.Activate(onForget: RemoveField, onBarrelRoll: BarrelRoll);
-
-			return schiffsposition;
-		}
-
-		private Vector TopRight(IFieldOccupant occupant)
-		{
-			return occupant.Position.AsVector() - new Vector(43, 43);
-		}
-
 		private void RemoveField(Schiffsposition schiffsposition)
 		{
 			CancelMove(schiffsposition);
@@ -109,6 +97,16 @@ namespace SurfaceXWing
 			_Spielfeld.Unregister(schiffsposition);
 		}
 
+		private void Forward(Schiffsposition schiffsposition)
+		{
+			var occupant = schiffsposition.LastOccupant;
+			if (schiffsposition.Move != null)
+			{
+				CancelMove(schiffsposition, occupant);
+			}
+			Move<ForwardMove>(schiffsposition, occupant);
+		}
+
 		private void BarrelRoll(Schiffsposition schiffsposition)
 		{
 			var occupant = schiffsposition.LastOccupant;
@@ -116,18 +114,31 @@ namespace SurfaceXWing
 			{
 				CancelMove(schiffsposition, occupant);
 			}
-			var move = new BarrelRollMove(_Spielfeld, _FieldsContainer, schiffsposition, occupant, moved: (von, nach) =>
+			Move<BarrelRollMove>(schiffsposition, occupant);
+		}
+
+		private void Move<TMove>(Schiffsposition schiffsposition, IFieldOccupant occupant) where TMove : Move, new()
+		{
+			if (schiffsposition.Move == null)
 			{
-				von.Move = null;
-				von.Yielded -= PrepareToMove;
-				von.Occupied -= CancelMove;
-				nach.Yielded += PrepareToMove;
-				nach.Occupied += CancelMove;
-				nach.Activate(onForget: RemoveField, onBarrelRoll: BarrelRoll);
-			});
-			move.CreatePotenzielleZiele();
-			schiffsposition.Move = move;
-			schiffsposition.ViewModel.AllowCancel(() => CancelMove(schiffsposition, occupant));
+				var move = new TMove();
+				move.Init(_Spielfeld, _FieldsContainer, schiffsposition, occupant, (von, nach) =>
+				{
+					von.Move = null;
+					von.Yielded -= PrepareToMove;
+					von.Occupied -= CancelMove;
+					nach.Yielded += PrepareToMove;
+					nach.Occupied += CancelMove;
+					nach.Activate(
+						onForget: RemoveField,
+						onForward: Forward,
+						onBarrelRoll: BarrelRoll);
+
+				});
+				move.CreatePotenzielleZiele();
+				schiffsposition.Move = move;
+				schiffsposition.ViewModel.AllowCancel(() => CancelMove(schiffsposition, occupant));
+			}
 		}
 	}
 
@@ -141,7 +152,7 @@ namespace SurfaceXWing
 		List<Schiffsposition> _Ziele;
 		Action<Schiffsposition, Schiffsposition> _Moved;
 
-		public Move(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
+		public void Init(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
 		{
 			_Spielfeld = spielfeld;
 			_FieldsContainer = fieldsContainer;
@@ -235,13 +246,8 @@ namespace SurfaceXWing
 		}
 	}
 
-	public class FlugMove : Move
+	public class ForwardMove : Move
 	{
-		public FlugMove(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
-			: base(spielfeld, fieldsContainer, von, mover, moved)
-		{
-		}
-
 		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
 		{
 			var angle = von.OrientationAngle;
@@ -352,11 +358,6 @@ namespace SurfaceXWing
 
 	public class BarrelRollMove : Move
 	{
-		public BarrelRollMove(FieldsView spielfeld, Canvas fieldsContainer, Schiffsposition von, IFieldOccupant mover, Action<Schiffsposition, Schiffsposition> moved)
-			: base(spielfeld, fieldsContainer, von, mover, moved)
-		{
-		}
-
 		Schiffsposition _Links1;
 		Schiffsposition _Rechts1;
 

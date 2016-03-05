@@ -72,13 +72,18 @@ namespace SurfaceXWing
 
 		public IFieldOccupant LastOccupant { get; private set; }
 
-		public void Activate(Action<Schiffsposition> onForget, Action<Schiffsposition> onBarrelRoll)
+		public void Activate(
+			Action<Schiffsposition> onForget = null,
+			Action<Schiffsposition> onForward = null,
+			Action<Schiffsposition> onBarrelRoll = null)
 		{
 			Opacity = 1.0;
 			menu.Visibility = Visibility.Visible;
-			ViewModel.Forget = new Command(() => onForget(this));
 			ViewModel.GoBack = new Command(GoBackMethod);
-			ViewModel.BarrelRoll = new Command(() => onBarrelRoll(this));
+
+			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));
+			if (onForward != null) ViewModel.Forward = new Command(() => onForward(this));
+			if (onBarrelRoll != null) ViewModel.BarrelRoll = new Command(() => onBarrelRoll(this));
 		}
 
 		public void PositionAt(Vector position)
@@ -158,6 +163,13 @@ namespace SurfaceXWing
 		{
 			get { return _BarrelRoll; }
 			set { _BarrelRoll = value; NotifyChanged("BarrelRoll"); }
+		}
+
+		Command _Forward;
+		public Command Forward
+		{
+			get { return _Forward; }
+			set { _Forward = value; NotifyChanged("Forward"); }
 		}
 
 		Command _Cancel;

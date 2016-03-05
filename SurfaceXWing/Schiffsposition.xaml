@@ -22,10 +22,8 @@
 			<Path Stroke="White" Opacity="0.1" StrokeThickness="43" Data="M 43,0 L 43,-434"/>
 		</Canvas>
 		<Canvas>
-			<Path Stroke="White" Opacity="0.5" StrokeThickness="43" Data="M 0,43 L -86,43"
-				  Visibility="{Binding BarrelRollLinieLinksVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
-			<Path Stroke="White" Opacity="0.5" StrokeThickness="43" Data="M 86,43 L 174,43"
-				  Visibility="{Binding BarrelRollLinieRechtsVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Path Stroke="White" Opacity="0.5" StrokeThickness="43" Data="M 0,43 L -86,43" Visibility="{Binding BarrelRollLinieLinksVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Path Stroke="White" Opacity="0.5" StrokeThickness="43" Data="M 86,43 L 173,43" Visibility="{Binding BarrelRollLinieRechtsVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 		</Canvas>
 		<Canvas Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
 			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218" Stroke="{Binding Color}" Opacity="1.0"/>
@@ -70,6 +68,7 @@
 				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
 			</s:ElementMenuItem>
 			<s:ElementMenuItem Header="action">
+				<s:ElementMenuItem Header="forward" Command="{Binding Forward}"/>
 				<s:ElementMenuItem Header="barrel roll" Command="{Binding BarrelRoll}"/>
 			</s:ElementMenuItem>
 			<s:ElementMenuItem Header="cancel" Command="{Binding Cancel}" Visibility="{Binding Cancelable,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
