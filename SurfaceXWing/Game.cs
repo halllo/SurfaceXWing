@@ -359,7 +359,18 @@ namespace SurfaceXWing
 	public class BarrelRollMove : Move
 	{
 		Schiffsposition _Links1;
+		Schiffsposition _Links1SchrägVorwärtz;
+		Schiffsposition _Links1SchrägRückwärtz;
 		Schiffsposition _Rechts1;
+		Schiffsposition _Rechts1SchrägVorwärtz;
+		Schiffsposition _Rechts1SchrägRückwärtz;
+
+		Schiffsposition _Links2;
+		Schiffsposition _Links2SchrägVorwärtz;
+		Schiffsposition _Links2SchrägRückwärtz;
+		Schiffsposition _Rechts2;
+		Schiffsposition _Rechts2SchrägVorwärtz;
+		Schiffsposition _Rechts2SchrägRückwärtz;
 
 		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
 		{
@@ -367,30 +378,92 @@ namespace SurfaceXWing
 			var position = von.Position.AsVector();
 
 			var gradeaus = angle.AsVector();
+			var nachhinten = (angle + 180).AsVector();
 			var links = (angle - 90).AsVector();
 			var rechts = (angle + 90).AsVector();
 
 
-			enable(_Links1 = SchiffspositionFabrik.Neu(//1links
+			enable(_Links1 = SchiffspositionFabrik.Neu(
 				position: position + (links * 172),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			enable(_Rechts1 = SchiffspositionFabrik.Neu(//1rechts
+			enable(_Links1SchrägVorwärtz = SchiffspositionFabrik.Neu(
+				position: position + (links * 202) + (gradeaus * 82),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(_Links1SchrägRückwärtz = SchiffspositionFabrik.Neu(
+				position: position + (links * 202) + (nachhinten * 82),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(_Rechts1 = SchiffspositionFabrik.Neu(
 				position: position + (rechts * 172),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
+			enable(_Rechts1SchrägVorwärtz = SchiffspositionFabrik.Neu(
+				position: position + (rechts * 202) + (gradeaus * 82),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			_Links1.ViewModel.BarrelRollLinieRechtsVisible = true;
-			_Rechts1.ViewModel.BarrelRollLinieLinksVisible = true;
+			enable(_Rechts1SchrägRückwärtz = SchiffspositionFabrik.Neu(
+				position: position + (rechts * 202) + (nachhinten * 82),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+
+			enable(_Links2 = SchiffspositionFabrik.Neu(
+				position: position + (links * 259),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(_Links2SchrägVorwärtz = SchiffspositionFabrik.Neu(
+				position: position + (links * 275) + (gradeaus * 119),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(_Links2SchrägRückwärtz = SchiffspositionFabrik.Neu(
+				position: position + (links * 275) + (nachhinten * 119),
+				orientation: angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(_Rechts2 = SchiffspositionFabrik.Neu(
+				position: position + (rechts * 259),
+				orientation: angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(_Rechts2SchrägVorwärtz = SchiffspositionFabrik.Neu(
+				position: position + (rechts * 275) + (gradeaus * 119),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+			enable(_Rechts2SchrägRückwärtz = SchiffspositionFabrik.Neu(
+				position: position + (rechts * 275) + (nachhinten * 119),
+				orientation: angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+
+
+			_Links2.ViewModel.BarrelRollLinieRechtsVisible = true;
+			_Rechts2.ViewModel.BarrelRollLinieLinksVisible = true;
 
 			von.ViewModel.SliderVisible = true;
 			von.Slider.Value = 0;
 			von.Slider.ValueChanged += sliderValueChanged = new RoutedPropertyChangedEventHandler<double>((object o, RoutedPropertyChangedEventArgs<double> e) =>
 			{
-				_Links1.PositionAt(position + (gradeaus * e.NewValue * 4.3) + (links * 172));
-				_Rechts1.PositionAt(position + (gradeaus * e.NewValue * -4.3) + (rechts * 172));
+				_Links1.PositionAt(position + (links * 172) + (gradeaus * e.NewValue * 4.3));
+				_Links1SchrägVorwärtz.PositionAt(position + (links * 202) + (gradeaus * 82) + (gradeaus * e.NewValue * 4.3));
+				_Links1SchrägRückwärtz.PositionAt(position + (links * 202) + (nachhinten * 82) + (gradeaus * e.NewValue * 4.3));
+				_Rechts1.PositionAt(position + (rechts * 172) + (gradeaus * e.NewValue * -4.3));
+				_Rechts1SchrägVorwärtz.PositionAt(position + (rechts * 202) + (gradeaus * 82) + (gradeaus * e.NewValue * -4.3));
+				_Rechts1SchrägRückwärtz.PositionAt(position + (rechts * 202) + (nachhinten * 82) + (gradeaus * e.NewValue * -4.3));
+				_Links2.PositionAt(position + (links * 259) + (gradeaus * e.NewValue * 4.3));
+				_Links2SchrägVorwärtz.PositionAt(position + (links * 275) + (gradeaus * 119) + (gradeaus * e.NewValue * 4.3));
+				_Links2SchrägRückwärtz.PositionAt(position + (links * 275) + (nachhinten * 119) + (gradeaus * e.NewValue * 4.3));
+				_Rechts2.PositionAt(position + (rechts * 259) + (gradeaus * e.NewValue * -4.3));
+				_Rechts2SchrägVorwärtz.PositionAt(position + (rechts * 275) + (gradeaus * 119) + (gradeaus * e.NewValue * -4.3));
+				_Rechts2SchrägRückwärtz.PositionAt(position + (rechts * 275) + (nachhinten * 119) + (gradeaus * e.NewValue * -4.3));
 			});
 		}
 
@@ -401,9 +474,6 @@ namespace SurfaceXWing
 
 			von.ViewModel.SliderVisible = false;
 			von.Slider.ValueChanged -= sliderValueChanged;
-
-			_Links1 = null;
-			_Rechts1 = null;
 		}
 
 		RoutedPropertyChangedEventHandler<double> sliderValueChanged;
