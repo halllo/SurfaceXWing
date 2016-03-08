@@ -103,6 +103,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game.cs" />
+    <Compile Include="Moves.cs" />
     <Compile Include="Schiffsposition.xaml.cs">
       <DependentUpon>Schiffsposition.xaml</DependentUpon>
     </Compile>

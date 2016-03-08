@@ -76,6 +76,9 @@
     <Compile Include="..\SurfaceXWing\Game.cs">
       <Link>Game.cs</Link>
     </Compile>
+    <Compile Include="..\SurfaceXWing\Moves.cs">
+      <Link>Moves.cs</Link>
+    </Compile>
     <Compile Include="..\SurfaceXWing\Schiffsposition.xaml.cs">
       <Link>Schiffsposition.xaml.cs</Link>
     </Compile>

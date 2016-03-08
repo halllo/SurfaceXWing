@@ -204,32 +204,18 @@ namespace SurfaceXWing
 			set { _RangeIndicatorVisible = value; NotifyChanged("RangeIndicatorVisible"); }
 		}
 
-		bool _FluglinienVisible;
-		public bool FluglinienVisible
+		bool _Slider1Visible;
+		public bool Slider1Visible
 		{
-			get { return _FluglinienVisible; }
-			set { _FluglinienVisible = value; NotifyChanged("FluglinienVisible"); }
+			get { return _Slider1Visible; }
+			set { _Slider1Visible = value; NotifyChanged("Slider1Visible"); }
 		}
 
-		bool _BarrelRollLinieLinksVisible;
-		public bool BarrelRollLinieLinksVisible
+		bool _Slider2Visible;
+		public bool Slider2Visible
 		{
-			get { return _BarrelRollLinieLinksVisible; }
-			set { _BarrelRollLinieLinksVisible = value; NotifyChanged("BarrelRollLinieLinksVisible"); }
-		}
-
-		bool _BarrelRollLinieRechtsVisible;
-		public bool BarrelRollLinieRechtsVisible
-		{
-			get { return _BarrelRollLinieRechtsVisible; }
-			set { _BarrelRollLinieRechtsVisible = value; NotifyChanged("BarrelRollLinieRechtsVisible"); }
-		}
-
-		bool _SliderVisible;
-		public bool SliderVisible
-		{
-			get { return _SliderVisible; }
-			set { _SliderVisible = value; NotifyChanged("SliderVisible"); }
+			get { return _Slider2Visible; }
+			set { _Slider2Visible = value; NotifyChanged("Slider2Visible"); }
 		}
 
 		double _BackgroundOpacity = 0.1;
