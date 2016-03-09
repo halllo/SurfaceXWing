@@ -63,7 +63,8 @@ namespace SurfaceXWing
 			schiffsposition.Activate(
 				onForget: RemoveField,
 				onForward: Forward,
-				onBarrelRoll: BarrelRoll);
+				onBarrelRoll: BarrelRoll,
+				onSlide3: Slide3);
 
 			return schiffsposition;
 		}
@@ -117,6 +118,16 @@ namespace SurfaceXWing
 			Move<BarrelRollMove>(schiffsposition, occupant);
 		}
 
+		private void Slide3(Schiffsposition schiffsposition)
+		{
+			var occupant = schiffsposition.LastOccupant;
+			if (schiffsposition.Move != null)
+			{
+				CancelMove(schiffsposition, occupant);
+			}
+			Move<Slide3Move>(schiffsposition, occupant);
+		}
+
 		private void Move<TMove>(Schiffsposition schiffsposition, IFieldOccupant occupant) where TMove : Move, new()
 		{
 			if (schiffsposition.Move == null)
@@ -132,7 +143,8 @@ namespace SurfaceXWing
 					nach.Activate(
 						onForget: RemoveField,
 						onForward: Forward,
-						onBarrelRoll: BarrelRoll);
+						onBarrelRoll: BarrelRoll,
+						onSlide3: Slide3);
 
 				});
 				move.CreatePotenzielleZiele();

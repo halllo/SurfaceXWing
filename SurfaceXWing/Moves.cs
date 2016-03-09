@@ -301,4 +301,66 @@ namespace SurfaceXWing
 		RoutedPropertyChangedEventHandler<double> slider1ValueChanged;
 		RoutedPropertyChangedEventHandler<double> slider2ValueChanged;
 	}
+
+	public class Slide3Move : Move
+	{
+		double _Angle;
+		Vector _Position;
+		Vector _Gradeaus;
+		Vector _Links;
+		Vector _Rechts;
+
+		Schiffsposition _Links3;
+		Schiffsposition _Rechts3;
+
+		List<Path> _Fluglinien = new List<Path>();
+
+		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
+		{
+			_Angle = von.OrientationAngle;
+			_Position = von.Position.AsVector();
+
+			_Gradeaus = _Angle.AsVector();
+			_Links = (_Angle - 90).AsVector();
+			_Rechts = (_Angle + 90).AsVector();
+
+
+			enable(_Links3 = SchiffspositionFabrik.Neu(
+				position: _Position + (_Gradeaus * 240) + (_Links * 240),
+				orientation: _Angle - 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+			enable(_Rechts3 = SchiffspositionFabrik.Neu(
+				position: _Position + (_Gradeaus * 240) + (_Rechts * 240),
+				orientation: _Angle + 90,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+
+
+			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 196,196 0 0 0 -154,-197") });
+			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 196,196 0 0 1 240,-197") });
+			_Fluglinien.ForEach(fl => von.Canvas.Children.Add(fl));
+
+
+			von.ViewModel.Slider1Visible = true;
+			von.Slider1.Value = 0;
+			von.Slider1.ValueChanged += slider1ValueChanged = new RoutedPropertyChangedEventHandler<double>((object o, RoutedPropertyChangedEventArgs<double> e) =>
+			{
+				var targetSlide = e.NewValue * 2.2;
+
+				_Links3.PositionAt(_Position + (_Gradeaus * 240) + (_Links * 240) + (_Gradeaus * targetSlide));
+				_Rechts3.PositionAt(_Position + (_Gradeaus * 240) + (_Rechts * 240) + (_Gradeaus * targetSlide * -1));
+			});
+		}
+
+		protected override void MovedOrCanceled(Schiffsposition von)
+		{
+			_Fluglinien.ForEach(fl => von.Canvas.Children.Remove(fl));
+			_Fluglinien.Clear();
+
+			von.ViewModel.Slider1Visible = false;
+			von.Slider1.ValueChanged -= slider1ValueChanged;
+		}
+
+		RoutedPropertyChangedEventHandler<double> slider1ValueChanged;
+	}
 }

@@ -75,7 +75,8 @@ namespace SurfaceXWing
 		public void Activate(
 			Action<Schiffsposition> onForget = null,
 			Action<Schiffsposition> onForward = null,
-			Action<Schiffsposition> onBarrelRoll = null)
+			Action<Schiffsposition> onBarrelRoll = null,
+			Action<Schiffsposition> onSlide3 = null)
 		{
 			Opacity = 1.0;
 			menu.Visibility = Visibility.Visible;
@@ -84,6 +85,7 @@ namespace SurfaceXWing
 			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));
 			if (onForward != null) ViewModel.Forward = new Command(() => onForward(this));
 			if (onBarrelRoll != null) ViewModel.BarrelRoll = new Command(() => onBarrelRoll(this));
+			if (onSlide3 != null) ViewModel.Slide3 = new Command(() => onSlide3(this));
 		}
 
 		public void PositionAt(Vector position)
@@ -163,6 +165,13 @@ namespace SurfaceXWing
 		{
 			get { return _BarrelRoll; }
 			set { _BarrelRoll = value; NotifyChanged("BarrelRoll"); }
+		}
+
+		Command _Slide3;
+		public Command Slide3
+		{
+			get { return _Slide3; }
+			set { _Slide3 = value; NotifyChanged("Slide3"); }
 		}
 
 		Command _Forward;
