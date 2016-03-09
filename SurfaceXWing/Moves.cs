@@ -134,6 +134,13 @@ namespace SurfaceXWing
 
 	public class BarrelRollMove : Move
 	{
+		double _Angle;
+		Vector _Position;
+		Vector _Gradeaus;
+		Vector _Nachhinten;
+		Vector _Links;
+		Vector _Rechts;
+
 		Schiffsposition _Links1;
 		Schiffsposition _Links1SchrägVorwärtz;
 		Schiffsposition _Links1SchrägRückwärtz;
@@ -148,120 +155,141 @@ namespace SurfaceXWing
 		Schiffsposition _Rechts2SchrägVorwärtz;
 		Schiffsposition _Rechts2SchrägRückwärtz;
 
-		Path _LinksGrade;
-		Path _RechtsGrade;
+		List<Path> _FluglinienLinks = new List<Path>();
+		List<Path> _FluglinienRechts = new List<Path>();
 
 		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
 		{
-			var angle = von.OrientationAngle;
-			var position = von.Position.AsVector();
+			_Angle = von.OrientationAngle;
+			_Position = von.Position.AsVector();
 
-			var gradeaus = angle.AsVector();
-			var nachhinten = (angle + 180).AsVector();
-			var links = (angle - 90).AsVector();
-			var rechts = (angle + 90).AsVector();
+			_Gradeaus = _Angle.AsVector();
+			_Nachhinten = (_Angle + 180).AsVector();
+			_Links = (_Angle - 90).AsVector();
+			_Rechts = (_Angle + 90).AsVector();
 
 
 			enable(_Links1 = SchiffspositionFabrik.Neu(
-				position: position + (links * 172),
-				orientation: angle,
+				position: _Position + (_Links * 172),
+				orientation: _Angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 			enable(_Links1SchrägVorwärtz = SchiffspositionFabrik.Neu(
-				position: position + (links * 202) + (gradeaus * 82),
-				orientation: angle + 45,
+				position: _Position + (_Links * 202) + (_Gradeaus * 82),
+				orientation: _Angle + 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 			enable(_Links1SchrägRückwärtz = SchiffspositionFabrik.Neu(
-				position: position + (links * 202) + (nachhinten * 82),
-				orientation: angle - 45,
+				position: _Position + (_Links * 202) + (_Nachhinten * 82),
+				orientation: _Angle - 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			enable(_Rechts1 = SchiffspositionFabrik.Neu(
-				position: position + (rechts * 172),
-				orientation: angle,
-				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			enable(_Rechts1SchrägVorwärtz = SchiffspositionFabrik.Neu(
-				position: position + (rechts * 202) + (gradeaus * 82),
-				orientation: angle - 45,
-				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
-
-			enable(_Rechts1SchrägRückwärtz = SchiffspositionFabrik.Neu(
-				position: position + (rechts * 202) + (nachhinten * 82),
-				orientation: angle + 45,
-				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
-
 
 			enable(_Links2 = SchiffspositionFabrik.Neu(
-				position: position + (links * 259),
-				orientation: angle,
+				position: _Position + (_Links * 259),
+				orientation: _Angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			enable(_Links2SchrägVorwärtz = SchiffspositionFabrik.Neu(
-				position: position + (links * 275) + (gradeaus * 119),
-				orientation: angle + 45,
+				position: _Position + (_Links * 275) + (_Gradeaus * 119),
+				orientation: _Angle + 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			enable(_Links2SchrägRückwärtz = SchiffspositionFabrik.Neu(
-				position: position + (links * 275) + (nachhinten * 119),
-				orientation: angle - 45,
+				position: _Position + (_Links * 275) + (_Nachhinten * 119),
+				orientation: _Angle - 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
+
+			enable(_Rechts1 = SchiffspositionFabrik.Neu(
+				position: _Position + (_Rechts * 172),
+				orientation: _Angle,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(_Rechts1SchrägVorwärtz = SchiffspositionFabrik.Neu(
+				position: _Position + (_Rechts * 202) + (_Gradeaus * 82),
+				orientation: _Angle - 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
+			enable(_Rechts1SchrägRückwärtz = SchiffspositionFabrik.Neu(
+				position: _Position + (_Rechts * 202) + (_Nachhinten * 82),
+				orientation: _Angle + 45,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+
 			enable(_Rechts2 = SchiffspositionFabrik.Neu(
-				position: position + (rechts * 259),
-				orientation: angle,
+				position: _Position + (_Rechts * 259),
+				orientation: _Angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			enable(_Rechts2SchrägVorwärtz = SchiffspositionFabrik.Neu(
-				position: position + (rechts * 275) + (gradeaus * 119),
-				orientation: angle - 45,
+				position: _Position + (_Rechts * 275) + (_Gradeaus * 119),
+				orientation: _Angle - 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 			enable(_Rechts2SchrägRückwärtz = SchiffspositionFabrik.Neu(
-				position: position + (rechts * 275) + (nachhinten * 119),
-				orientation: angle + 45,
+				position: _Position + (_Rechts * 275) + (_Nachhinten * 119),
+				orientation: _Angle + 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 
-			von.Canvas.Children.Add(_LinksGrade = new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 0,43 L -172,43") });
-			von.Canvas.Children.Add(_RechtsGrade = new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 86,43 L 258,43") });
+			_FluglinienLinks.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 0,43 L -172,43") });
+			_FluglinienLinks.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 0,43 A 168,168 0 0 1 -131,-6") });
+			_FluglinienLinks.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 0,43 A 168,168 0 0 0 -131,92") });
+			_FluglinienLinks.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 0,43 A 300,300 0 0 1 -201,-46") });
+			_FluglinienLinks.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 0,43 A 300,300 0 0 0 -201,132") });
+			_FluglinienLinks.ForEach(fl => von.Canvas.Children.Add(fl));
+
+			_FluglinienRechts.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 86,43 L 258,43") });
+			_FluglinienRechts.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 86,43 A 168,168 0 0 0 217,-6") });
+			_FluglinienRechts.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 86,43 A 168,168 0 0 1 217,92") });
+			_FluglinienRechts.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 86,43 A 300,300 0 0 0 287,-46") });
+			_FluglinienRechts.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 86,43 A 300,300 0 0 1 287,132") });
+			_FluglinienRechts.ForEach(fl => von.Canvas.Children.Add(fl));
 
 
-			//TODO: slider2
 			von.ViewModel.Slider1Visible = true;
 			von.Slider1.Value = 0;
 			von.Slider1.ValueChanged += slider1ValueChanged = new RoutedPropertyChangedEventHandler<double>((object o, RoutedPropertyChangedEventArgs<double> e) =>
 			{
-				var value = e.NewValue;
-				_Links1.PositionAt(position + (links * 172) + (gradeaus * value * 4.3));
-				_Links1SchrägVorwärtz.PositionAt(position + (links * 202) + (gradeaus * 82) + (gradeaus * value * 4.3));
-				_Links1SchrägRückwärtz.PositionAt(position + (links * 202) + (nachhinten * 82) + (gradeaus * value * 4.3));
-				_Rechts1.PositionAt(position + (rechts * 172) + (gradeaus * value * -4.3));
-				_Rechts1SchrägVorwärtz.PositionAt(position + (rechts * 202) + (gradeaus * 82) + (gradeaus * value * -4.3));
-				_Rechts1SchrägRückwärtz.PositionAt(position + (rechts * 202) + (nachhinten * 82) + (gradeaus * value * -4.3));
-				_Links2.PositionAt(position + (links * 259) + (gradeaus * value * 4.3));
-				_Links2SchrägVorwärtz.PositionAt(position + (links * 275) + (gradeaus * 119) + (gradeaus * value * 4.3));
-				_Links2SchrägRückwärtz.PositionAt(position + (links * 275) + (nachhinten * 119) + (gradeaus * value * 4.3));
-				_Rechts2.PositionAt(position + (rechts * 259) + (gradeaus * value * -4.3));
-				_Rechts2SchrägVorwärtz.PositionAt(position + (rechts * 275) + (gradeaus * 119) + (gradeaus * value * -4.3));
-				_Rechts2SchrägRückwärtz.PositionAt(position + (rechts * 275) + (nachhinten * 119) + (gradeaus * value * -4.3));
+				Slide(von.Slider1.Value, von.Slider2.Value);
 			});
 
 			von.ViewModel.Slider2Visible = true;
 			von.Slider2.Value = 0;
 			von.Slider2.ValueChanged += slider2ValueChanged = new RoutedPropertyChangedEventHandler<double>((object o, RoutedPropertyChangedEventArgs<double> e) =>
 			{
-				var value = e.NewValue;
-				_Links1SchrägVorwärtz.ViewModel.Label = value.ToString();
-				_Links1SchrägRückwärtz.ViewModel.Label = value.ToString();
+				Slide(von.Slider1.Value, von.Slider2.Value);
 			});
+		}
+
+		private void Slide(double slide1, double slide2)
+		{
+			var sourceSlide = slide1 * 2.2;
+			var targetSlide = slide2 * 2.2;
+
+			_FluglinienLinks.ForEach(fl => fl.SetValue(System.Windows.Controls.Canvas.TopProperty, sourceSlide * -1));
+			_FluglinienRechts.ForEach(fl => fl.SetValue(System.Windows.Controls.Canvas.TopProperty, sourceSlide));
+
+			_Links1.PositionAt(_Position + (_Links * 172) + (_Gradeaus * sourceSlide) + (_Gradeaus * targetSlide));
+			_Links1SchrägVorwärtz.PositionAt(_Position + (_Links * 202) + (_Gradeaus * 82) + (_Gradeaus * sourceSlide) + ((_Angle + 45).AsVector() * targetSlide));
+			_Links1SchrägRückwärtz.PositionAt(_Position + (_Links * 202) + (_Nachhinten * 82) + (_Gradeaus * sourceSlide) + ((_Angle - 45).AsVector() * targetSlide));
+			_Links2.PositionAt(_Position + (_Links * 259) + (_Gradeaus * sourceSlide) + (_Gradeaus * targetSlide));
+			_Links2SchrägVorwärtz.PositionAt(_Position + (_Links * 275) + (_Gradeaus * 119) + (_Gradeaus * sourceSlide) + ((_Angle + 45).AsVector() * targetSlide));
+			_Links2SchrägRückwärtz.PositionAt(_Position + (_Links * 275) + (_Nachhinten * 119) + (_Gradeaus * sourceSlide) + ((_Angle - 45).AsVector() * targetSlide));
+
+			_Rechts1.PositionAt(_Position + (_Rechts * 172) + (_Gradeaus * sourceSlide * -1) + (_Gradeaus * targetSlide * -1));
+			_Rechts1SchrägVorwärtz.PositionAt(_Position + (_Rechts * 202) + (_Gradeaus * 82) + (_Gradeaus * sourceSlide * -1) + ((_Angle - 45).AsVector() * targetSlide * -1));
+			_Rechts1SchrägRückwärtz.PositionAt(_Position + (_Rechts * 202) + (_Nachhinten * 82) + (_Gradeaus * sourceSlide * -1) + ((_Angle + 45).AsVector() * targetSlide * -1));
+			_Rechts2.PositionAt(_Position + (_Rechts * 259) + (_Gradeaus * sourceSlide * -1) + (_Gradeaus * targetSlide * -1));
+			_Rechts2SchrägVorwärtz.PositionAt(_Position + (_Rechts * 275) + (_Gradeaus * 119) + (_Gradeaus * sourceSlide * -1) + ((_Angle - 45).AsVector() * targetSlide * -1));
+			_Rechts2SchrägRückwärtz.PositionAt(_Position + (_Rechts * 275) + (_Nachhinten * 119) + (_Gradeaus * sourceSlide * -1) + ((_Angle + 45).AsVector() * targetSlide * -1));
 		}
 
 		protected override void MovedOrCanceled(Schiffsposition von)
 		{
-			von.Canvas.Children.Remove(_LinksGrade);
-			von.Canvas.Children.Remove(_RechtsGrade);
+			_FluglinienLinks.ForEach(fl => von.Canvas.Children.Remove(fl));
+			_FluglinienLinks.Clear();
+			_FluglinienRechts.ForEach(fl => von.Canvas.Children.Remove(fl));
+			_FluglinienRechts.Clear();
 
 			von.ViewModel.Slider1Visible = false;
 			von.Slider1.ValueChanged -= slider1ValueChanged;
