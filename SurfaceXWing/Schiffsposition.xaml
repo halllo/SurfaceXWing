@@ -50,7 +50,7 @@
 					   ActivationMode="AlwaysActive"
 					   HorizontalAlignment="Center" 
 					   VerticalAlignment="Center"
-					   Orientation="180">
+					   Orientation="{Binding MenuOrientation}">
 			<s:ElementMenuItem Header="position">
 				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
 				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>

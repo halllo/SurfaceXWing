@@ -210,7 +210,11 @@ namespace SurfaceXWing
 		public bool RangeIndicatorVisible
 		{
 			get { return _RangeIndicatorVisible; }
-			set { _RangeIndicatorVisible = value; NotifyChanged("RangeIndicatorVisible"); }
+			set
+			{
+				_RangeIndicatorVisible = value; NotifyChanged("RangeIndicatorVisible");
+				MenuOrientation = (MenuOrientation + 90) % 360;
+			}
 		}
 
 		bool _Slider1Visible;
@@ -239,6 +243,13 @@ namespace SurfaceXWing
 		{
 			get { return _Label; }
 			set { _Label = value; NotifyChanged("Label"); }
+		}
+
+		int _MenuOrientation = 180;
+		public int MenuOrientation
+		{
+			get { return _MenuOrientation; }
+			set { _MenuOrientation = value; NotifyChanged("MenuOrientation"); }
 		}
 
 		public void UpdateState(IField field)
