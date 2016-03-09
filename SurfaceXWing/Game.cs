@@ -188,6 +188,7 @@ namespace SurfaceXWing
 
 		private void Enable(Schiffsposition potenziellesZiel)
 		{
+			potenziellesZiel.SetValue(Canvas.ZIndexProperty, -1);
 			_Ziele.Add(potenziellesZiel);
 			_FieldsContainer.Children.Add(potenziellesZiel);
 			_Spielfeld.Register((IField)potenziellesZiel);
@@ -203,6 +204,7 @@ namespace SurfaceXWing
 				_Spielfeld.Unregister(_Von);
 
 				var neueSchiffsposition = (Schiffsposition)field;
+				neueSchiffsposition.SetValue(Canvas.ZIndexProperty, 1);
 
 				var von = _Von;
 				var moved = _Moved;
