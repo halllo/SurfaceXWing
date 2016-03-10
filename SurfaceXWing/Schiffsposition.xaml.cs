@@ -45,6 +45,11 @@ namespace SurfaceXWing
 			return ViewModel.FieldOccupants.ContainsKey(occupant);
 		}
 
+		public string AllowedOccupantId { get; set; }
+		public bool CanOccupy(IFieldOccupant occupant)
+		{
+			return occupant.Id == AllowedOccupantId;
+		}
 		public void Occupy(IFieldOccupant occupant)
 		{
 			ViewModel.FieldOccupants.TryAdd(occupant, byte.MinValue);

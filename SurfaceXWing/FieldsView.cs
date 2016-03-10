@@ -95,7 +95,10 @@ namespace SurfaceGameBasics
 						{
 							if (!field.Key.IsOccupiedBy(occupant))
 							{
-								field.Key.Occupy(occupant);
+								if (field.Key.CanOccupy(occupant))
+								{
+									field.Key.Occupy(occupant);
+								}
 							}
 							else
 							{
@@ -227,6 +230,7 @@ namespace SurfaceGameBasics
 		event Action<IField> PositionChanged;
 
 		bool IsOccupiedBy(IFieldOccupant occupant);
+		bool CanOccupy(IFieldOccupant occupant);
 
 		void Occupy(IFieldOccupant occupant);
 		event Action<IField, IFieldOccupant> Occupied;

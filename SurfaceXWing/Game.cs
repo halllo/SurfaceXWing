@@ -34,11 +34,15 @@ namespace SurfaceXWing
 		public void TagIntroduce(TagVisual visual)
 		{
 			_Spielfeld.Track(visual);
-			visual.ViewModel.NewPosition = new Command(() => NewField(
-				position: TopRight(visual),
-				orientation: visual.OrientationAngle,
-				color: visual.ViewModel.TacticleColor
-			));
+			visual.ViewModel.NewPosition = new Command(() =>
+			{
+				var neueSchiffsposition = NewField(
+					position: TopRight(visual),
+					orientation: visual.OrientationAngle,
+					color: visual.ViewModel.TacticleColor
+				);
+				neueSchiffsposition.AllowedOccupantId = ((IFieldOccupant)visual).Id;
+			});
 		}
 
 		public void TagDismiss(TagVisual visual)
@@ -195,6 +199,7 @@ namespace SurfaceXWing
 			_Spielfeld.Register((IField)potenziellesZiel);
 
 			potenziellesZiel.Occupied += ZielOccupied;
+			potenziellesZiel.AllowedOccupantId = _Mover.Id;
 		}
 
 		private void ZielOccupied(IField field, IFieldOccupant occupant)
