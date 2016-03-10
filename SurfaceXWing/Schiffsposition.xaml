@@ -55,7 +55,7 @@
 				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
 				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
 			</s:ElementMenuItem>
-			<s:ElementMenuItem Header="action">
+			<s:ElementMenuItem Header="move">
 				<s:ElementMenuItem Header="forward" Command="{Binding Forward}"/>
 				<s:ElementMenuItem Header="barrel roll" Command="{Binding BarrelRoll}"/>
 				<s:ElementMenuItem Header="slide3" Command="{Binding Slide3}"/>

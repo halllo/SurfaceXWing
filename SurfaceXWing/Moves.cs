@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SurfaceGameBasics;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
@@ -327,12 +328,12 @@ namespace SurfaceXWing
 
 			enable(_Links3 = SchiffspositionFabrik.Neu(
 				position: _Position + (_Gradeaus * 240) + (_Links * 240),
-				orientation: _Angle - 90,
+				orientation: _Angle - 180,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 			enable(_Rechts3 = SchiffspositionFabrik.Neu(
 				position: _Position + (_Gradeaus * 240) + (_Rechts * 240),
-				orientation: _Angle + 90,
+				orientation: _Angle + 180,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 

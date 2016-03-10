@@ -1,4 +1,5 @@
 ﻿using Microsoft.Surface.Presentation.Input;
+using SurfaceGameBasics;
 using System;
 using System.Windows;
 using System.Windows.Media;

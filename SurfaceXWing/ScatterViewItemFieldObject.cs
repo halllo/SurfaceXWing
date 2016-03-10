@@ -1,4 +1,5 @@
 ﻿using Microsoft.Surface.Presentation.Controls;
+using SurfaceGameBasics;
 using System.Windows;
 
 namespace SurfaceXWing

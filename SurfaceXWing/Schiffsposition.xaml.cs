@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SurfaceGameBasics;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Windows;
@@ -213,7 +214,7 @@ namespace SurfaceXWing
 			set
 			{
 				_RangeIndicatorVisible = value; NotifyChanged("RangeIndicatorVisible");
-				MenuOrientation = (MenuOrientation + 90) % 360;
+				MenuOrientation = (MenuOrientation + 90) % 360;//nur vorpbergehend, bis die app die funktionen auch erlaubt.
 			}
 		}
 
