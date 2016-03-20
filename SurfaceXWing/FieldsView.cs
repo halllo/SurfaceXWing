@@ -135,10 +135,10 @@ namespace SurfaceGameBasics
 		{
 			var containerSize = new Vector(ActualWidth, ActualHeight);
 			var fieldsContainerSize = new Vector(_fieldsContainer.ActualWidth, _fieldsContainer.ActualHeight);
-			var fieldsContainerTopRight = (containerSize - fieldsContainerSize) / 2.0;
+			var fieldsContainerTopLeft = (containerSize - fieldsContainerSize) / 2.0;
 
-			var fieldTopRight = fieldsContainerTopRight + field.Position.AsVector();
-			var fieldCenter = fieldTopRight + field.Size / 2.0;
+			var fieldTopLeft = fieldsContainerTopLeft + field.Position.AsVector();
+			var fieldCenter = fieldTopLeft + field.Size / 2.0;
 
 			return fieldCenter;
 		}

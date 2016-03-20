@@ -73,8 +73,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\SurfaceXWing\Asteroid.xaml.cs">
-      <Link>Asteroid.xaml.cs</Link>
+    <Compile Include="..\SurfaceXWing\EnvironmentBuilder.xaml.cs">
+      <Link>EnvironmentBuilder.xaml.cs</Link>
     </Compile>
     <Compile Include="..\SurfaceXWing\Game.cs">
       <Link>Game.cs</Link>
@@ -82,8 +82,14 @@
     <Compile Include="..\SurfaceXWing\Moves.cs">
       <Link>Moves.cs</Link>
     </Compile>
+    <Compile Include="..\SurfaceXWing\Obstacle.xaml.cs">
+      <Link>Obstacle.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\SurfaceXWing\Schiffsposition.xaml.cs">
       <Link>Schiffsposition.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\SurfaceXWing\SchiffspositionMenu.xaml.cs">
+      <Link>SchiffspositionMenu.xaml.cs</Link>
     </Compile>
     <Compile Include="..\SurfaceXWing\Spielfeld.xaml.cs">
       <Link>Spielfeld.xaml.cs</Link>
@@ -92,8 +98,13 @@
       <Link>TrueVisibleFalseCollapsed.cs</Link>
     </Compile>
     <Compile Include="TestTagVisual.cs" />
-    <Page Include="..\SurfaceXWing\Asteroid.xaml">
-      <Link>Asteroid.xaml</Link>
+    <Page Include="..\SurfaceXWing\EnvironmentBuilder.xaml">
+      <Link>EnvironmentBuilder.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\SurfaceXWing\Obstacle.xaml">
+      <Link>Obstacle.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -104,6 +115,11 @@
     </Page>
     <Page Include="..\SurfaceXWing\Schiffsposition.xaml">
       <Link>Schiffsposition.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\SurfaceXWing\SchiffspositionMenu.xaml">
+      <Link>SchiffspositionMenu.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -160,6 +176,11 @@
   <ItemGroup>
     <Resource Include="..\SurfaceXWing\asteroids.png">
       <Link>asteroids.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\SurfaceXWing\debris.png">
+      <Link>debris.png</Link>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

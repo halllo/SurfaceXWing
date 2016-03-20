@@ -37,7 +37,7 @@ namespace SurfaceXWing
 			visual.ViewModel.NewPosition = new Command(() =>
 			{
 				var neueSchiffsposition = NewField(
-					position: TopRight(visual),
+					position: TopLeft(visual),
 					orientation: visual.OrientationAngle,
 					color: visual.ViewModel.TacticleColor
 				);
@@ -51,7 +51,7 @@ namespace SurfaceXWing
 			visual.ViewModel.NewPosition = null;
 		}
 
-		private Vector TopRight(IFieldOccupant occupant)
+		private Vector TopLeft(IFieldOccupant occupant)
 		{
 			return occupant.Position.AsVector() - new Vector(43, 43);
 		}

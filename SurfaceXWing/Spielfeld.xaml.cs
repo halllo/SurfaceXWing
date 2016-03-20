@@ -18,6 +18,9 @@ namespace SurfaceXWing
 		{
 			centerText.Text = "(" + ActualWidth + ", " + ActualHeight + ")";
 
+
+			environmentBuilder.ViewModel.Setup(this, fieldsContainer);
+
 			_Spiel = new Game(this, fieldsContainer);
 			_Spiel.Start();
 

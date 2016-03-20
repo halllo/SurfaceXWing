@@ -1,8 +1,8 @@
 ﻿namespace SurfaceXWing
 {
-	public partial class Asteroid
+	public partial class Obstacle
 	{
-		public Asteroid()
+		public Obstacle()
 		{
 			InitializeComponent();
 		}

@@ -87,6 +87,7 @@ namespace SurfaceXWing
 			Opacity = 1.0;
 			menu1.Visibility = Visibility.Visible;
 			menu2.Visibility = Visibility.Visible;
+			menu3.Visibility = Visibility.Visible;
 			ViewModel.GoBack = new Command(GoBackMethod);
 
 			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));

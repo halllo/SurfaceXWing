@@ -46,44 +46,27 @@
 						 Visibility="{Binding Slider2Visible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 
 
-		<s:ElementMenu x:Name="menu1"
+		<local:SchiffspositionMenu x:Name="menu1"
 					   Visibility="Collapsed"
 					   ActivationMode="HostInteraction"
 					   ActivationHost="{Binding ElementName=Grid}"
 					   HorizontalAlignment="Right" 
 					   VerticalAlignment="Bottom"
-					   Orientation="135">
-			<s:ElementMenuItem Header="position">
-				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
-				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
-				<s:ElementMenuItem Header="range" Command="{Binding Range}"/>
-			</s:ElementMenuItem>
-			<s:ElementMenuItem Header="move">
-				<s:ElementMenuItem Header="forward" Command="{Binding Forward}"/>
-				<s:ElementMenuItem Header="barrel roll" Command="{Binding BarrelRoll}"/>
-				<s:ElementMenuItem Header="slide3" Command="{Binding Slide3}"/>
-			</s:ElementMenuItem>
-			<s:ElementMenuItem Header="cancel" Command="{Binding Cancel}" Visibility="{Binding Cancelable,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
-		</s:ElementMenu>
-		<s:ElementMenu x:Name="menu2"
+					   Orientation="135"/>
+		<local:SchiffspositionMenu x:Name="menu2"
 					   Visibility="Collapsed"
 					   ActivationMode="HostInteraction"
 					   ActivationHost="{Binding ElementName=Grid}"
 					   HorizontalAlignment="Left" 
 					   VerticalAlignment="Bottom"
-					   Orientation="-135">
-			<s:ElementMenuItem Header="position">
-				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
-				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
-				<s:ElementMenuItem Header="range" Command="{Binding Range}"/>
-			</s:ElementMenuItem>
-			<s:ElementMenuItem Header="move">
-				<s:ElementMenuItem Header="forward" Command="{Binding Forward}"/>
-				<s:ElementMenuItem Header="barrel roll" Command="{Binding BarrelRoll}"/>
-				<s:ElementMenuItem Header="slide3" Command="{Binding Slide3}"/>
-			</s:ElementMenuItem>
-			<s:ElementMenuItem Header="cancel" Command="{Binding Cancel}" Visibility="{Binding Cancelable,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
-		</s:ElementMenu>
-
+					   Orientation="-135"/>
+		<local:SchiffspositionMenu x:Name="menu3"
+					   Visibility="Collapsed"
+					   ActivationMode="HostInteraction"
+					   ActivationHost="{Binding ElementName=Grid}"
+					   HorizontalAlignment="Right" 
+					   VerticalAlignment="Top"
+					   Orientation="45"/>
+		
 	</Grid>
 </UserControl>

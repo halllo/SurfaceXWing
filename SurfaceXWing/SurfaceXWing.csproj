@@ -77,7 +77,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Asteroid.xaml">
+    <Page Include="EnvironmentBuilder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Obstacle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -86,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Schiffsposition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchiffspositionMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,13 +114,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Asteroid.xaml.cs">
-      <DependentUpon>Asteroid.xaml</DependentUpon>
+    <Compile Include="EnvironmentBuilder.xaml.cs">
+      <DependentUpon>EnvironmentBuilder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="Moves.cs" />
+    <Compile Include="Obstacle.xaml.cs">
+      <DependentUpon>Obstacle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Schiffsposition.xaml.cs">
       <DependentUpon>Schiffsposition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchiffspositionMenu.xaml.cs">
+      <DependentUpon>SchiffspositionMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Spielfeld.xaml.cs">
       <DependentUpon>Spielfeld.xaml</DependentUpon>
@@ -150,6 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="asteroids.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="debris.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
