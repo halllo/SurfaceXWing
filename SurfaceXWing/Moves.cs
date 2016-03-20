@@ -109,11 +109,8 @@ namespace SurfaceXWing
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "5"));
 
-
 			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 77,77 0 0 0 -34,-77") });
 			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 77,77 0 0 1 120,-77") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 168,168 0 0 0 -6,-131") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 168,168 0 0 1 92,-131") });
 			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 137,137 0 0 0 -94,-137") });
 			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 137,137 0 0 1 180,-137") });
 			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 300,300 0 0 0 -46,-201") });
