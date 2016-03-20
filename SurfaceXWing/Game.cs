@@ -56,11 +56,12 @@ namespace SurfaceXWing
 			return occupant.Position.AsVector() - new Vector(43, 43);
 		}
 
-		internal Schiffsposition NewField(Vector position, double orientation, Brush color)
+		private Schiffsposition NewField(Vector position, double orientation, Brush color)
 		{
 			var schiffsposition = SchiffspositionFabrik.Neu(position, orientation, color);
 			schiffsposition.Yielded += PrepareToMove;
 			schiffsposition.Occupied += CancelMove;
+			schiffsposition.SetValue(Canvas.ZIndexProperty, 1);
 
 			_FieldsContainer.Children.Add(schiffsposition);
 			_Spielfeld.Register((IField)schiffsposition);
@@ -193,7 +194,7 @@ namespace SurfaceXWing
 
 		private void Enable(Schiffsposition potenziellesZiel)
 		{
-			potenziellesZiel.SetValue(Canvas.ZIndexProperty, -1);
+			potenziellesZiel.SetValue(Canvas.ZIndexProperty, 2);
 			_Ziele.Add(potenziellesZiel);
 			_FieldsContainer.Children.Add(potenziellesZiel);
 			_Spielfeld.Register((IField)potenziellesZiel);
