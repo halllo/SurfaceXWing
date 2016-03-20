@@ -73,6 +73,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\SurfaceXWing\Asteroid.xaml.cs">
+      <Link>Asteroid.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\SurfaceXWing\Game.cs">
       <Link>Game.cs</Link>
     </Compile>
@@ -89,6 +92,11 @@
       <Link>TrueVisibleFalseCollapsed.cs</Link>
     </Compile>
     <Compile Include="TestTagVisual.cs" />
+    <Page Include="..\SurfaceXWing\Asteroid.xaml">
+      <Link>Asteroid.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\SurfaceXWing\Resources.xaml">
       <Link>Resources.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +156,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\SurfaceXWing\asteroids.png">
+      <Link>asteroids.png</Link>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
