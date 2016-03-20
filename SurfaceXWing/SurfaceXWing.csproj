@@ -44,7 +44,8 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ControlsBox.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Surface">
@@ -158,9 +159,6 @@
     <None Include="InstalledAppInfo\appIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ControlsBox.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="asteroids.png" />
