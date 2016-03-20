@@ -5,7 +5,7 @@
 			 xmlns:local="clr-namespace:SurfaceXWing"
 			 Background="{Binding Color}"
 			 Height="86" Width="86">
-	<Grid>
+	<Grid x:Name="Grid">
 		<Canvas x:Name="Canvas" x:FieldModifier="public">
 			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218" Stroke="{Binding Color}" Opacity="1.0"								Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 			<Border Width="261" Height="261" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0"		Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
@@ -30,7 +30,8 @@
 		<Rectangle Fill="Black" Margin="2" Opacity="{Binding BackgroundOpacity}"/>
 
 
-		<s:SurfaceCheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="range" IsChecked="{Binding RangeIndicatorVisible}"/>
+		<s:SurfaceCheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-25,0,0"
+						   Content="range" Foreground="Gray" IsChecked="{Binding RangeIndicatorVisible}"/>
 
 		<TextBlock Text="{Binding Label}" FontSize="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
@@ -45,15 +46,36 @@
 						 Visibility="{Binding Slider2Visible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 
 
-		<s:ElementMenu x:Name="menu"
+		<s:ElementMenu x:Name="menu1"
 					   Visibility="Collapsed"
-					   ActivationMode="AlwaysActive"
-					   HorizontalAlignment="Center" 
-					   VerticalAlignment="Center"
-					   Orientation="{Binding MenuOrientation}">
+					   ActivationMode="HostInteraction"
+					   ActivationHost="{Binding ElementName=Grid}"
+					   HorizontalAlignment="Right" 
+					   VerticalAlignment="Bottom"
+					   Orientation="135">
 			<s:ElementMenuItem Header="position">
 				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
 				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
+				<s:ElementMenuItem Header="range" Command="{Binding Range}"/>
+			</s:ElementMenuItem>
+			<s:ElementMenuItem Header="move">
+				<s:ElementMenuItem Header="forward" Command="{Binding Forward}"/>
+				<s:ElementMenuItem Header="barrel roll" Command="{Binding BarrelRoll}"/>
+				<s:ElementMenuItem Header="slide3" Command="{Binding Slide3}"/>
+			</s:ElementMenuItem>
+			<s:ElementMenuItem Header="cancel" Command="{Binding Cancel}" Visibility="{Binding Cancelable,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+		</s:ElementMenu>
+		<s:ElementMenu x:Name="menu2"
+					   Visibility="Collapsed"
+					   ActivationMode="HostInteraction"
+					   ActivationHost="{Binding ElementName=Grid}"
+					   HorizontalAlignment="Left" 
+					   VerticalAlignment="Bottom"
+					   Orientation="-135">
+			<s:ElementMenuItem Header="position">
+				<s:ElementMenuItem Header="go back" Command="{Binding GoBack}"/>
+				<s:ElementMenuItem Header="forget" Command="{Binding Forget}"/>
+				<s:ElementMenuItem Header="range" Command="{Binding Range}"/>
 			</s:ElementMenuItem>
 			<s:ElementMenuItem Header="move">
 				<s:ElementMenuItem Header="forward" Command="{Binding Forward}"/>

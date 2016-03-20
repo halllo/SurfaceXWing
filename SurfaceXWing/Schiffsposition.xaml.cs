@@ -85,7 +85,8 @@ namespace SurfaceXWing
 			Action<Schiffsposition> onSlide3 = null)
 		{
 			Opacity = 1.0;
-			menu.Visibility = Visibility.Visible;
+			menu1.Visibility = Visibility.Visible;
+			menu2.Visibility = Visibility.Visible;
 			ViewModel.GoBack = new Command(GoBackMethod);
 
 			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));
@@ -145,6 +146,11 @@ namespace SurfaceXWing
 
 		public Position LetztePosition { get; set; }
 
+		public SchiffspositionModel()
+		{
+			Range = new Command(() => RangeIndicatorVisible = !RangeIndicatorVisible);
+		}
+
 		Brush _Color;
 		public Brush Color
 		{
@@ -164,6 +170,13 @@ namespace SurfaceXWing
 		{
 			get { return _GoBack; }
 			set { _GoBack = value; NotifyChanged("GoBack"); }
+		}
+
+		Command _Range;
+		public Command Range
+		{
+			get { return _Range; }
+			set { _Range = value; NotifyChanged("Range"); }
 		}
 
 		Command _BarrelRoll;
@@ -219,7 +232,6 @@ namespace SurfaceXWing
 			set
 			{
 				_RangeIndicatorVisible = value; NotifyChanged("RangeIndicatorVisible");
-				MenuOrientation = (MenuOrientation + 90) % 360;//nur vorpbergehend, bis die app die funktionen auch erlaubt.
 			}
 		}
 
@@ -249,13 +261,6 @@ namespace SurfaceXWing
 		{
 			get { return _Label; }
 			set { _Label = value; NotifyChanged("Label"); }
-		}
-
-		int _MenuOrientation = 180;
-		public int MenuOrientation
-		{
-			get { return _MenuOrientation; }
-			set { _MenuOrientation = value; NotifyChanged("MenuOrientation"); }
 		}
 
 		public void UpdateState(IField field)
