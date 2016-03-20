@@ -77,7 +77,7 @@ namespace SurfaceXWing
 
 		private void PrepareToMove(IField field, IFieldOccupant occupant)
 		{
-			Move<ForwardMove>((Schiffsposition)field, occupant);
+			//Move<ForwardMove>((Schiffsposition)field, occupant);
 		}
 
 		private void CancelMove(IField field, IFieldOccupant occupant = null)

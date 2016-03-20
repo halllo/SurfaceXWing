@@ -28,7 +28,7 @@
 		<Grid Grid.Column="0" Grid.ColumnSpan="2">
 			<s:TagVisualizer Name="Visualizer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
 				<s:TagVisualizer.Definitions>
-					<local:AllTagsVisualizationDefinition TagRemovedBehavior="Fade" Source="TagVisual.xaml"/>
+					<local:AllTagsVisualizationDefinition TagRemovedBehavior="Disappear" Source="TagVisual.xaml"/>
 				</s:TagVisualizer.Definitions>
 
 				<local:Spielfeld/>
