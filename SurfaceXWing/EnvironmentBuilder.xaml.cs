@@ -1,4 +1,5 @@
 ﻿using SurfaceGameBasics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -70,8 +71,7 @@ namespace SurfaceXWing
 				Width = _View.ActualWidth,
 				Height = _View.ActualHeight
 			};
-			obstacle.SetValue(Canvas.LeftProperty, obstaclePosition.X);
-			obstacle.SetValue(Canvas.TopProperty, obstaclePosition.Y);
+			obstacle.Position = obstaclePosition.AsPoint();
 			obstacle.RenderTransform = new RotateTransform
 			{
 				CenterX = builderSizeHalbe.X,
@@ -86,7 +86,19 @@ namespace SurfaceXWing
 
 		private void RemovePlaced()
 		{
-			//MessageBox.Show("TODO: remove");
+			var builderPosition = _View.Position.AsVector();
+			var builderSize = new Vector(_View.ActualWidth, _View.ActualHeight);
+			var builderSizeHalbeLengthSquared = (builderSize / 2.0).LengthSquared;
+
+			var obstacles = _Spielfeld.Children.OfType<Obstacle>();
+
+			var obstaclesInRange = obstacles.Where(o =>
+			{
+				var obstaclePosition = o.Position.AsVector() + o.Size / 2.0;
+				return (builderPosition - obstaclePosition).LengthSquared < builderSizeHalbeLengthSquared;
+			}).ToList();
+
+			obstaclesInRange.ForEach(_Spielfeld.Children.Remove);
 		}
 	}
 }
