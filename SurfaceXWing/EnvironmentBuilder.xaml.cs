@@ -71,7 +71,7 @@ namespace SurfaceXWing
 				Height = _View.ActualHeight
 			};
 			obstacle.SetValue(Canvas.LeftProperty, obstaclePosition.X);
-			obstacle.SetValue(Canvas.TopProperty, obstaclePosition.Y - 8.0);
+			obstacle.SetValue(Canvas.TopProperty, obstaclePosition.Y);
 			obstacle.RenderTransform = new RotateTransform
 			{
 				CenterX = builderSizeHalbe.X,
