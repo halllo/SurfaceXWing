@@ -7,24 +7,17 @@
 			 Height="86" Width="86">
 	<Grid x:Name="Grid">
 		<Canvas x:Name="Canvas" x:FieldModifier="public">
-			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218" Stroke="{Binding Color}" Opacity="1.0"								Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
-			<Border Width="261" Height="261" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="1.0" BorderThickness="1,1,0,0"		Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-				<Border.RenderTransform>
-					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
-				</Border.RenderTransform>
-			</Border>
-			<Ellipse Width="956" Height="956" Canvas.Left="-435" Canvas.Top="-435" Stroke="{Binding Color}" Opacity="0.7"								Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
-			<Border Width="478" Height="478" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="0.7" BorderThickness="1,1,0,0"		Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-				<Border.RenderTransform>
-					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
-				</Border.RenderTransform>
-			</Border>
-			<Ellipse Width="1390" Height="1390" Canvas.Left="-652" Canvas.Top="-652" Stroke="{Binding Color}" Opacity="0.5"								Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
-			<Border Width="695" Height="695" Canvas.Left="43" Canvas.Top="43" BorderBrush="{Binding Color}" Opacity="0.5" BorderThickness="1,1,0,0"		Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}">
-				<Border.RenderTransform>
-					<RotateTransform CenterX="0" CenterY="0" Angle="-135"/>
-				</Border.RenderTransform>
-			</Border>
+			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218"		Stroke="{Binding Color}" Opacity="1.0"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="-125" Y2="-157"									Stroke="{Binding Color}" Opacity="1.0"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="211" Y2="-157"									Stroke="{Binding Color}" Opacity="1.0"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+
+			<Ellipse Width="956" Height="956" Canvas.Left="-435" Canvas.Top="-435"		Stroke="{Binding Color}" Opacity="0.7"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="-264" Y2="-323"									Stroke="{Binding Color}" Opacity="0.7"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="350" Y2="-323"									Stroke="{Binding Color}" Opacity="0.7"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			
+			<Ellipse Width="1390" Height="1390" Canvas.Left="-652" Canvas.Top="-652"	Stroke="{Binding Color}" Opacity="0.5"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="-404" Y2="-489"									Stroke="{Binding Color}" Opacity="0.5"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="490" Y2="-489"									Stroke="{Binding Color}" Opacity="0.5"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
 		</Canvas>
 
 		<Rectangle Fill="Black" Margin="2" Opacity="{Binding BackgroundOpacity}"/>
