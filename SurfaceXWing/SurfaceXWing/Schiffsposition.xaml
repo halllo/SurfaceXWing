@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="SurfaceXWing.Schiffsposition"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:s="http://schemas.microsoft.com/surface/2008"
+			 xmlns:local="clr-namespace:SurfaceXWing"
+			 Background="{Binding Color}"
+			 Height="86" Width="86">
+	<Grid x:Name="Grid">
+		<Canvas x:Name="Canvas" x:FieldModifier="public">
+			<Ellipse Width="522" Height="522" Canvas.Left="-218" Canvas.Top="-218"		Stroke="{Binding Color}" Opacity="1.0"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="-125" Y2="-157"									Stroke="{Binding Color}" Opacity="1.0"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="211" Y2="-157"									Stroke="{Binding Color}" Opacity="1.0"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+
+			<Ellipse Width="956" Height="956" Canvas.Left="-435" Canvas.Top="-435"		Stroke="{Binding Color}" Opacity="0.7"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="-264" Y2="-323"									Stroke="{Binding Color}" Opacity="0.7"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="350" Y2="-323"									Stroke="{Binding Color}" Opacity="0.7"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			
+			<Ellipse Width="1390" Height="1390" Canvas.Left="-652" Canvas.Top="-652"	Stroke="{Binding Color}" Opacity="0.5"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="-404" Y2="-489"									Stroke="{Binding Color}" Opacity="0.5"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+			<Line X1="43" Y1="43" X2="490" Y2="-489"									Stroke="{Binding Color}" Opacity="0.5"	Visibility="{Binding RangeIndicatorVisible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+		</Canvas>
+
+		<Rectangle Fill="Black" Margin="2" Opacity="{Binding BackgroundOpacity}"/>
+
+
+		<s:SurfaceCheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,-25,0,0"
+						   Content="range" Foreground="Gray" IsChecked="{Binding RangeIndicatorVisible}"/>
+
+		<TextBlock Text="{Binding Label}" FontSize="25" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+
+		<s:SurfaceSlider x:Name="Slider1" x:FieldModifier="public"
+						 Value="0" Minimum="-10" Maximum="10"
+						 VerticalAlignment="Bottom" Margin="0,0,0,-18" 
+						 Visibility="{Binding Slider1Visible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+		<s:SurfaceSlider x:Name="Slider2" x:FieldModifier="public"
+						 Value="0" Minimum="-10" Maximum="10"
+						 VerticalAlignment="Bottom" Margin="0,0,0,-35" 
+						 Visibility="{Binding Slider2Visible,Converter={StaticResource trueVisibleFalseCollapsed}}"/>
+
+
+		<local:SchiffspositionMenu x:Name="menu1"
+					   Visibility="Collapsed"
+					   ActivationMode="HostInteraction"
+					   ActivationHost="{Binding ElementName=Grid}"
+					   HorizontalAlignment="Right" 
+					   VerticalAlignment="Bottom"
+					   Orientation="135"/>
+		<local:SchiffspositionMenu x:Name="menu2"
+					   Visibility="Collapsed"
+					   ActivationMode="HostInteraction"
+					   ActivationHost="{Binding ElementName=Grid}"
+					   HorizontalAlignment="Left" 
+					   VerticalAlignment="Bottom"
+					   Orientation="-135"/>
+		<local:SchiffspositionMenu x:Name="menu3"
+					   Visibility="Collapsed"
+					   ActivationMode="HostInteraction"
+					   ActivationHost="{Binding ElementName=Grid}"
+					   HorizontalAlignment="Right" 
+					   VerticalAlignment="Top"
+					   Orientation="45"/>
+		
+	</Grid>
+</UserControl>
