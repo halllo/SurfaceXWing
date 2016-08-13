@@ -5,4 +5,47 @@
     xmlns:local="using:SurfaceXWing.CompanionApp"
     RequestedTheme="Light">
 
+    <Application.Resources>
+
+        <DataTemplate x:Key="ImageDisplay">
+            <Grid Margin="10,10,0,10">
+                <Image Source="{Binding Value}" MaxWidth="300"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ImagesDisplay">
+            <Grid Margin="10,10,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Label}" Foreground="Gray"/>
+                <ListBox Grid.Row="1" ItemsSource="{Binding Value}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Image}" Margin="40,0,40,0" MaxWidth="260"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ManoeuversDisplay">
+            <Grid Margin="10,10,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Label}" Foreground="Gray"/>
+                <Rectangle Grid.Row="1" Fill="Magenta" Height="30"/>
+            </Grid>
+        </DataTemplate>
+
+    </Application.Resources>
+
 </Application>

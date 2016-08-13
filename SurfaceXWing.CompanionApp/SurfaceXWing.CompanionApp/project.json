@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
-    "jop.universal": "1.0.19",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+    "jop.universal": "1.0.21",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
   },
   "frameworks": {
     "uap10.0": {}
