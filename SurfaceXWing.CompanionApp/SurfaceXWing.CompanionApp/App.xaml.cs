@@ -209,10 +209,17 @@ namespace SurfaceXWing.CompanionApp
 		[CustomView("ImageDisplay")]
 		public string Bild { get; set; }
 
+		[CustomView("NumericUpDownDisplay")]
 		public int Schilde { get; set; }
+		[CustomView("NumericUpDownDisplay")]
 		public int Hülle { get; set; }
+		[CustomView("NumericUpDownDisplay")]
+		public int Schaden { get; set; }
+		[CustomView("NumericUpDownDisplay")]
 		public int Ausweichen { get; set; }
+		[CustomView("NumericUpDownDisplay")]
 		public int Fokus { get; set; }
+		[CustomView("NumericUpDownDisplay")]
 		public int Stress { get; set; }
 
 		[CustomView("ManoeuversDisplay")]

@@ -320,6 +320,27 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        }
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -2723,6 +2744,27 @@
           "runtimes/win8-arm/native/clrcompression.dll": {}
         }
       },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        }
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -5019,6 +5061,27 @@
           "runtimes/win8-arm-aot/native/_._": {}
         }
       },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        }
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -7283,6 +7346,27 @@
         },
         "runtime": {
           "runtimes/win/lib/netcore50/System.Private.Uri.dll": {}
+        }
+      },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -9590,6 +9674,27 @@
           "runtimes/aot/lib/netcore50/System.Private.Uri.dll": {}
         }
       },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        }
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -11854,6 +11959,27 @@
         },
         "runtime": {
           "runtimes/win/lib/netcore50/System.Private.Uri.dll": {}
+        }
+      },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -14159,6 +14285,27 @@
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/System.Private.Uri.dll": {}
+        }
+      },
+      "Syncfusion.SfInput.UWP46/14.2.0.28": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.SfShared.UWP46": "14.2.0.28"
+        },
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfInput.UWP.dll": {}
+        }
+      },
+      "Syncfusion.SfShared.UWP46/14.2.0.28": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Syncfusion.SfShared.UWP.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -17067,6 +17214,43 @@
         "runtime.win8-arm.runtime.native.System.IO.Compression.4.0.1.nupkg.sha512",
         "runtime.win8-arm.runtime.native.System.IO.Compression.nuspec",
         "runtimes/win8-arm/native/clrcompression.dll"
+      ]
+    },
+    "Syncfusion.SfInput.UWP46/14.2.0.28": {
+      "sha512": "YZ8GoBh5kPxJe9RRoDu4hCJL29e+Cxc562p4051uwzlRWQuqaioajahY2rE7q75wdWDTNX8g+ZxFdCNSCsbH/w==",
+      "type": "package",
+      "files": [
+        "Syncfusion.SfInput.UWP46.14.2.0.28.nupkg.sha512",
+        "Syncfusion.SfInput.UWP46.nuspec",
+        "lib/uap10.0/Syncfusion.SfInput.UWP.XML",
+        "lib/uap10.0/Syncfusion.SfInput.UWP.dll",
+        "lib/uap10.0/Syncfusion.SfInput.UWP.pri",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/DeviceFamily-Mobile/Themes/InputStyles.xaml",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/DeviceFamily-Mobile/Themes/InputStyles.xbf",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Properties/Syncfusion.SfInput.UWP.rd.xml",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Syncfusion.SfInput.UWP.XML",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Syncfusion.SfInput.UWP.xr.xml",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Syncfusion.SfShared.UWP.xml",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Themes/InputStyles.xaml",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Themes/InputStyles.xbf",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Themes/generic.xaml",
+        "lib/uap10.0/Syncfusion.SfInput.UWP/Themes/generic.xbf"
+      ]
+    },
+    "Syncfusion.SfShared.UWP46/14.2.0.28": {
+      "sha512": "KbEGZEX/H7X+5vHScj3EyKd8/j7vi3kc9puN7jpp2xWjwoizlOaY64MkkEKtKR+zMWESgS7X4jx23IJoC3szRw==",
+      "type": "package",
+      "files": [
+        "Syncfusion.SfShared.UWP46.14.2.0.28.nupkg.sha512",
+        "Syncfusion.SfShared.UWP46.nuspec",
+        "lib/uap10.0/Syncfusion.SfShared.UWP.XML",
+        "lib/uap10.0/Syncfusion.SfShared.UWP.dll",
+        "lib/uap10.0/Syncfusion.SfShared.UWP.pri",
+        "lib/uap10.0/Syncfusion.SfShared.UWP/Properties/Syncfusion.SfShared.UWP.rd.xml",
+        "lib/uap10.0/Syncfusion.SfShared.UWP/Syncfusion.SfShared.UWP.XML",
+        "lib/uap10.0/Syncfusion.SfShared.UWP/Syncfusion.SfShared.UWP.xr.xml",
+        "lib/uap10.0/Syncfusion.SfShared.UWP/Themes/generic.xaml",
+        "lib/uap10.0/Syncfusion.SfShared.UWP/Themes/generic.xbf"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -21878,6 +22062,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
+      "Syncfusion.SfInput.UWP46 >= 14.2.0.28",
       "jop.universal >= 1.0.24"
     ],
     "UAP,Version=v10.0": []

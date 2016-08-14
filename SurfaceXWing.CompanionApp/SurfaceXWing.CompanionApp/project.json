@@ -1,7 +1,8 @@
 ﻿{
   "dependencies": {
     "jop.universal": "1.0.24",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "Syncfusion.SfInput.UWP46": "14.2.0.28"
   },
   "frameworks": {
     "uap10.0": {}

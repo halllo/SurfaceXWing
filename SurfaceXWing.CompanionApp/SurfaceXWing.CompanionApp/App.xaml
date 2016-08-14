@@ -2,6 +2,7 @@
     x:Class="SurfaceXWing.CompanionApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Syncfusion="using:Syncfusion.UI.Xaml.Controls.Input"
     xmlns:local="using:SurfaceXWing.CompanionApp"
     RequestedTheme="Light">
 
@@ -43,6 +44,17 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding Label}" Foreground="Gray"/>
                 <Rectangle Grid.Row="1" Fill="Magenta" Height="30"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NumericUpDownDisplay">
+            <Grid Margin="0,10,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Label}" Foreground="Gray"/>
+                <Syncfusion:SfNumericUpDown Grid.Row="1" Value="{Binding Value,Mode=TwoWay}" FormatString="0"/>
             </Grid>
         </DataTemplate>
 
