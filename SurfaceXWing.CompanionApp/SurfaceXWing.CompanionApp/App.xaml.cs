@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using JustObjectsPrototype.Universal;
 using JustObjectsPrototype.Universal.JOP;
 using Windows.ApplicationModel.Activation;
@@ -113,7 +114,7 @@ namespace SurfaceXWing.CompanionApp
 			return await httpClient.GetStringAsync(url);
 		}
 
-		[Icon(Symbol.Go), JumpToResult]
+		[Icon(Symbol.Play), JumpToResult]
 		public async Task<List<Pilot>> Aktivieren(ObservableCollection<Pilot> piloten)
 		{
 			try
@@ -133,23 +134,6 @@ namespace SurfaceXWing.CompanionApp
 				await new MessageDialog(e.Message, "Fehler").ShowAsync();
 				return null;
 			}
-		}
-
-		[Icon(Symbol.Delete)]
-		public async Task Löschen(ObservableCollection<Squadron> squadrons)
-		{
-			var löschDialog = new MessageDialog($"Suqadron \"{Name}\" löschen?");
-			löschDialog.Options = MessageDialogOptions.None;
-			löschDialog.Commands.Add(new UICommand("Ja", async cmd =>
-			{
-				await Storage.Remove(this);
-				squadrons.Remove(this);
-			}));
-			löschDialog.Commands.Add(new UICommand("Nein", cmd => { }));
-			löschDialog.CancelCommandIndex = 1;
-			löschDialog.DefaultCommandIndex = 0;
-
-			await löschDialog.ShowAsync();
 		}
 
 		private List<Pilot> Parse()
@@ -175,12 +159,29 @@ namespace SurfaceXWing.CompanionApp
 						.Select(row =>
 						{
 							var match = Regex.Match(row.Value, "<img src=\"((.|\n|\r)*?)\">");
-							return match.Success ? match.Groups[1].Value : null;
+							return match.Success ? XWingBuilderBaseUrl + match.Groups[1].Value : null;
 						}).ToArray()
 						).ToArray()
 				},
 			}).ToList();
 			return pilots;
+		}
+
+		[Icon(Symbol.Delete)]
+		public async Task Löschen(ObservableCollection<Squadron> squadrons)
+		{
+			var löschDialog = new MessageDialog($"Suqadron \"{Name}\" löschen?");
+			löschDialog.Options = MessageDialogOptions.None;
+			löschDialog.Commands.Add(new UICommand("Ja", async cmd =>
+			{
+				await Storage.Remove(this);
+				squadrons.Remove(this);
+			}));
+			löschDialog.Commands.Add(new UICommand("Nein", cmd => { }));
+			löschDialog.CancelCommandIndex = 1;
+			löschDialog.DefaultCommandIndex = 0;
+
+			await löschDialog.ShowAsync();
 		}
 	}
 
@@ -200,7 +201,7 @@ namespace SurfaceXWing.CompanionApp
 
 
 
-	[Title("aktive Piloten"), Icon(Symbol.Contact)]
+	[Title("aktive Piloten"), Icon(Symbol.People)]
 	public class Pilot
 	{
 		[Editor(hide: true)]
@@ -232,6 +233,18 @@ namespace SurfaceXWing.CompanionApp
 		{
 			return Name;
 		}
+
+		[Icon(Symbol.Sync)]
+		public async void Aktualisieren()
+		{
+			await new MessageDialog("Aktualisieren").ShowAsync();
+		}
+
+		[Icon(Symbol.Send)]
+		public async void Fliegen()
+		{
+			await new MessageDialog("Fliegen").ShowAsync();
+		}
 	}
 
 	public class Upgrade
@@ -240,9 +253,76 @@ namespace SurfaceXWing.CompanionApp
 		public string Name { get; set; }
 	}
 
-	public class Manoeuvers
+
+
+
+
+
+
+
+
+
+
+	public class Manoeuvers : JustObjectsPrototype.Universal.Shell.ViewModel
 	{
-		public string[][] Grid { get; set; }
+		public string[][] Grid
+		{
+			set
+			{
+				GridVM = value.Select(r => r.Select(c =>
+				{
+					MoveViewModel moveVM = null;
+					moveVM = new MoveViewModel
+					{
+						Url = c,
+						Choose = new Command(
+							execute: p => SelectedMove = moveVM,
+							canExecute: p => !string.IsNullOrEmpty(moveVM.Url))
+					};
+					return moveVM;
+				}).ToArray()).ToArray();
+			}
+		}
+
+		public MoveViewModel[][] GridVM { get; private set; }
+
+		MoveViewModel selectedMove;
+		public MoveViewModel SelectedMove
+		{
+			get { return selectedMove; }
+			set { selectedMove = value; Changed(); }
+		}
+
+
+		public class MoveViewModel
+		{
+			public string Url { get; set; }
+			public ICommand Choose { get; set; }
+		}
+
+		public class Command : ICommand
+		{
+			Action<object> execute;
+			Func<object, bool> canExecute;
+
+			public Command(Action<object> execute, Func<object, bool> canExecute)
+			{
+				this.canExecute = canExecute;
+				this.execute = execute;
+			}
+
+			public event EventHandler CanExecuteChanged;
+
+			public bool CanExecute(object parameter)
+			{
+				return canExecute(parameter);
+			}
+
+			public void Execute(object parameter)
+			{
+				execute(parameter);
+			}
+		}
 	}
 
 
