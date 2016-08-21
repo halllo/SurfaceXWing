@@ -68,7 +68,7 @@
 				</ItemsControl>
 				<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
 					<TextBlock Text="ausgewählt" Foreground="Magenta" VerticalAlignment="Center" />
-					<Image Source="{Binding Value.SelectedMove.Url}" Width="30" Height="40" Stretch="None"/>
+					<Image Source="{Binding Value.SelectedMove}" Width="30" Height="40" Stretch="None"/>
 				</StackPanel>
 			</Grid>
 		</DataTemplate>

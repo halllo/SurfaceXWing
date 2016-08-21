@@ -10,6 +10,7 @@ using JustObjectsPrototype.Universal;
 using JustObjectsPrototype.Universal.JOP;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -25,16 +26,14 @@ namespace SurfaceXWing.CompanionApp
 
 		protected async override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			var objects = new ObservableCollection<object>
-			(
-				await Storage.AllSquadrons()
-			);
-
-			Show.Prototype(With.These(objects)
+			Prototype = Show.Prototype(With.These(await Squadronspeicher.All(), await Einstellungen.Alle())
 				.AndViewOf<Squadron>()
 				.AndViewOf<Pilot>()
+				.AndViewOf<Einstellungen>()
 				.AndOpen<Squadron>());
 		}
+
+		public static Prototype Prototype;
 	}
 
 
@@ -65,7 +64,7 @@ namespace SurfaceXWing.CompanionApp
 
 
 
-	[Title("Squadrons"), Icon(Symbol.AllApps)]
+	[Title("Squadrons"), Icon(Symbol.Favorite)]
 	public class Squadron
 	{
 		private const string XWingBuilderBaseUrl = "http://xwing-builder.co.uk";
@@ -82,8 +81,8 @@ namespace SurfaceXWing.CompanionApp
 			return Name;
 		}
 
-		[Icon(Symbol.Download), JumpToResult]
-		public static async Task<Squadron> Download(string url = "http://xwing-builder.co.uk/view/541496/first-try")
+		[Icon(Symbol.Download), JumpsToResult]
+		public static async Task<Squadron> Download([Title("URL eingeben (http://xwing-builder.co.uk/view/...)")]string url)
 		{
 			if (!string.IsNullOrEmpty(url))
 			{
@@ -93,7 +92,7 @@ namespace SurfaceXWing.CompanionApp
 
 				try
 				{
-					await Storage.Store(newSquadron);
+					await Squadronspeicher.Store(newSquadron);
 					return newSquadron;
 				}
 				catch (Exception e)
@@ -114,7 +113,7 @@ namespace SurfaceXWing.CompanionApp
 			return await httpClient.GetStringAsync(url);
 		}
 
-		[Icon(Symbol.Play), JumpToResult]
+		[Icon(Symbol.Play), JumpsToResult]
 		public async Task<List<Pilot>> Aktivieren(ObservableCollection<Pilot> piloten)
 		{
 			try
@@ -174,7 +173,7 @@ namespace SurfaceXWing.CompanionApp
 			löschDialog.Options = MessageDialogOptions.None;
 			löschDialog.Commands.Add(new UICommand("Ja", async cmd =>
 			{
-				await Storage.Remove(this);
+				await Squadronspeicher.Remove(this);
 				squadrons.Remove(this);
 			}));
 			löschDialog.Commands.Add(new UICommand("Nein", cmd => { }));
@@ -223,6 +222,8 @@ namespace SurfaceXWing.CompanionApp
 		[CustomView("NumericUpDownDisplay")]
 		public int Stress { get; set; }
 
+		public List<int> Zielerfassungen { get; set; }
+
 		[CustomView("ManoeuversDisplay")]
 		public Manoeuvers Manoeuvers { get; set; }
 
@@ -263,6 +264,11 @@ namespace SurfaceXWing.CompanionApp
 
 
 
+
+
+
+
+
 	public class Manoeuvers : JustObjectsPrototype.Universal.Shell.ViewModel
 	{
 		public string[][] Grid
@@ -271,28 +277,25 @@ namespace SurfaceXWing.CompanionApp
 			{
 				GridVM = value.Select(r => r.Select(c =>
 				{
-					MoveViewModel moveVM = null;
-					moveVM = new MoveViewModel
+					return new MoveViewModel
 					{
 						Url = c,
 						Choose = new Command(
-							execute: p => SelectedMove = moveVM,
-							canExecute: p => !string.IsNullOrEmpty(moveVM.Url))
+							execute: p => SelectedMove = c,
+							canExecute: p => !string.IsNullOrEmpty(c))
 					};
-					return moveVM;
 				}).ToArray()).ToArray();
 			}
 		}
 
 		public MoveViewModel[][] GridVM { get; private set; }
 
-		MoveViewModel selectedMove;
-		public MoveViewModel SelectedMove
+		string selectedMove;
+		public string SelectedMove
 		{
 			get { return selectedMove; }
 			set { selectedMove = value; Changed(); }
 		}
-
 
 		public class MoveViewModel
 		{
@@ -342,6 +345,57 @@ namespace SurfaceXWing.CompanionApp
 
 
 
+	[Icon(Symbol.Setting)]
+	public abstract class Einstellungen
+	{
+		internal static async Task<Einstellungen[]> Alle()
+		{
+			var users = await User.FindAllAsync();
+			var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated && p.Type == UserType.LocalUser).FirstOrDefault();
+
+			var data = await current.GetPropertyAsync(KnownUserProperties.AccountName);
+			string displayName = (string)data;
+
+			if (string.IsNullOrEmpty(displayName))
+			{
+				string a = (string)await current.GetPropertyAsync(KnownUserProperties.FirstName);
+				string b = (string)await current.GetPropertyAsync(KnownUserProperties.LastName);
+				displayName = string.Format("{0} {1}", a, b);
+			}
+
+			return new Einstellungen[]
+			{
+				new AllgemeineEinstellungen { Username = displayName },
+				new SpeicherEinstellungen()
+			};
+		}
+
+		class SpeicherEinstellungen : Einstellungen
+		{
+			public override string ToString() => "Speicher";
+
+			public IEnumerable<object> Gespeicherte_Objekte => App.Prototype.Repository.Where(o => !(o is Einstellungen));
+
+			[Icon(Symbol.Delete)]
+			public async Task Alles_Löschen()
+			{
+				await Squadronspeicher.RemoveAll();
+
+				var allesAußerEinstellungen = App.Prototype.Repository.Where(o => !(o is Einstellungen)).ToList();
+				allesAußerEinstellungen.ForEach(o => App.Prototype.Repository.Remove(o));
+			}
+		}
+
+		class AllgemeineEinstellungen : Einstellungen
+		{
+			public override string ToString() => "Allgemein";
+
+			public bool Tisch_verbunden { get; } = false;
+
+			[Editor(@readonly: true)]
+			public string Username { get; set; }
+		}
+	}
 
 
 
@@ -352,7 +406,36 @@ namespace SurfaceXWing.CompanionApp
 
 
 
-	public static class Storage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public static class Squadronspeicher
 	{
 		public static async Task Store(Squadron squadron)
 		{
@@ -372,7 +455,16 @@ namespace SurfaceXWing.CompanionApp
 			await file.DeleteAsync();
 		}
 
-		public static async Task<List<Squadron>> AllSquadrons()
+		public static async Task RemoveAll()
+		{
+			var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
+			foreach (var file in files)
+			{
+				await file.DeleteAsync();
+			}
+		}
+
+		public static async Task<List<Squadron>> All()
 		{
 			var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
 			var squadrons = new List<Squadron>();
