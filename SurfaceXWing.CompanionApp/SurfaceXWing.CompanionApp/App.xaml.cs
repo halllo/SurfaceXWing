@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using JustObjectsPrototype.Universal;
 using JustObjectsPrototype.Universal.JOP;
 using Windows.ApplicationModel.Activation;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -34,6 +34,7 @@ namespace SurfaceXWing.CompanionApp
 		}
 
 		public static Prototype Prototype;
+		public static Squadronspeicher Squadronspeicher = new Squadronspeicher();
 	}
 
 
@@ -86,13 +87,13 @@ namespace SurfaceXWing.CompanionApp
 		{
 			if (!string.IsNullOrEmpty(url))
 			{
-				var name = url.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries).Last();
-				var downloaded = await Download(new Uri(url));
-				var newSquadron = new Squadron { Name = name, Url = url, Downloaded = downloaded };
-
 				try
 				{
-					await Squadronspeicher.Store(newSquadron);
+					var name = url.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries).Last();
+					var downloaded = await Download(new Uri(url));
+					var newSquadron = new Squadron { Name = name, Url = url, Downloaded = downloaded };
+
+					await App.Squadronspeicher.Store(newSquadron);
 					return newSquadron;
 				}
 				catch (Exception e)
@@ -166,21 +167,11 @@ namespace SurfaceXWing.CompanionApp
 			return pilots;
 		}
 
-		[Icon(Symbol.Delete)]
+		[Icon(Symbol.Delete), RequiresConfirmation]
 		public async Task Löschen(ObservableCollection<Squadron> squadrons)
 		{
-			var löschDialog = new MessageDialog($"Suqadron \"{Name}\" löschen?");
-			löschDialog.Options = MessageDialogOptions.None;
-			löschDialog.Commands.Add(new UICommand("Ja", async cmd =>
-			{
-				await Squadronspeicher.Remove(this);
-				squadrons.Remove(this);
-			}));
-			löschDialog.Commands.Add(new UICommand("Nein", cmd => { }));
-			löschDialog.CancelCommandIndex = 1;
-			löschDialog.DefaultCommandIndex = 0;
-
-			await löschDialog.ShowAsync();
+			await App.Squadronspeicher.Remove(this);
+			squadrons.Remove(this);
 		}
 	}
 
@@ -379,7 +370,7 @@ namespace SurfaceXWing.CompanionApp
 			[Icon(Symbol.Delete)]
 			public async Task Alles_Löschen()
 			{
-				await Squadronspeicher.RemoveAll();
+				await App.Squadronspeicher.RemoveAll();
 
 				var allesAußerEinstellungen = App.Prototype.Repository.Where(o => !(o is Einstellungen)).ToList();
 				allesAußerEinstellungen.ForEach(o => App.Prototype.Repository.Remove(o));
@@ -433,57 +424,50 @@ namespace SurfaceXWing.CompanionApp
 
 
 
-
-
-	public static class Squadronspeicher
+	public class Squadronspeicher : Store
 	{
-		public static async Task Store(Squadron squadron)
+		public Squadronspeicher() : base("squadrons")
 		{
-			var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(squadron.Name, CreationCollisionOption.FailIfExists);
-			using (var openedFile = await file.OpenAsync(FileAccessMode.ReadWrite))
-			using (var openedFileWriter = new StreamWriter(openedFile.AsStreamForWrite()))
+		}
+
+		public async Task Store(Squadron squadron)
+		{
+			var filecontent = new StringBuilder();
+			using (var writer = new StringWriter(filecontent))
 			{
-				await openedFileWriter.WriteLineAsync(squadron.Url);
-				await openedFileWriter.WriteAsync(squadron.Downloaded);
-				await openedFileWriter.FlushAsync();
+				writer.WriteLine(squadron.Name);
+				writer.WriteLine(squadron.Url);
+				writer.Write(squadron.Downloaded);
+				writer.Flush();
 			}
+			await SaveOrUpdate(squadron.Name, filecontent.ToString(), Windows.Storage.CreationCollisionOption.FailIfExists);
 		}
 
-		public static async Task Remove(Squadron squadron)
+		public async Task Remove(Squadron squadron)
 		{
-			var file = await ApplicationData.Current.LocalFolder.GetFileAsync(squadron.Name);
-			await file.DeleteAsync();
+			await Delete(squadron.Name);
 		}
 
-		public static async Task RemoveAll()
+		public async Task RemoveAll()
 		{
-			var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
-			foreach (var file in files)
+			await DeleteAll();
+		}
+
+		public async Task<List<Squadron>> All()
+		{
+			var files = await base.All();
+			return files.Select(file =>
 			{
-				await file.DeleteAsync();
-			}
-		}
-
-		public static async Task<List<Squadron>> All()
-		{
-			var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
-			var squadrons = new List<Squadron>();
-			foreach (var file in files)
-			{
-				using (var openedFile = await file.OpenAsync(FileAccessMode.Read))
-				using (var openedFileReader = new StreamReader(openedFile.AsStreamForRead()))
+				using (var reader = new StringReader(file))
 				{
-					var fileFirstLine = await openedFileReader.ReadLineAsync();
-					var fileContent = await openedFileReader.ReadToEndAsync();
-					squadrons.Add(new Squadron
+					return new Squadron
 					{
-						Name = file.Name,
-						Url = fileFirstLine,
-						Downloaded = fileContent,
-					});
+						Name = reader.ReadLine(),
+						Url = reader.ReadLine(),
+						Downloaded = reader.ReadToEnd(),
+					};
 				}
-			}
-			return squadrons;
+			}).ToList();
 		}
 	}
 }
