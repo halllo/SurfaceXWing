@@ -455,19 +455,22 @@ namespace SurfaceXWing.CompanionApp
 
 		public async Task<List<Squadron>> All()
 		{
-			var files = await base.All();
-			return files.Select(file =>
+			var result = new List<Squadron>();
+			var filenames = await Browse();
+			foreach (var filename in filenames)
 			{
+				var file = await Get(filename);
 				using (var reader = new StringReader(file))
 				{
-					return new Squadron
+					result.Add(new Squadron
 					{
 						Name = reader.ReadLine(),
 						Url = reader.ReadLine(),
 						Downloaded = reader.ReadToEnd(),
-					};
+					});
 				}
-			}).ToList();
+			}
+			return result;
 		}
 	}
 }
