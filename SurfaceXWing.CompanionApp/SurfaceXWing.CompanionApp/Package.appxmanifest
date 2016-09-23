@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="45171halllo.SUR40X-Wing" Publisher="CN=3E6DAAA1-F5D5-4D60-B348-26AC4A60F768" Version="1.1.3.0" />
+  <Identity Name="45171halllo.SUR40X-Wing" Publisher="CN=3E6DAAA1-F5D5-4D60-B348-26AC4A60F768" Version="1.1.10.0" />
   <mp:PhoneIdentity PhoneProductId="b96eed22-11aa-4cb8-b12e-cb8a2134e5fa" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>SUR40 X-Wing</DisplayName>

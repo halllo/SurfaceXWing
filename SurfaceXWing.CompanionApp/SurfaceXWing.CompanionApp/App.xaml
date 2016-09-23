@@ -30,7 +30,17 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<Grid>
-								<Image Source="{Binding Bild}" Width="220" Height="300" Stretch="None"/>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition/>
+								</Grid.ColumnDefinitions>
+								<Image Source="{Binding Bild}" Width="220" Height="300" Stretch="None" Grid.RowSpan="2"/>
+								<TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Top" TextWrapping="Wrap" Grid.Column="1" Grid.Row="0"/>
+								<TextBlock Text="{Binding Beschreibung}" VerticalAlignment="Top" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"/>
 							</Grid>
 						</DataTemplate>
 					</ListBox.ItemTemplate>

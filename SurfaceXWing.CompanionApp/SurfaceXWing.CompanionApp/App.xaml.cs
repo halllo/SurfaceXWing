@@ -141,18 +141,30 @@ namespace SurfaceXWing.CompanionApp
 			var matches = Regex.Matches(Downloaded, "pilot_card_container pilot_body_cell((.|\n|\r)*?)<\\/table>");
 			var pilotMatches = matches.OfType<Match>().Select(m => new
 			{
-				images = Regex.Matches(m.Value, "data-card-src=\"(.*?)\"").OfType<Match>(),
-				titles = Regex.Matches(m.Value, "title=\"(.*?)\"").OfType<Match>(),
+				image = Regex.Matches(m.Value, "data-card-src=\"(.*?)\"").OfType<Match>().First(),
+				title = Regex.Matches(m.Value, "title=\"(.*?)\"").OfType<Match>().First(),
+				description = Regex.Matches(m.Value, "data-card-description=\"(.*?)\"").OfType<Match>().First(),
 				manoeuvers = Regex.Matches(m.Value, "speed\">((.|\n|\r)*?)<\\/tr>").OfType<Match>(),
+				upgrades = Regex.Matches(m.Value, "card upgrade_card((.|\n|\r)*?)>").OfType<Match>().Select(upgrade => new
+				{
+					image = Regex.Matches(upgrade.Value, "data-card-src=\"(.*?)\"").OfType<Match>().First(),
+					title = Regex.Matches(upgrade.Value, "title=\"(.*?)\"").OfType<Match>().First(),
+					description = Regex.Matches(upgrade.Value, "data-card-description=\"(.*?)\"").OfType<Match>().First(),
+				}),
 			});
 
 			var pilots = pilotMatches.Select(p => new Pilot
 			{
-				Name = p.titles.First().Groups[1].Value,
-				Bild = XWingBuilderBaseUrl + p.images.First().Groups[1].Value,
-				Upgrades = p.titles.Skip(1).Zip(p.images.Skip(1), (t, i) => new { title = t, image = i })
-						.Select(u => new Upgrade { Bild = XWingBuilderBaseUrl + u.image.Groups[1].Value, Name = u.title.Groups[1].Value })
-						.ToList(),
+				Name = p.title.Groups[1].Value,
+				Bild = XWingBuilderBaseUrl + p.image.Groups[1].Value,
+				Upgrades = p.upgrades
+					.Select(upgrade => new Upgrade
+					{
+						Bild = XWingBuilderBaseUrl + upgrade.image.Groups[1].Value,
+						Name = upgrade.title.Groups[1].Value,
+						Beschreibung = Regex.Replace(upgrade.description.Groups[1].Value, "&lt;(.*?)&gt;", new MatchEvaluator(m => "@"))
+					})
+					.ToList(),
 				Manoeuvers = new Manoeuvers
 				{
 					Grid = p.manoeuvers.Select(m => Regex.Matches(m.Value, "<td class=\"manoeuvre\">((.|\n|\r)*?)<\\/td>").OfType<Match>()
@@ -243,6 +255,7 @@ namespace SurfaceXWing.CompanionApp
 	{
 		public string Bild { get; set; }
 		public string Name { get; set; }
+		public string Beschreibung { get; set; }
 	}
 
 
