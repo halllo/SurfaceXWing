@@ -15,6 +15,7 @@ namespace SurfaceXWing.Test
 				var scatterView = spielfeld.Children.OfType<ScatterView>().Single();
 
 				scatterView.Items.Add(NewTestTag(tag: 50));
+				scatterView.Items.Add(NewTestTag(tag: 51));
 				scatterView.Items.Add(NewTestTag(tag: 100));
 			};
 		}

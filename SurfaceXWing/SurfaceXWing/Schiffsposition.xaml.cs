@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace SurfaceXWing
 {
@@ -45,7 +47,11 @@ namespace SurfaceXWing
 			return ViewModel.FieldOccupants.ContainsKey(occupant);
 		}
 
-		public string AllowedOccupantId { get; set; }
+		public string AllowedOccupantId
+		{
+			get { return ViewModel.Items.Id.Value; }
+			set { ViewModel.Items.Id.Value = value; }
+		}
 		public bool CanOccupy(IFieldOccupant occupant)
 		{
 			return occupant.Id == AllowedOccupantId;
@@ -88,6 +94,7 @@ namespace SurfaceXWing
 			menu1.Visibility = Visibility.Visible;
 			menu2.Visibility = Visibility.Visible;
 			menu3.Visibility = Visibility.Visible;
+			itemCircle.Visibility = Visibility.Visible;
 			ViewModel.GoBack = new Command(GoBackMethod);
 
 			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));
@@ -146,12 +153,15 @@ namespace SurfaceXWing
 		public ConcurrentDictionary<IFieldOccupant, byte> FieldOccupants { get { return _FieldOccupants; } }
 
 		public Position LetztePosition { get; set; }
-
+		
 		public SchiffspositionModel()
 		{
 			Range = new Command(() => RangeIndicatorVisible = !RangeIndicatorVisible);
+			Items = new SchiffItems();
 		}
 
+		public SchiffItems Items { get; private set; }
+		
 		Brush _Color;
 		public Brush Color
 		{
@@ -275,5 +285,36 @@ namespace SurfaceXWing
 				BackgroundOpacity = 0.1;
 			}
 		}
+	}
+
+
+	public class SchiffItems
+	{
+		public class Item : ViewModel
+		{
+			public Brush Background { get; set; }
+			public Brush Foreground { get; set; }
+			public string Label { get; set; }
+			public string Value { get; set; }
+
+			public string Description { get { return Label + ": " + Value; } }
+		}
+
+
+		public SchiffItems()
+		{
+			Id = new Item { Label = "ID", Value = 3.ToString(), Background = Brushes.Black, Foreground = Brushes.White };
+			Huelle = new Item { Label = "Hülle", Value = 3.ToString(), Background = Brushes.Yellow, Foreground = Brushes.Black };
+			Schild = new Item { Label = "Schild", Value = 3.ToString(), Background = Brushes.Cyan, Foreground = Brushes.Black };
+			Schaden = new Item { Label = "Schaden", Value = 0.ToString(), Background = Brushes.Red, Foreground = Brushes.Black };
+			All = new ObservableCollection<Item>(new List<Item> { Id, Huelle, Schild, Schaden });
+		}
+
+		public ObservableCollection<Item> All { get; private set; }
+
+		public Item Id { get; private set; }
+		public Item Huelle { get; private set; }
+		public Item Schild { get; private set; }
+		public Item Schaden { get; private set; }
 	}
 }
