@@ -82,7 +82,7 @@ namespace SurfaceXWing.CompanionApp
 			return Name;
 		}
 
-		[Icon(Symbol.Download), JumpsToResult]
+		[Icon(Symbol.Download), JumpsToResult, WithProgressBar]
 		public static async Task<Squadron> Download([Title("URL eingeben (http://xwing-builder.co.uk/view/...)")]string url)
 		{
 			if (!string.IsNullOrEmpty(url))
@@ -114,7 +114,7 @@ namespace SurfaceXWing.CompanionApp
 			return await httpClient.GetStringAsync(url);
 		}
 
-		[Icon(Symbol.Play), JumpsToResult]
+		[Icon(Symbol.Play), JumpsToResult, WithProgressBar]
 		public async Task<List<Pilot>> Aktivieren(ObservableCollection<Pilot> piloten)
 		{
 			try
