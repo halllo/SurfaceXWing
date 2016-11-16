@@ -17,10 +17,10 @@
 					<TextBlock Text="{Binding Value,StringFormat={}ID: {0}}" Foreground="White"/>
 				</DataTemplate>
 				<DataTemplate DataType="{x:Type local:SchiffTokens+HuelleToken}">
-					<Image Source="Tokens/hull.png" Width="30" Height="30" />
+					<Image Source="Tokens/hull.png" Width="20" Height="20" />
 				</DataTemplate>
 				<DataTemplate DataType="{x:Type local:SchiffTokens+SchildToken}">
-					<Image Source="Tokens/shield.png" Width="30" Height="30" />
+					<Image Source="Tokens/shield.png" Width="20" Height="20" />
 				</DataTemplate>
 				<DataTemplate DataType="{x:Type local:SchiffTokens+StressToken}">
 					<Image Source="Tokens/stress.png" Width="30" Height="30" />
