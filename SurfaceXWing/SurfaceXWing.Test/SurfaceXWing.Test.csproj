@@ -98,6 +98,9 @@
     <Compile Include="..\SurfaceXWing\Spielfeld.xaml.cs">
       <Link>Spielfeld.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\SurfaceXWing\TokenCircle.xaml.cs">
+      <Link>TokenCircle.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\SurfaceXWing\TrueVisibleFalseCollapsed.cs">
       <Link>TrueVisibleFalseCollapsed.cs</Link>
     </Compile>
@@ -134,6 +137,11 @@
     </Page>
     <Page Include="..\SurfaceXWing\TagVisual.xaml">
       <Link>TagVisual.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\SurfaceXWing\TokenCircle.xaml">
+      <Link>TokenCircle.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -178,13 +186,35 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\SurfaceXWing\asteroids.png">
-      <Link>asteroids.png</Link>
+    <Resource Include="..\SurfaceXWing\Tokens\asteroids.png">
+      <Link>Tokens\asteroids.png</Link>
+    </Resource>
+    <Resource Include="..\SurfaceXWing\Tokens\debris.png">
+      <Link>Tokens\debris.png</Link>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\SurfaceXWing\debris.png">
-      <Link>debris.png</Link>
+    <Resource Include="..\SurfaceXWing\Tokens\hull.png">
+      <Link>Tokens\hull.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\SurfaceXWing\Tokens\shield.png">
+      <Link>Tokens\shield.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\SurfaceXWing\Tokens\damage.png">
+      <Link>Tokens\damage.png</Link>
+    </Resource>
+    <Resource Include="..\SurfaceXWing\Tokens\evade.png">
+      <Link>Tokens\evade.png</Link>
+    </Resource>
+    <Resource Include="..\SurfaceXWing\Tokens\focus.png">
+      <Link>Tokens\focus.png</Link>
+    </Resource>
+    <Resource Include="..\SurfaceXWing\Tokens\stress.png">
+      <Link>Tokens\stress.png</Link>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

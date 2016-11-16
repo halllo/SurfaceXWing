@@ -4,7 +4,7 @@
 			 Width="100" Height="60"
              >
 	<Grid>
-		<Image Source="debris.png" x:Name="Debris" x:FieldModifier="public" Visibility="Collapsed" />
-		<Image Source="asteroids.png" x:Name="Asteroids" x:FieldModifier="public" Visibility="Collapsed" />
+		<Image Source="Tokens/debris.png" x:Name="Debris" x:FieldModifier="public" Visibility="Collapsed" />
+		<Image Source="Tokens/asteroids.png" x:Name="Asteroids" x:FieldModifier="public" Visibility="Collapsed" />
 	</Grid>
 </UserControl>

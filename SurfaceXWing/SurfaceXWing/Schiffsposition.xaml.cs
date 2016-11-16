@@ -49,8 +49,8 @@ namespace SurfaceXWing
 
 		public string AllowedOccupantId
 		{
-			get { return ViewModel.Items.Id.Value; }
-			set { ViewModel.Items.Id.Value = value; }
+			get { return ViewModel.Tokens.Id; }
+			set { ViewModel.Tokens.Id = value; }
 		}
 		public bool CanOccupy(IFieldOccupant occupant)
 		{
@@ -153,15 +153,15 @@ namespace SurfaceXWing
 		public ConcurrentDictionary<IFieldOccupant, byte> FieldOccupants { get { return _FieldOccupants; } }
 
 		public Position LetztePosition { get; set; }
-		
+
 		public SchiffspositionModel()
 		{
 			Range = new Command(() => RangeIndicatorVisible = !RangeIndicatorVisible);
-			Items = new SchiffItems();
+			Tokens = new SchiffTokens { Schild = 3, Huelle = 3 };
 		}
 
-		public SchiffItems Items { get; private set; }
-		
+		public SchiffTokens Tokens { get; private set; }
+
 		Brush _Color;
 		public Brush Color
 		{
@@ -285,36 +285,5 @@ namespace SurfaceXWing
 				BackgroundOpacity = 0.1;
 			}
 		}
-	}
-
-
-	public class SchiffItems
-	{
-		public class Item : ViewModel
-		{
-			public Brush Background { get; set; }
-			public Brush Foreground { get; set; }
-			public string Label { get; set; }
-			public string Value { get; set; }
-
-			public string Description { get { return Label + ": " + Value; } }
-		}
-
-
-		public SchiffItems()
-		{
-			Id = new Item { Label = "ID", Value = 3.ToString(), Background = Brushes.Black, Foreground = Brushes.White };
-			Huelle = new Item { Label = "Hülle", Value = 3.ToString(), Background = Brushes.Yellow, Foreground = Brushes.Black };
-			Schild = new Item { Label = "Schild", Value = 3.ToString(), Background = Brushes.Cyan, Foreground = Brushes.Black };
-			Schaden = new Item { Label = "Schaden", Value = 0.ToString(), Background = Brushes.Red, Foreground = Brushes.Black };
-			All = new ObservableCollection<Item>(new List<Item> { Id, Huelle, Schild, Schaden });
-		}
-
-		public ObservableCollection<Item> All { get; private set; }
-
-		public Item Id { get; private set; }
-		public Item Huelle { get; private set; }
-		public Item Schild { get; private set; }
-		public Item Schaden { get; private set; }
 	}
 }

@@ -110,6 +110,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TokenCircle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +144,9 @@
     <Compile Include="ScatterViewItemFieldObject.cs" />
     <Compile Include="TagManagement.cs" />
     <Compile Include="TextOnAPath.cs" />
+    <Compile Include="TokenCircle.xaml.cs">
+      <DependentUpon>TokenCircle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TrueVisibleFalseCollapsed.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Window1.xaml.cs">
@@ -165,10 +172,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="asteroids.png" />
+    <Resource Include="Tokens\asteroids.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="debris.png" />
+    <Resource Include="Tokens\debris.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Tokens\hull.png" />
+    <Resource Include="Tokens\shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Tokens\damage.png" />
+    <Resource Include="Tokens\evade.png" />
+    <Resource Include="Tokens\focus.png" />
+    <Resource Include="Tokens\stress.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

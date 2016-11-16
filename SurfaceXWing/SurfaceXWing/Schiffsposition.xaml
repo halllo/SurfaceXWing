@@ -62,35 +62,7 @@
 					   VerticalAlignment="Top"
 					   Orientation="45"/>
 
-		<ec:PathListBox ItemsSource="{Binding Items.All}" x:Name="itemCircle" Visibility="Collapsed">
-			<ec:PathListBox.LayoutPaths>
-				<ec:LayoutPath SourceElement="{Binding ElementName=path}" Orientation="OrientToPath" Distribution="Even"/>
-			</ec:PathListBox.LayoutPaths>
-			<ec:PathListBox.ItemTemplate>
-				<DataTemplate>
-					<Border Background="{Binding Background}" Padding="3">
-						<TextBlock Text="{Binding Description}" Foreground="{Binding Foreground}"/>
-					</Border>
-				</DataTemplate>
-			</ec:PathListBox.ItemTemplate>
-		</ec:PathListBox>
-		<Path x:Name="path" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,70,0,0">
-			<Path.Triggers>
-				<EventTrigger RoutedEvent="Loaded">
-					<BeginStoryboard>
-						<Storyboard>
-							<DoubleAnimation Storyboard.TargetName="itemCircleRotation" Storyboard.TargetProperty="Angle" To="360" Duration="0:0:15" RepeatBehavior="Forever"/>
-						</Storyboard>
-					</BeginStoryboard>
-				</EventTrigger>
-			</Path.Triggers>
-			<Path.RenderTransform>
-				<RotateTransform CenterX="0" CenterY="0" Angle="0" x:Name="itemCircleRotation"/>
-			</Path.RenderTransform>
-			<Path.Data>
-				<EllipseGeometry RadiusX="70" RadiusY="70"/>
-			</Path.Data>
-		</Path>
+		<local:TokenCircle DataContext="{Binding Tokens}" x:Name="itemCircle" Visibility="Collapsed"/>
 
 	</Grid>
 </UserControl>
