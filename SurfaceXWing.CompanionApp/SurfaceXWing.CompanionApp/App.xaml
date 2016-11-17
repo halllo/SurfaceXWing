@@ -88,6 +88,32 @@
 			</Grid>
 		</DataTemplate>
 
+		<DataTemplate x:Key="PilotListItem">
+			<Grid Margin="0,10,0,10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="{Binding ProxiedObject.Name}" Style="{ThemeResource BaseTextBlockStyle}" />
+				<TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding ProxiedObject.Id}" FontSize="12" Margin="10,0,0,0" Opacity="0.5"/>
+			</Grid>
+		</DataTemplate>
+
+		<DataTemplate x:Key="ShipListItem">
+			<Grid Margin="0,10,0,10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="{Binding ProxiedObject.Pilot}" />
+				<TextBlock Grid.Column="1" Text="fliegt" Margin="7,0,7,0" />
+				<TextBlock Grid.Column="2" Text="Schiff" Margin="0,0,5,0" Style="{ThemeResource BaseTextBlockStyle}" />
+				<TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding ProxiedObject.SchiffId}" Style="{ThemeResource BaseTextBlockStyle}" />
+			</Grid>
+		</DataTemplate>
+
 	</Application.Resources>
 
 </Application>

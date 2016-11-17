@@ -22,19 +22,33 @@ namespace SurfaceXWing.CompanionApp
 		public App()
 		{
 			this.InitializeComponent();
+			Suspending += App_Suspending;
+		}
+
+		private void App_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+		{
+			var ships = Prototype.Repository.OfType<Ship>().ToList();
+			Schiffspeicher.File<List<Ship>>("alle").SaveOrUpdateSync(ships);
 		}
 
 		protected async override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			Prototype = Show.Prototype(With.These(await Squadronspeicher.All(), await Einstellungen.Alle())
+			List<Ship> schiffe = new List<Ship>();
+			try { schiffe = await Schiffspeicher.File<List<Ship>>("alle").Read(); }
+			catch (Exception) { await Schiffspeicher.DeleteAll(); }
+
+
+			Prototype = Show.Prototype(With.These(await Squadronspeicher.All(), schiffe, await Einstellungen.Alle())
 				.AndViewOf<Squadron>()
 				.AndViewOf<Pilot>()
+				.AndViewOf<Ship>()
 				.AndViewOf<Einstellungen>()
 				.AndOpen<Squadron>());
 		}
 
 		public static Prototype Prototype;
 		public static Squadronspeicher Squadronspeicher = new Squadronspeicher();
+		public static Store Schiffspeicher = new Store("ships");
 	}
 
 
@@ -203,11 +217,53 @@ namespace SurfaceXWing.CompanionApp
 
 
 
-	[Title("aktive Piloten"), Icon(Symbol.People)]
+
+	[Title("Schiffe"), Icon(Symbol.Send), CustomView("ShipListItem")]
+	public class Ship
+	{
+		[Editor(@readonly: true)]
+		public string Pilot { get; set; }
+		[Title("Schiff-ID")]
+		public int SchiffId { get; set; }
+
+		[Icon(Symbol.Add)]
+		public static Ship Neu(Pilot pilot, int id)
+		{
+			return new Ship { Pilot = pilot.Name, SchiffId = id };
+		}
+
+		[Icon(Symbol.Delete), RequiresConfirmation]
+		public void Löschen(ObservableCollection<Ship> ships)
+		{
+			ships.Remove(this);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	[Title("aktive Piloten"), Icon(Symbol.People), CustomView("PilotListItem")]
 	public class Pilot
 	{
 		[Editor(hide: true)]
 		public string Name { get; set; }
+
+		[Editor(hide: true)]
+		public string Id { get { return App.Prototype.Repository.OfType<Ship>().Where(s => s.Pilot == Name).FirstOrDefault()?.SchiffId.ToString("in  Schiff 0"); } }
 
 		[CustomView("ImageDisplay")]
 		public string Bild { get; set; }
@@ -257,13 +313,6 @@ namespace SurfaceXWing.CompanionApp
 		public string Name { get; set; }
 		public string Beschreibung { get; set; }
 	}
-
-
-
-
-
-
-
 
 
 
