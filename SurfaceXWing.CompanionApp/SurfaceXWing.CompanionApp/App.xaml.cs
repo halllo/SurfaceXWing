@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -263,7 +264,9 @@ namespace SurfaceXWing.CompanionApp
 		public string Name { get; set; }
 
 		[Editor(hide: true)]
-		public string Id { get { return App.Prototype.Repository.OfType<Ship>().Where(s => s.Pilot == Name).FirstOrDefault()?.SchiffId.ToString("in  Schiff 0"); } }
+		public string Id { get { return App.Prototype.Repository.OfType<Ship>().Where(s => s.Pilot == Name).FirstOrDefault()?.SchiffId.ToString(); } }
+		[Editor(hide: true)]
+		public string IdDesc { get { return Id != null ? "in  Schiff " + Id : ""; } }
 
 		[CustomView("ImageDisplay")]
 		public string Bild { get; set; }
@@ -294,16 +297,34 @@ namespace SurfaceXWing.CompanionApp
 			return Name;
 		}
 
-		[Icon(Symbol.Sync)]
+		[Icon(Symbol.Sync), WithProgressBar]
 		public async void Aktualisieren()
 		{
-			await new MessageDialog("Aktualisieren").ShowAsync();
+			await EmitOnMBus($"refresh;{Id};{Schilde};{Hülle};{Schaden};{Ausweichen};{Fokus};{Stress}");
 		}
 
-		[Icon(Symbol.Send)]
+		[Icon(Symbol.Send), WithProgressBar]
 		public async void Fliegen()
 		{
-			await new MessageDialog("Fliegen").ShowAsync();
+			if (Manoeuvers.SelectedMove != null)
+			{
+				await EmitOnMBus($"move;{Id};{Manoeuvers.SelectedMove.Split(new[] { '/' }).Last()}");
+			}
+		}
+
+		private static async Task EmitOnMBus(string content)
+		{
+			var sender = "SurfaceXWing.CompanionApp[" + App.Prototype.Repository.OfType<Einstellungen.AllgemeineEinstellungen>().Single().Username + "]";
+
+			var httpClient = new HttpClient();
+			var response = await httpClient.PostAsync(
+				new Uri("https://mbusrelay.azurewebsites.net/api/mbus"),
+				new StringContent("{sender:'" + sender + "',content:'" + content + "'}", Encoding.UTF8, "application/json"));
+
+			if (!response.IsSuccessStatusCode)
+			{
+				await new MessageDialog(response.StatusCode.ToString() + "\n" + await response.Content.ReadAsStringAsync()).ShowAsync();
+			}
 		}
 	}
 
@@ -439,7 +460,7 @@ namespace SurfaceXWing.CompanionApp
 			}
 		}
 
-		class AllgemeineEinstellungen : Einstellungen
+		public class AllgemeineEinstellungen : Einstellungen
 		{
 			public override string ToString() => "Allgemein";
 

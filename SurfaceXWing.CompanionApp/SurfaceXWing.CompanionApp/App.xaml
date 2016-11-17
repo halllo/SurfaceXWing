@@ -95,7 +95,7 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{Binding ProxiedObject.Name}" Style="{ThemeResource BaseTextBlockStyle}" />
-				<TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding ProxiedObject.Id}" FontSize="12" Margin="10,0,0,0" Opacity="0.5"/>
+				<TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding ProxiedObject.IdDesc}" FontSize="12" Margin="10,0,0,0" Opacity="0.5"/>
 			</Grid>
 		</DataTemplate>
 
