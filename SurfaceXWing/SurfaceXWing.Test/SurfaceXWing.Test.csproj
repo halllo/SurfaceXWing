@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\LIB\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LIB\Microsoft.Expression.Controls.dll</HintPath>
@@ -56,6 +59,9 @@
     </Reference>
     <Reference Include="Microsoft.Surface.Presentation.Generic">
       <HintPath>..\LIB\Microsoft.Surface.Presentation.Generic.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\LIB\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -82,6 +88,9 @@
     </Compile>
     <Compile Include="..\SurfaceXWing\Game.cs">
       <Link>Game.cs</Link>
+    </Compile>
+    <Compile Include="..\SurfaceXWing\MBusClient.cs">
+      <Link>MBusClient.cs</Link>
     </Compile>
     <Compile Include="..\SurfaceXWing\Moves.cs">
       <Link>Moves.cs</Link>

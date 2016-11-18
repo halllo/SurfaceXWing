@@ -48,6 +48,9 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\LIB\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Controls, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LIB\Microsoft.Expression.Controls.dll</HintPath>
@@ -62,6 +65,9 @@
       <HintPath>..\LIB\Microsoft.Surface.Presentation.Generic.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\LIB\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xaml" />
     <Reference Include="UIAutomationProvider">
@@ -127,6 +133,7 @@
       <DependentUpon>EnvironmentBuilder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
+    <Compile Include="MBusClient.cs" />
     <Compile Include="Moves.cs" />
     <Compile Include="Obstacle.xaml.cs">
       <DependentUpon>Obstacle.xaml</DependentUpon>
