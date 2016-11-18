@@ -49,6 +49,7 @@ namespace SurfaceXWing
 
 		public long Id { get; private set; }
 		public TagVisual Visual { get; set; }
+		public SchiffTokens Tokens { get; set; }
 
 		Command _NewPosition;
 		public Command NewPosition

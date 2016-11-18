@@ -1,12 +1,10 @@
-﻿using SurfaceGameBasics;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
+using SurfaceGameBasics;
 
 namespace SurfaceXWing
 {
@@ -47,11 +45,11 @@ namespace SurfaceXWing
 			return ViewModel.FieldOccupants.ContainsKey(occupant);
 		}
 
-		public string AllowedOccupantId
+		public void AllowOccupant(IFieldOccupant occupant)
 		{
-			get { return ViewModel.Tokens.Id; }
-			set { ViewModel.Tokens.Id = value; }
+			ViewModel.Tokens = ((TagVisual)occupant).ViewModel.Tokens;
 		}
+		public string AllowedOccupantId { get { return ViewModel.Tokens.Id; } }
 		public bool CanOccupy(IFieldOccupant occupant)
 		{
 			return occupant.Id == AllowedOccupantId;
@@ -94,7 +92,7 @@ namespace SurfaceXWing
 			menu1.Visibility = Visibility.Visible;
 			menu2.Visibility = Visibility.Visible;
 			menu3.Visibility = Visibility.Visible;
-			itemCircle.Visibility = Visibility.Visible;
+			tokens.Visibility = Visibility.Visible;
 			ViewModel.GoBack = new Command(GoBackMethod);
 
 			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));
@@ -157,10 +155,9 @@ namespace SurfaceXWing
 		public SchiffspositionModel()
 		{
 			Range = new Command(() => RangeIndicatorVisible = !RangeIndicatorVisible);
-			Tokens = new SchiffTokens { Schild = 3, Huelle = 3 };
 		}
 
-		public SchiffTokens Tokens { get; private set; }
+		public SchiffTokens Tokens { get; set; }
 
 		Brush _Color;
 		public Brush Color

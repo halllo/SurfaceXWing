@@ -98,6 +98,9 @@
     <Compile Include="..\SurfaceXWing\Obstacle.xaml.cs">
       <Link>Obstacle.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\SurfaceXWing\RemoteGame.cs">
+      <Link>RemoteGame.cs</Link>
+    </Compile>
     <Compile Include="..\SurfaceXWing\Schiffsposition.xaml.cs">
       <Link>Schiffsposition.xaml.cs</Link>
     </Compile>

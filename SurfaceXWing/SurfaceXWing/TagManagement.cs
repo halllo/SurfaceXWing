@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace SurfaceXWing
@@ -7,12 +8,12 @@ namespace SurfaceXWing
 	{
 		public class Data
 		{
-			public string Name { get; set; }
-			public Brush Color { get; set; }
+			public SchiffTokens Tokens { get; set; }
 		}
 
 
 		public readonly static Lazy<TagManagement> Instance = new Lazy<TagManagement>(() => new TagManagement());
+		public Dictionary<long, Data> Tags = new Dictionary<long, Data>();
 
 
 		public event Action<TagVisualModel> TagRegistered;
@@ -23,6 +24,11 @@ namespace SurfaceXWing
 		}
 		public void Register(long tag, TagVisualModel viewModel)
 		{
+			if (!Tags.ContainsKey(tag))
+				Tags.Add(tag, new Data { Tokens = new SchiffTokens(tag.ToString()) });
+
+			viewModel.Tokens = Tags[tag].Tokens;
+
 			RaiseTagRegistered(viewModel);
 		}
 

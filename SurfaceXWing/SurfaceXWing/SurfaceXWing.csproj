@@ -138,6 +138,7 @@
     <Compile Include="Obstacle.xaml.cs">
       <DependentUpon>Obstacle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RemoteGame.cs" />
     <Compile Include="Schiffsposition.xaml.cs">
       <DependentUpon>Schiffsposition.xaml</DependentUpon>
     </Compile>

@@ -25,11 +25,11 @@ namespace SurfaceXWing
 		public class StressToken : Token { }
 		public class SchadenToken : Token { }
 
-		public SchiffTokens()
+		public SchiffTokens(string id)
 		{
 			All = new ObservableCollection<Token>(new List<Token>
 			{
-				new IdToken { Value = string.Empty }
+				new IdToken { Value = id }
 			});
 		}
 

@@ -41,7 +41,7 @@ namespace SurfaceXWing
 					orientation: visual.OrientationAngle,
 					color: visual.ViewModel.TacticleColor
 				);
-				neueSchiffsposition.AllowedOccupantId = ((IFieldOccupant)visual).Id;
+				neueSchiffsposition.AllowOccupant(visual);
 			});
 		}
 
@@ -200,7 +200,7 @@ namespace SurfaceXWing
 			_Spielfeld.Register((IField)potenziellesZiel);
 
 			potenziellesZiel.Occupied += ZielOccupied;
-			potenziellesZiel.AllowedOccupantId = _Mover.Id;
+			potenziellesZiel.AllowOccupant(_Mover);
 		}
 
 		private void ZielOccupied(IField field, IFieldOccupant occupant)

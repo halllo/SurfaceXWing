@@ -62,7 +62,7 @@
 					   VerticalAlignment="Top"
 					   Orientation="45"/>
 
-		<local:TokenCircle DataContext="{Binding Tokens}" x:Name="itemCircle" Visibility="Collapsed"/>
+		<local:TokenCircle DataContext="{Binding Tokens}" x:Name="tokens" Visibility="Collapsed"/>
 
 	</Grid>
 </UserControl>
