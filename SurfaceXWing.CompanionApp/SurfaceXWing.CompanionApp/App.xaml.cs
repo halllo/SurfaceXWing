@@ -182,13 +182,16 @@ namespace SurfaceXWing.CompanionApp
 					.ToList(),
 				Manoeuvers = new Manoeuvers
 				{
-					Grid = p.manoeuvers.Select(m => Regex.Matches(m.Value, "<td class=\"manoeuvre\">((.|\n|\r)*?)<\\/td>").OfType<Match>()
-						.Select(row =>
-						{
-							var match = Regex.Match(row.Value, "<img src=\"((.|\n|\r)*?)\">");
-							return match.Success ? XWingBuilderBaseUrl + match.Groups[1].Value : null;
-						}).ToArray()
-						).ToArray()
+					Grid = p.manoeuvers.Select(m => new Manoeuvers.Row
+					{
+						Speed = int.Parse(Regex.Matches(m.Value, "speed\">(.*?)<\\/td>").OfType<Match>().FirstOrDefault()?.Groups[1].Value ?? "-1"),
+						Columns = Regex.Matches(m.Value, "<td class=\"manoeuvre\">((.|\n|\r)*?)<\\/td>").OfType<Match>()
+							.Select(column =>
+							{
+								var match = Regex.Match(column.Value, "<img src=\"((.|\n|\r)*?)\">");
+								return match.Success ? XWingBuilderBaseUrl + match.Groups[1].Value : null;
+							}).ToArray()
+					}).ToArray()
 				},
 			}).ToList();
 			return pilots;
@@ -308,7 +311,7 @@ namespace SurfaceXWing.CompanionApp
 		{
 			if (Manoeuvers.SelectedMove != null)
 			{
-				await EmitOnMBus($"move;{Id};{Manoeuvers.SelectedMove.Split(new[] { '/' }).Last()}");
+				await EmitOnMBus($"move;{Id};{Manoeuvers.SelectedSpeed},{Manoeuvers.AusgewähltesManöver}");
 			}
 		}
 
@@ -345,17 +348,27 @@ namespace SurfaceXWing.CompanionApp
 
 	public class Manoeuvers : JustObjectsPrototype.Universal.Shell.ViewModel
 	{
-		public string[][] Grid
+		public class Row
+		{
+			public int Speed { get; set; }
+			public string[] Columns { get; set; }
+		}
+
+		public Row[] Grid
 		{
 			set
 			{
-				GridVM = value.Select(r => r.Select(c =>
+				GridVM = value.Select(r => r.Columns.Select(c =>
 				{
 					return new MoveViewModel
 					{
 						Url = c,
 						Choose = new Command(
-							execute: p => SelectedMove = c,
+							execute: p =>
+							{
+								SelectedMove = c;
+								SelectedSpeed = r.Speed;
+							},
 							canExecute: p => !string.IsNullOrEmpty(c))
 					};
 				}).ToArray()).ToArray();
@@ -364,11 +377,24 @@ namespace SurfaceXWing.CompanionApp
 
 		public MoveViewModel[][] GridVM { get; private set; }
 
-		string selectedMove;
-		public string SelectedMove
+		string selectedMove; public string SelectedMove { get { return selectedMove; } set { selectedMove = value; Changed(); } }
+		int selectedSpeed; public int SelectedSpeed { get { return selectedSpeed; } set { selectedSpeed = value; Changed(); } }
+
+		public string AusgewähltesManöver
 		{
-			get { return selectedMove; }
-			set { selectedMove = value; Changed(); }
+			get
+			{
+				var move = SelectedMove.Split(new[] { '/' }).Last();
+				if (move.Contains("forward")) return "gradeaus";
+				if (move.Contains("koiogram")) return "wende";
+				if (move.Contains("bank_left")) return "schräglinks";
+				if (move.Contains("turn_left")) return "scharflinks";
+				if (move.Contains("segnors_loop_left")) return "schrägewendelinks";
+				if (move.Contains("bank_right")) return "schrägrechts";
+				if (move.Contains("turn_right")) return "scharfrechts";
+				if (move.Contains("segnors_loop_right")) return "schrägewenderechts";
+				return string.Empty;
+			}
 		}
 
 		public class MoveViewModel
