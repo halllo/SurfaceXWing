@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace SurfaceXWing
 {
 	public class ForwardMove : Move
 	{
 		List<Path> _Fluglinien = new List<Path>();
-
-		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
+		
+		protected override void CreatePotenzielleZiele(Schiffsposition von, object argument, Action<Schiffsposition> enable)
 		{
 			var angle = von.OrientationAngle;
 			var position = von.Position.AsVector();
@@ -21,105 +22,141 @@ namespace SurfaceXWing
 			var rechts = (angle + 90).AsVector();
 
 
-			enable(SchiffspositionFabrik.Neu(//1gradeaus
+			if (Requested(argument, "1gradeaus")) enable(SchiffspositionFabrik.Neu(//1gradeaus
 				position: position + (gradeaus * 172),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
+			if (RequestedOnly(argument, "1wende")) enable(SchiffspositionFabrik.Neu(//1wende
+				position: position + (gradeaus * 172),
+				orientation: angle - 180,
+				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			enable(SchiffspositionFabrik.Neu(//1scharflinks
+			if (Requested(argument, "1scharflinks")) enable(SchiffspositionFabrik.Neu(//1scharflinks
 				position: position + (gradeaus * 120) + (links * 120),
 				orientation: angle - 90,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			enable(SchiffspositionFabrik.Neu(//1leichtlinks
+			if (Requested(argument, "1schräglinks")) enable(SchiffspositionFabrik.Neu(//1leichtlinks
 				position: position + (gradeaus * 202) + (links * 82),
 				orientation: angle - 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			enable(SchiffspositionFabrik.Neu(//1scharfrechts
+			if (Requested(argument, "1scharfrechts")) enable(SchiffspositionFabrik.Neu(//1scharfrechts
 				position: position + (gradeaus * 120) + (rechts * 120),
 				orientation: angle + 90,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
-			enable(SchiffspositionFabrik.Neu(//1leichtrechts
+			if (Requested(argument, "1schrägrechts")) enable(SchiffspositionFabrik.Neu(//1leichtrechts
 				position: position + (gradeaus * 202) + (rechts * 82),
 				orientation: angle + 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "1"));
 
 
-			enable(SchiffspositionFabrik.Neu(//2gradeaus
+			if (Requested(argument, "2gradeaus")) enable(SchiffspositionFabrik.Neu(//2gradeaus
 				position: position + (gradeaus * 259),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+			if (RequestedOnly(argument, "2wende")) enable(SchiffspositionFabrik.Neu(//2wende
+				position: position + (gradeaus * 259),
+				orientation: angle - 180,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
-			enable(SchiffspositionFabrik.Neu(//2scharflinks
+			if (Requested(argument, "2scharflinks")) enable(SchiffspositionFabrik.Neu(//2scharflinks
 				position: position + (gradeaus * 180) + (links * 180),
 				orientation: angle - 90,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
-			enable(SchiffspositionFabrik.Neu(//2leichtlinks
+			if (Requested(argument, "2schräglinks")) enable(SchiffspositionFabrik.Neu(//2leichtlinks
 				position: position + (gradeaus * 275) + (links * 119),
 				orientation: angle - 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+			if (RequestedOnly(argument, "2schrägewendelinks")) enable(SchiffspositionFabrik.Neu(//2schrägewendelinks
+				position: position + (gradeaus * 275) + (links * 119),
+				orientation: angle - 45 - 180,
+				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
-			enable(SchiffspositionFabrik.Neu(//2scharfrechts
+			if (Requested(argument, "2scharfrechts")) enable(SchiffspositionFabrik.Neu(//2scharfrechts
 				position: position + (gradeaus * 180) + (rechts * 180),
 				orientation: angle + 90,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
-			enable(SchiffspositionFabrik.Neu(//2leichtrechts
+			if (Requested(argument, "2schrägrechts")) enable(SchiffspositionFabrik.Neu(//2leichtrechts
 				position: position + (gradeaus * 275) + (rechts * 119),
 				orientation: angle + 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "2"));
+			if (RequestedOnly(argument, "2schrägewenderechts")) enable(SchiffspositionFabrik.Neu(//2schrägewenderechts
+				 position: position + (gradeaus * 275) + (rechts * 119),
+				 orientation: angle + 45 + 180,
+				 color: von.ViewModel.Color, opacity: 0.4, label: "2"));
 
 
-			enable(SchiffspositionFabrik.Neu(//3gradeaus
+			if (Requested(argument, "3gradeaus")) enable(SchiffspositionFabrik.Neu(//3gradeaus
 				position: position + (gradeaus * 346),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
+			if (RequestedOnly(argument, "3wende")) enable(SchiffspositionFabrik.Neu(//3wende
+				position: position + (gradeaus * 346),
+				orientation: angle - 180,
+				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
-			enable(SchiffspositionFabrik.Neu(//3scharflinks
+			if (Requested(argument, "3scharflinks")) enable(SchiffspositionFabrik.Neu(//3scharflinks
 				position: position + (gradeaus * 240) + (links * 240),
 				orientation: angle - 90,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
-			enable(SchiffspositionFabrik.Neu(//3leichtlinks
+			if (Requested(argument, "3schräglinks")) enable(SchiffspositionFabrik.Neu(//3leichtlinks
 				position: position + (gradeaus * 355) + (links * 145),
 				orientation: angle - 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
-			enable(SchiffspositionFabrik.Neu(//3scharfrechts
+			if (Requested(argument, "3scharfrechts")) enable(SchiffspositionFabrik.Neu(//3scharfrechts
 				position: position + (gradeaus * 240) + (rechts * 240),
 				orientation: angle + 90,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
-			enable(SchiffspositionFabrik.Neu(//3lechtrechts
+			if (Requested(argument, "3schrägrechts")) enable(SchiffspositionFabrik.Neu(//3leichtrechts
 				position: position + (gradeaus * 355) + (rechts * 145),
 				orientation: angle + 45,
 				color: von.ViewModel.Color, opacity: 0.4, label: "3"));
 
 
-			enable(SchiffspositionFabrik.Neu(//4gradeaus
+			if (Requested(argument, "4gradeaus")) enable(SchiffspositionFabrik.Neu(//4gradeaus
 				position: position + (gradeaus * 433),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "4"));
+			if (RequestedOnly(argument, "4wende")) enable(SchiffspositionFabrik.Neu(//4wende
+				position: position + (gradeaus * 433),
+				orientation: angle - 180,
+				color: von.ViewModel.Color, opacity: 0.4, label: "4"));
 
-			enable(SchiffspositionFabrik.Neu(//5gradeaus
+			if (Requested(argument, "5gradeaus")) enable(SchiffspositionFabrik.Neu(//5gradeaus
 				position: position + (gradeaus * 520),
 				orientation: angle,
 				color: von.ViewModel.Color, opacity: 0.4, label: "5"));
+			if (RequestedOnly(argument, "5wende")) enable(SchiffspositionFabrik.Neu(//5wende
+				position: position + (gradeaus * 520),
+				orientation: angle - 180,
+				color: von.ViewModel.Color, opacity: 0.4, label: "5"));
 
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 77,77 0 0 0 -34,-77") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 77,77 0 0 1 120,-77") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 137,137 0 0 0 -94,-137") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 137,137 0 0 1 180,-137") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 300,300 0 0 0 -46,-201") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 300,300 0 0 1 132,-201") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 196,196 0 0 0 -154,-197") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 196,196 0 0 1 240,-197") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 390,390 0 0 0 -72,-281") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 390,390 0 0 1 158,-281") });
-			_Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 L 43,-434") });
+
+			if (Requested(argument, "1scharflinks")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 77,77 0 0 0 -34,-77") });
+			if (Requested(argument, "1scharfrechts")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 77,77 0 0 1 120,-77") });
+			if (Requested(argument, "2scharflinks")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 137,137 0 0 0 -94,-137") });
+			if (Requested(argument, "2scharfrechts")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 137,137 0 0 1 180,-137") });
+			if (Requested(argument, "2schräglinks", "2schrägewendelinks")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 300,300 0 0 0 -46,-201") });
+			if (Requested(argument, "2schrägrechts", "2schrägewenderechts")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 300,300 0 0 1 132,-201") });
+			if (Requested(argument, "3scharflinks")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 196,196 0 0 0 -154,-197") });
+			if (Requested(argument, "3scharfrechts")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 196,196 0 0 1 240,-197") });
+			if (Requested(argument, "3schräglinks")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 390,390 0 0 0 -72,-281") });
+			if (Requested(argument, "3schrägrechts")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 390,390 0 0 1 158,-281") });
+			if (RequestedOnly(argument, "1schräglinks")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 180,180 0 0 0 -8.5,-128.5") });
+			if (RequestedOnly(argument, "1schrägrechts")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 A 180,180 0 0 1 94.5,-128.5") });
+			if (Requested(argument, "5gradeaus", "5wende")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 L 43,-434") });
+			if (RequestedOnly(argument, "1gradeaus", "1wende")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 L 43,-86") });
+			if (RequestedOnly(argument, "2gradeaus", "2wende")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 L 43,-173") });
+			if (RequestedOnly(argument, "3gradeaus", "3wende")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 L 43,-260") });
+			if (RequestedOnly(argument, "4gradeaus", "4wende")) _Fluglinien.Add(new Path { Opacity = 0.2, Stroke = Brushes.White, StrokeThickness = 43, Data = Geometry.Parse("M 43,0 L 43,-347") });
+
 			_Fluglinien.ForEach(fl => von.Canvas.Children.Add(fl));
 		}
 
@@ -127,6 +164,18 @@ namespace SurfaceXWing
 		{
 			_Fluglinien.ForEach(fl => von.Canvas.Children.Remove(fl));
 			_Fluglinien.Clear();
+		}
+
+		private static bool Requested(object argument, params string[] options)
+		{
+			string arg = argument != null ? argument.ToString() : null;
+			return argument == null || options.Any(o => o == arg);
+		}
+
+		private static bool RequestedOnly(object argument, params string[] options)
+		{
+			string arg = argument != null ? argument.ToString() : null;
+			return argument != null && options.Any(o => o == arg);
 		}
 	}
 
@@ -156,7 +205,7 @@ namespace SurfaceXWing
 		List<Path> _FluglinienLinks = new List<Path>();
 		List<Path> _FluglinienRechts = new List<Path>();
 
-		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
+		protected override void CreatePotenzielleZiele(Schiffsposition von, object argument, Action<Schiffsposition> enable)
 		{
 			_Angle = von.OrientationAngle;
 			_Position = von.Position.AsVector();
@@ -313,7 +362,7 @@ namespace SurfaceXWing
 
 		List<Path> _Fluglinien = new List<Path>();
 
-		protected override void CreatePotenzielleZiele(Schiffsposition von, Action<Schiffsposition> enable)
+		protected override void CreatePotenzielleZiele(Schiffsposition von, object argument, Action<Schiffsposition> enable)
 		{
 			_Angle = von.OrientationAngle;
 			_Position = von.Position.AsVector();

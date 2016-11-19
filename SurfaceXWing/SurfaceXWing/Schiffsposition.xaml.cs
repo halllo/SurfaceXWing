@@ -83,10 +83,10 @@ namespace SurfaceXWing
 		public IFieldOccupant LastOccupant { get; private set; }
 
 		public void Activate(
-			Action<Schiffsposition> onForget = null,
-			Action<Schiffsposition> onForward = null,
-			Action<Schiffsposition> onBarrelRoll = null,
-			Action<Schiffsposition> onSlide3 = null)
+			Action<Schiffsposition, object> onForget = null,
+			Action<Schiffsposition, object> onForward = null,
+			Action<Schiffsposition, object> onBarrelRoll = null,
+			Action<Schiffsposition, object> onSlide3 = null)
 		{
 			Opacity = 1.0;
 			menu1.Visibility = Visibility.Visible;
@@ -95,10 +95,10 @@ namespace SurfaceXWing
 			tokens.Visibility = Visibility.Visible;
 			ViewModel.GoBack = new Command(GoBackMethod);
 
-			if (onForget != null) ViewModel.Forget = new Command(() => onForget(this));
-			if (onForward != null) ViewModel.Forward = new Command(() => onForward(this));
-			if (onBarrelRoll != null) ViewModel.BarrelRoll = new Command(() => onBarrelRoll(this));
-			if (onSlide3 != null) ViewModel.Slide3 = new Command(() => onSlide3(this));
+			if (onForget != null) ViewModel.Forget = new Command(o => onForget(this, o));
+			if (onForward != null) ViewModel.Forward = new Command(o => onForward(this, o));
+			if (onBarrelRoll != null) ViewModel.BarrelRoll = new Command(o => onBarrelRoll(this, o));
+			if (onSlide3 != null) ViewModel.Slide3 = new Command(o => onSlide3(this, o));
 		}
 
 		public void PositionAt(Vector position)

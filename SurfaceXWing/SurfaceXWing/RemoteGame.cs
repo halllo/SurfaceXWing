@@ -67,6 +67,12 @@ namespace SurfaceXWing
 								tagData.Tokens.Ausweichen = ausweichen;
 								tagData.Tokens.Fokus = fokus;
 								tagData.Tokens.Stress = stress;
+
+								var schiffsposition = FieldsContainer.Children.OfType<Schiffsposition>().Where(p => p.Opacity == 1.0 && p.AllowedOccupantId == id.ToString()).FirstOrDefault();
+								if (schiffsposition != null && schiffsposition.ViewModel.Cancel != null)
+								{
+									schiffsposition.ViewModel.Cancel.Execute(null);
+								}
 							}));
 						}
 					}
@@ -76,7 +82,36 @@ namespace SurfaceXWing
 				else if (messageItems[0] == "move")
 				{
 					Log(clientname + ": " + message);
-					//TODO
+					try
+					{
+						var id = long.Parse(messageItems[1]);
+						var speed = int.Parse(messageItems[2]);
+						var move = messageItems[3];
+
+						if (TagManagement.Instance.Value.Tags.ContainsKey(id))
+						{
+							FieldsContainer.Dispatcher.BeginInvoke(new Action(() =>
+							{
+								var schiffsposition = FieldsContainer.Children.OfType<Schiffsposition>().Where(p => p.Opacity == 1.0 && p.AllowedOccupantId == id.ToString()).FirstOrDefault();
+								if (schiffsposition != null)
+								{
+									if (move.Contains("schräglinks")
+										|| move.Contains("schrägrechts")
+										|| move.Contains("scharfrechts")
+										|| move.Contains("scharflinks")
+										|| move.Contains("gradeaus")
+										|| move.Contains("wende"))
+										schiffsposition.ViewModel.Forward.Execute(speed + move);
+									else if (move.Contains("rollen"))
+										schiffsposition.ViewModel.BarrelRoll.Execute(speed + move);
+									else if (move.Contains("TODO: besondere 3er wende"))
+										schiffsposition.ViewModel.Slide3.Execute(speed + move);
+								}
+							}));
+						}
+					}
+					catch (Exception)
+					{ }
 				}
 			}
 		}

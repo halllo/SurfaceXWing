@@ -311,7 +311,16 @@ namespace SurfaceXWing.CompanionApp
 		{
 			if (Manoeuvers.SelectedMove != null)
 			{
-				await EmitOnMBus($"move;{Id};{Manoeuvers.SelectedSpeed},{Manoeuvers.AusgewähltesManöver}");
+				await EmitOnMBus($"move;{Id};{Manoeuvers.SelectedSpeed};{Manoeuvers.AusgewähltesManöver}");
+			}
+		}
+
+		[Icon(Symbol.Rotate), WithProgressBar]
+		public async void Rollen()
+		{
+			if (Manoeuvers.SelectedMove != null)
+			{
+				await EmitOnMBus($"move;{Id};0;rollen");
 			}
 		}
 
