@@ -8,7 +8,6 @@ namespace SurfaceXWing
 	{
 		MBusClient _MBus = new MBusClient("SurfaceXWing");
 
-		public Game Spiel { get; set; }
 		public Canvas FieldsContainer { get; set; }
 
 		public void ConnectToMBus(string url = "http://mbusrelay.azurewebsites.net/signalr")

@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SurfaceXWing
 {
@@ -31,6 +31,8 @@ namespace SurfaceXWing
 			{
 				new IdToken { Value = id }
 			});
+
+			Zielerfassungen = id == "51" ? new List<string> { "100" } : new List<string>();
 		}
 
 		public ObservableCollection<Token> All { get; private set; }
@@ -42,6 +44,8 @@ namespace SurfaceXWing
 		public int Ausweichen { get { return All.OfType<AusweichenToken>().Count(); } set { Set<AusweichenToken>(value); } }
 		public int Stress { get { return All.OfType<StressToken>().Count(); } set { Set<StressToken>(value); } }
 		public int Schaden { get { return All.OfType<SchadenToken>().Count(); } set { Set<SchadenToken>(value); } }
+
+		public List<string> Zielerfassungen { get; set; }
 
 		private void Set<T>(int times) where T : Token, new()
 		{

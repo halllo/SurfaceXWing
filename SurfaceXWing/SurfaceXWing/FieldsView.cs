@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace SurfaceGameBasics
@@ -12,6 +15,9 @@ namespace SurfaceGameBasics
 		ConcurrentDictionary<IField, FieldPosition> _fields = new ConcurrentDictionary<IField, FieldPosition>();
 		ConcurrentDictionary<IFieldOccupant, byte> _occupants = new ConcurrentDictionary<IFieldOccupant, byte>();
 		ConcurrentDictionary<IFieldOccupant, byte> _untrackedOccupants = new ConcurrentDictionary<IFieldOccupant, byte>();
+		
+		protected IEnumerable<IField> Fields { get { return _fields.Keys; } }
+		protected IEnumerable<IFieldOccupant> Occupants { get { return _occupants.Keys; } }
 
 		public FieldsView()
 		{
@@ -161,6 +167,13 @@ namespace SurfaceGameBasics
 			var degrees = (angle + 360 - 90) % 360;
 			var radians = degrees * Math.PI / 180.0;
 			return new Vector(Math.Cos(radians), Math.Sin(radians));
+		}
+
+		public static Vector Rotate(this Vector vector, double angle)
+		{
+			var matrix = new Matrix();
+			matrix.Rotate(angle);
+			return matrix.Transform(vector);
 		}
 	}
 

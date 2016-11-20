@@ -53,5 +53,9 @@
 				<EllipseGeometry RadiusX="80" RadiusY="80"/>
 			</Path.Data>
 		</Path>
+
+		<Canvas x:Name="Canvas" x:FieldModifier="public">
+		</Canvas>
+		
 	</Grid>
 </UserControl>
