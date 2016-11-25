@@ -137,6 +137,136 @@
 			</Grid>
 		</DataTemplate>
 
+		<local:DiceSideTemplateSelector x:Key="attackSides">
+			<local:DiceSideTemplateSelector.Side1>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red" />
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side1>
+			<local:DiceSideTemplateSelector.Side2>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red" />
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side2>
+			<local:DiceSideTemplateSelector.Side3>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red">
+						<Image Width="40" Height="40" Source="/Assets/normal_hit.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side3>
+			<local:DiceSideTemplateSelector.Side4>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red">
+						<Image Width="40" Height="40" Source="/Assets/normal_hit.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side4>
+			<local:DiceSideTemplateSelector.Side5>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red">
+						<Image Width="40" Height="40" Source="/Assets/normal_hit.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side5>
+			<local:DiceSideTemplateSelector.Side6>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red">
+						<Image Width="40" Height="40" Source="/Assets/critical_hit.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side6>
+			<local:DiceSideTemplateSelector.Side7>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red">
+						<Image Width="40" Height="40" Source="/Assets/focus.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side7>
+			<local:DiceSideTemplateSelector.Side8>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Red">
+						<Image Width="40" Height="40" Source="/Assets/focus.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side8>
+		</local:DiceSideTemplateSelector>
+		<DataTemplate x:Key="AttackDice">
+			<Grid Margin="0,10,0,10">
+				<ListView ItemsSource="{Binding Value}" ItemTemplateSelector="{StaticResource attackSides}">
+					<ListView.ItemsPanel>
+						<ItemsPanelTemplate>
+							<ItemsWrapGrid Orientation="Horizontal"/>
+						</ItemsPanelTemplate>
+					</ListView.ItemsPanel>
+				</ListView>
+			</Grid>
+		</DataTemplate>
+
+		<local:DiceSideTemplateSelector x:Key="defendSides">
+			<local:DiceSideTemplateSelector.Side1>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green" />
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side1>
+			<local:DiceSideTemplateSelector.Side2>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green" />
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side2>
+			<local:DiceSideTemplateSelector.Side3>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green" />
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side3>
+			<local:DiceSideTemplateSelector.Side4>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green">
+						<Image Width="40" Height="40" Source="/Assets/evade.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side4>
+			<local:DiceSideTemplateSelector.Side5>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green">
+						<Image Width="40" Height="40" Source="/Assets/evade.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side5>
+			<local:DiceSideTemplateSelector.Side6>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green">
+						<Image Width="40" Height="40" Source="/Assets/evade.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side6>
+			<local:DiceSideTemplateSelector.Side7>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green">
+						<Image Width="40" Height="40" Source="/Assets/focus.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side7>
+			<local:DiceSideTemplateSelector.Side8>
+				<DataTemplate>
+					<Border Width="60" Height="60" CornerRadius="10" Margin="0,0,0,30" Background="Green">
+						<Image Width="40" Height="40" Source="/Assets/focus.png"/>
+					</Border>
+				</DataTemplate>
+			</local:DiceSideTemplateSelector.Side8>
+		</local:DiceSideTemplateSelector>
+		<DataTemplate x:Key="DefendDice">
+			<Grid Margin="0,10,0,10">
+				<ListView ItemsSource="{Binding Value}" ItemTemplateSelector="{StaticResource defendSides}">
+					<ListView.ItemsPanel>
+						<ItemsPanelTemplate>
+							<ItemsWrapGrid Orientation="Horizontal"/>
+						</ItemsPanelTemplate>
+					</ListView.ItemsPanel>
+				</ListView>
+			</Grid>
+		</DataTemplate>
+
 	</Application.Resources>
 
 </Application>

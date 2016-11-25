@@ -11,8 +11,11 @@ using System.Windows.Input;
 using JustObjectsPrototype.Universal;
 using JustObjectsPrototype.Universal.JOP;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation.Metadata;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -39,12 +42,23 @@ namespace SurfaceXWing.CompanionApp
 			catch (Exception) { await Schiffspeicher.DeleteAll(); }
 
 
-			Prototype = Show.Prototype(With.These(await Squadronspeicher.All(), schiffe, await Einstellungen.Alle())
+			Prototype = Show.Prototype(With.These(await Squadronspeicher.All(), schiffe, Dice.Alle(), await Einstellungen.Alle())
 				.AndViewOf<Squadron>()
 				.AndViewOf<Pilot>()
 				.AndViewOf<Ship>()
+				.AndViewOf<Dice>()
 				.AndViewOf<Einstellungen>()
 				.AndOpen<Squadron>());
+
+
+
+			var isStatusBarPresent = ApiInformation.IsTypePresent(typeof(StatusBar).ToString());
+			if (isStatusBarPresent)
+			{
+				var statusBar = StatusBar.GetForCurrentView();
+				statusBar.BackgroundColor = Colors.White;
+				statusBar.ForegroundColor = Colors.Black;
+			}
 		}
 
 		public static Prototype Prototype;
@@ -243,6 +257,110 @@ namespace SurfaceXWing.CompanionApp
 		}
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	[Title("Würfel"), Icon(Symbol.Stop)]
+	public abstract class Dice
+	{
+		internal static Dice[] Alle()
+		{
+			return new Dice[]
+			{
+				new Angreifen(),
+				new Verteidigen(),
+			};
+		}
+
+		public Dice()
+		{
+			Würfel = new ObservableCollection<int>();
+		}
+
+		public abstract ObservableCollection<int> Würfel { get; set; }
+		[Title("mehr"), Icon(Symbol.Add)]
+		public void MehrWürfel()
+		{
+			Würfel.Add(1);
+		}
+		[Title("weniger"), Icon(Symbol.Remove)]
+		public void WenigerWürfel()
+		{
+			if (Würfel.Count > 0)
+			{
+				Würfel.RemoveAt(0);
+			}
+		}
+		[WithProgressBar, Icon(Symbol.Shuffle)]
+		public async Task Würfeln()
+		{
+			for (int j = 0; j < 10; j++)
+			{
+				for (int i = 0; i < Würfel.Count; i++)
+				{
+					Würfel[i] = random.Next(1, 8);
+				}
+				await Task.Delay(100);
+			}
+		}
+		Random random = new Random();
+
+		class Angreifen : Dice
+		{
+			public override string ToString() => "Angreifen";
+			[CustomView("AttackDice")]
+			public override ObservableCollection<int> Würfel { get; set; }
+		}
+
+		class Verteidigen : Dice
+		{
+			public override string ToString() => "Verteidigen";
+			[CustomView("DefendDice")]
+			public override ObservableCollection<int> Würfel { get; set; }
+		}
+	}
+	public class DiceSideTemplateSelector : DataTemplateSelector
+	{
+		public DataTemplate Side1 { get; set; }
+		public DataTemplate Side2 { get; set; }
+		public DataTemplate Side3 { get; set; }
+		public DataTemplate Side4 { get; set; }
+		public DataTemplate Side5 { get; set; }
+		public DataTemplate Side6 { get; set; }
+		public DataTemplate Side7 { get; set; }
+		public DataTemplate Side8 { get; set; }
+
+		protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+		{
+			switch ((int)item)
+			{
+				case 1: return Side1;
+				case 2: return Side2;
+				case 3: return Side3;
+				case 4: return Side4;
+				case 5: return Side5;
+				case 6: return Side6;
+				case 7: return Side7;
+				case 8: return Side8;
+				default: return null;
+			}
+		}
+	}
 
 
 
