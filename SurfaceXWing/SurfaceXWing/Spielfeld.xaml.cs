@@ -61,15 +61,17 @@ namespace SurfaceXWing
 					if (fieldsById[zielerfassung].Any())
 					{
 						var ziel = fieldsById[zielerfassung].First();
-						var zielerfassungsVektor = ziel.Position.AsVector() - field.Position.AsVector();
-						var zurueckGedrehterZielerfassungsVektor = zielerfassungsVektor.Rotate(-field.OrientationAngle);
-						var zielerfassungslinie = new Line
+						var entfernungsVektor = ziel.Position.AsVector() - field.Position.AsVector();
+						var entfernungsUndRichtungsVektor = entfernungsVektor.Rotate(-field.OrientationAngle);
+						var zielerfassungsVektor = entfernungsUndRichtungsVektor.Enlarge(-61);
+
+						var zielerfassungslinie = new ArrowLine
 						{
 							X1 = 43,
 							Y1 = 43,
-							X2 = zurueckGedrehterZielerfassungsVektor.X + 43,
-							Y2 = zurueckGedrehterZielerfassungsVektor.Y + 43,
-							Stroke = Brushes.Yellow,
+							X2 = zielerfassungsVektor.X + 43,
+							Y2 = zielerfassungsVektor.Y + 43,
+							Stroke = field.ViewModel.Color,
 							StrokeThickness = 1
 						};
 						field.tokens.Canvas.Children.Add(zielerfassungslinie);

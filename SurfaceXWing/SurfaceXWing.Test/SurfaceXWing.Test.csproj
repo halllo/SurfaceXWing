@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\SurfaceXWing\ArrowLine.cs">
+      <Link>ArrowLine.cs</Link>
+    </Compile>
     <Compile Include="..\SurfaceXWing\EnvironmentBuilder.xaml.cs">
       <Link>EnvironmentBuilder.xaml.cs</Link>
     </Compile>

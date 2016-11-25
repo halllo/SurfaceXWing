@@ -129,6 +129,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ArrowLine.cs" />
     <Compile Include="EnvironmentBuilder.xaml.cs">
       <DependentUpon>EnvironmentBuilder.xaml</DependentUpon>
     </Compile>

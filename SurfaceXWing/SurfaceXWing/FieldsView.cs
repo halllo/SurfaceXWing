@@ -175,6 +175,15 @@ namespace SurfaceGameBasics
 			matrix.Rotate(angle);
 			return matrix.Transform(vector);
 		}
+
+		public static Vector Enlarge(this Vector vector, double lengthAddition)
+		{
+			var newLength = vector.Length + lengthAddition;
+			var copiedVector = new Vector(vector.X, vector.Y);
+			copiedVector.Normalize();
+			var newVector = copiedVector * newLength;
+			return newVector;
+		}
 	}
 
 	public static class AngleCalculator

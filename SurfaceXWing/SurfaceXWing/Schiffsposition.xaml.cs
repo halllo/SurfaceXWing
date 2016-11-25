@@ -279,7 +279,7 @@ namespace SurfaceXWing
 			}
 			else
 			{
-				BackgroundOpacity = 0.1;
+				BackgroundOpacity = 0.5;
 			}
 		}
 	}
