@@ -11,8 +11,7 @@
 	</Canvas>
 
 	<TextBlock FontSize="20" Foreground="Blue" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="centerText"/>
-	<s:SurfaceButton Content="Zielerfassungen aktualisieren" Click="ZielerfassungenAktualisieren" Width="250" Height="30"/>
-
+	
 	<s:ScatterView HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<local:EnvironmentBuilder x:Name="environmentBuilder"/>

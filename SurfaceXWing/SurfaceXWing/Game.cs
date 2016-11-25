@@ -42,6 +42,7 @@ namespace SurfaceXWing
 					color: visual.ViewModel.TacticleColor
 				);
 				neueSchiffsposition.AllowOccupant(visual);
+				((Spielfeld)_Spielfeld).ZieleErfassen();
 			});
 		}
 
@@ -71,7 +72,7 @@ namespace SurfaceXWing
 				onForward: Forward,
 				onBarrelRoll: BarrelRoll,
 				onSlide3: Slide3);
-
+			
 			return schiffsposition;
 		}
 
@@ -102,6 +103,7 @@ namespace SurfaceXWing
 			schiffsposition.Occupied -= CancelMove;
 			_FieldsContainer.Children.Remove(schiffsposition);
 			_Spielfeld.Unregister(schiffsposition);
+			((Spielfeld)_Spielfeld).ZieleErfassen();
 		}
 
 		private void Forward(Schiffsposition schiffsposition, object argument)
@@ -151,7 +153,7 @@ namespace SurfaceXWing
 						onForward: Forward,
 						onBarrelRoll: BarrelRoll,
 						onSlide3: Slide3);
-
+					((Spielfeld)_Spielfeld).ZieleErfassen();
 				});
 				move.CreatePotenzielleZiele();
 				schiffsposition.Move = move;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Windows;
@@ -36,6 +35,7 @@ namespace SurfaceGameBasics
 				if (!_fields.ContainsKey(field))
 				{
 					field.PositionChanged += FieldPositionChanged;
+					field.FieldsView = this;
 				}
 
 				_fields.TryAdd(field, new FieldPosition());
@@ -262,6 +262,7 @@ namespace SurfaceGameBasics
 		event Action<IField, IFieldOccupant> Yielded;
 
 		IFieldOccupant LastOccupant { get; }
+		FieldsView FieldsView { set; }
 	}
 
 	public interface IFieldOccupant

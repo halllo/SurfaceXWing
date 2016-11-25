@@ -81,6 +81,7 @@ namespace SurfaceXWing
 		public event Action<IField, IFieldOccupant> Yielded;
 
 		public IFieldOccupant LastOccupant { get; private set; }
+		public FieldsView FieldsView { get; set; }
 
 		public void Activate(
 			Action<Schiffsposition, object> onForget = null,
@@ -129,6 +130,7 @@ namespace SurfaceXWing
 
 				OrientationAngle = letztePosition.Orientation;
 				PositionAt(letztePosition.Point);
+				((Spielfeld)FieldsView).ZieleErfassen();
 			}
 		}
 	}

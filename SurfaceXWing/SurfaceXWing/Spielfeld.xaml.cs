@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using SurfaceGameBasics;
 
 namespace SurfaceXWing
@@ -46,23 +44,19 @@ namespace SurfaceXWing
 		}
 
 
-		private void ZielerfassungenAktualisieren(object sender, System.Windows.RoutedEventArgs e)
-		{
-			ZieleErfassen();
-		}
 		public void ZieleErfassen()
 		{
-			var fieldsById = Fields.Cast<Schiffsposition>().ToLookup(f => f.AllowedOccupantId);
-			foreach (var field in fieldsById.Select(group => group.First()))
+			var andereSchiffspositionen = Fields.Cast<Schiffsposition>().Where(s => s.Opacity == 1.0).ToLookup(s => s.AllowedOccupantId);
+			foreach (Schiffsposition schiffsposition in Fields)
 			{
-				field.tokens.Canvas.Children.Clear();
-				foreach (var zielerfassung in field.ViewModel.Tokens.Zielerfassungen)
+				schiffsposition.tokens.Canvas.Children.Clear();
+				foreach (var zielerfassung in schiffsposition.ViewModel.Tokens.Zielerfassungen)
 				{
-					if (fieldsById[zielerfassung].Any())
+					if (andereSchiffspositionen[zielerfassung].Any())
 					{
-						var ziel = fieldsById[zielerfassung].First();
-						var entfernungsVektor = ziel.Position.AsVector() - field.Position.AsVector();
-						var entfernungsUndRichtungsVektor = entfernungsVektor.Rotate(-field.OrientationAngle);
+						var ziel = andereSchiffspositionen[zielerfassung].First();
+						var entfernungsVektor = ziel.Position.AsVector() - schiffsposition.Position.AsVector();
+						var entfernungsUndRichtungsVektor = entfernungsVektor.Rotate(-schiffsposition.OrientationAngle);
 						var zielerfassungsVektor = entfernungsUndRichtungsVektor.Enlarge(-61);
 
 						var zielerfassungslinie = new ArrowLine
@@ -71,10 +65,10 @@ namespace SurfaceXWing
 							Y1 = 43,
 							X2 = zielerfassungsVektor.X + 43,
 							Y2 = zielerfassungsVektor.Y + 43,
-							Stroke = field.ViewModel.Color,
+							Stroke = schiffsposition.ViewModel.Color,
 							StrokeThickness = 1
 						};
-						field.tokens.Canvas.Children.Add(zielerfassungslinie);
+						schiffsposition.tokens.Canvas.Children.Add(zielerfassungslinie);
 					}
 				}
 			}
