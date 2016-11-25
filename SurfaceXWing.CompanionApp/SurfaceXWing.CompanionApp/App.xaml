@@ -116,6 +116,27 @@
 			</Grid>
 		</DataTemplate>
 
+		<DataTemplate x:Key="ShipColors">
+			<Grid Margin="0,10,0,10">
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<TextBlock Text="{Binding Label}" Foreground="Gray"/>
+				<Border Grid.Row="1" Padding="20" Background="Green">
+					<TextBlock Text="IDs 50-100"/>
+				</Border>
+				<Border Grid.Row="2" Padding="20" Background="Red">
+					<TextBlock Text="IDs 100-150"/>
+				</Border>
+				<Border Grid.Row="3" Padding="20" Background="Blue">
+					<TextBlock Text="alle anderen IDs"/>
+				</Border>
+			</Grid>
+		</DataTemplate>
+
 	</Application.Resources>
 
 </Application>

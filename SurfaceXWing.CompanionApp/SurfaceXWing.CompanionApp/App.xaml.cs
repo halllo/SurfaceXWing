@@ -303,7 +303,7 @@ namespace SurfaceXWing.CompanionApp
 		[Icon(Symbol.Sync), WithProgressBar]
 		public async void Aktualisieren()
 		{
-			await EmitOnMBus($"refresh;{Id};{Schilde};{Hülle};{Schaden};{Ausweichen};{Fokus};{Stress};{string.Join(",", Zielerfassungen)}");
+			await EmitOnMBus($"refresh;{Id};{Schilde};{Hülle};{Schaden};{Ausweichen};{Fokus};{Stress};{string.Join(",", Zielerfassungen ?? Enumerable.Empty<int>())}");
 		}
 
 		[Icon(Symbol.Send), WithProgressBar]
@@ -318,10 +318,7 @@ namespace SurfaceXWing.CompanionApp
 		[Icon(Symbol.Rotate), WithProgressBar]
 		public async void Rollen()
 		{
-			if (Manoeuvers.SelectedMove != null)
-			{
-				await EmitOnMBus($"move;{Id};0;rollen");
-			}
+			await EmitOnMBus($"move;{Id};0;rollen");
 		}
 
 		private static async Task EmitOnMBus(string content)
@@ -499,10 +496,11 @@ namespace SurfaceXWing.CompanionApp
 		{
 			public override string ToString() => "Allgemein";
 
-			public bool Tisch_verbunden { get; } = false;
-
 			[Editor(@readonly: true)]
 			public string Username { get; set; }
+
+			[CustomView("ShipColors")]
+			public int Farben { get; set; }
 		}
 	}
 
