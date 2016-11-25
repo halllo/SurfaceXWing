@@ -9,6 +9,7 @@ namespace SurfaceXWing
 		MBusClient _MBus = new MBusClient("SurfaceXWing");
 
 		public Canvas FieldsContainer { get; set; }
+		public Spielfeld Spielfeld { get; set; }
 
 		public void ConnectToMBus(string url = "http://mbusrelay.azurewebsites.net/signalr")
 		{
@@ -54,6 +55,7 @@ namespace SurfaceXWing
 						var ausweichen = int.Parse(messageItems[5]);
 						var fokus = int.Parse(messageItems[6]);
 						var stress = int.Parse(messageItems[7]);
+						var zielerfassungen = messageItems[8].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
 						if (TagManagement.Instance.Value.Tags.ContainsKey(id))
 						{
@@ -66,12 +68,15 @@ namespace SurfaceXWing
 								tagData.Tokens.Ausweichen = ausweichen;
 								tagData.Tokens.Fokus = fokus;
 								tagData.Tokens.Stress = stress;
+								tagData.Tokens.Zielerfassungen.Clear();
+								tagData.Tokens.Zielerfassungen.AddRange(zielerfassungen);
 
 								var schiffsposition = FieldsContainer.Children.OfType<Schiffsposition>().Where(p => p.Opacity == 1.0 && p.AllowedOccupantId == id.ToString()).FirstOrDefault();
 								if (schiffsposition != null && schiffsposition.ViewModel.Cancel != null)
 								{
 									schiffsposition.ViewModel.Cancel.Execute(null);
 								}
+								Spielfeld.ZieleErfassen();
 							}));
 						}
 					}

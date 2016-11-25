@@ -303,7 +303,7 @@ namespace SurfaceXWing.CompanionApp
 		[Icon(Symbol.Sync), WithProgressBar]
 		public async void Aktualisieren()
 		{
-			await EmitOnMBus($"refresh;{Id};{Schilde};{Hülle};{Schaden};{Ausweichen};{Fokus};{Stress}");
+			await EmitOnMBus($"refresh;{Id};{Schilde};{Hülle};{Schaden};{Ausweichen};{Fokus};{Stress};{string.Join(",", Zielerfassungen)}");
 		}
 
 		[Icon(Symbol.Send), WithProgressBar]

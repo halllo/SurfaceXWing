@@ -41,6 +41,7 @@ namespace SurfaceXWing
 
 
 			_Remote.FieldsContainer = fieldsContainer;
+			_Remote.Spielfeld = this;
 		}
 
 

@@ -32,7 +32,7 @@ namespace SurfaceXWing
 				new IdToken { Value = id }
 			});
 
-			Zielerfassungen = id == "51" ? new List<string> { "100" } : new List<string>();
+			Zielerfassungen = new List<string>();
 		}
 
 		public ObservableCollection<Token> All { get; private set; }
